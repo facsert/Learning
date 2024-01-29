@@ -32,6 +32,7 @@ vim 是一个使用广泛的文件编辑器，它支持多种编程语言，并�
 配置文件使用 `"` 作为注释符号  
 
 ```bash
+ set nocp         "使用非兼容 vi 模式
  set nu           "在左侧行号                                                
  set tabstop=4    "tab 长度设置为 4
  set nobackup     "覆盖文件时不备份

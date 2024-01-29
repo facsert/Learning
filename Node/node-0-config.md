@@ -24,7 +24,7 @@ description: "NodeJS 基本配置"
 [nodejs 官网](https://nodejs.org/en)
 
 ```bash
- $ apt install node                              # apt 下载 node
+ $ apt install nodejs                            # apt 下载 node
  $ node -v                                       # 查看 node 版本
  > v18.17.0
 ```
