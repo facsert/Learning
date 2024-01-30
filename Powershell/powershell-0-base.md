@@ -28,10 +28,25 @@ powershell 使用 `# commit` `<# commit #>` 作为单行和多行注释
 
 powershell 使用反引号作为转义符号
 
+|符号|\`n|\`r|\`t|
+|:-:|:-:|:-:|:-:|
+|含义|换行|||
+
+输出重定向
+
+|符号|`>`|`>>`|`>&1`|`>null`|
+|:-:|:-:|:-:|:-:|:-:|
+|含义|覆盖写入|追加写入|输出到标准输出|输出置空|
+
+- 1: 成功流
+- 2: 错误流
+- 3: 警告流
+- *: 所有流
+
 ```powershell
-`n
-`r
-`t
+command n>file
+
+Get-Process -Name python 2>&1
 ```
 
 ## 变量
@@ -133,6 +148,7 @@ switch ($value) {
 3 -le 2                                          # False 小于等于
 
 1,2,3 -contains 2                                # True 包含(列表包含)
+2 -in 1,2,3                                      # True
 "aab" -like "a*"                                 # True 相似匹配
 
 !2                                               # False, 取反
