@@ -297,3 +297,22 @@ db.students.deleteMany({})
 { acknowledged: true, deletedCount: 2 }
 db.students.find({})
 ```
+
+## 备份恢复
+
+- mongodump
+- mongorestore
+
+```bash
+# 备份/恢复 mongo 全部数据到 /data/db/mongo_backup 路径下(映射路径, 方便取出)
+$ mongodump --out  /data/db/mongo_backup
+$ mongorestore  /data/db/mongo_backup
+
+# 备份和恢复指定数据库到指定路径
+$ mongodump --db database_name --out path
+$ mongorestore --db database_name --out path
+
+# 备份和恢复特定集合到指定路径
+$ mongodump --db database_name --collection coll_name --out path
+$ mongorestore --db database_name --collection coll_name  --out path
+```
