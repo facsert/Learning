@@ -51,7 +51,8 @@ node_cpu_seconds_total{cpu="0"}
 ## metrics 数据类型
 
 Prometheus 的 metrics 数据有多种类型, 数据注释结尾中会表明数据类型  
-
+prometheus 的数据本质是 /proc 下文件内容, /proc 记录着节点, 进程 等的实时数据  
+ex: `/proc/stat (cpu 实时数据)  /proc/meminfo (内存实时数据)  /proc/<pid> (进程实时数据)`  
 
 ### Counter
 
@@ -89,7 +90,7 @@ node_memory_Mlocked_bytes 0
 
 ### Histogram
 
-直方图, 表示一组观测值的分布，通常用于度量请求持续时间等  
+直方图, 表示一组观测值的分布, 通常用于度量请求持续时间等  
 
 ```bash
 # HELP http_request_duration_seconds HTTP request duration in seconds
@@ -238,56 +239,85 @@ increase(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2
 ### rate
 
 计算平均每秒的增长, 即增长量除以时间
-`rate(range-vector) == increase(range-vector) / time `  
+`rate(range-vector) == increase(range-vector) / time`  
 
 ```bash
 rate(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node",mode="idle"}[5m])
-> {cpu="0", instance="10.143.232.175:9100", job="CVD-V2-Node", mode="idle"}    		0.7518475626666798
+> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    		0.7518475626666798
+```
+
+### irate
+
+计算最后两组数据的增长率(瞬时变化): 最后的数据 - 最后前一次数据 / 两个数据时间差  
+
+```bash
+# 由于仅取最后两组数据, 在同一个时间点, [2m] [5m] (无论往前推多少时间)的最后两组数据一致, 结果也一致
+irate(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node",mode="idle"}[2m])
+> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}       0.8286666666666861
 ```
 
 
-
-sum by(instance) (irate(node_cpu_seconds_total{instance="$host",job="$job", mode="system"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance="$host",job="$job"}[$__rate_interval])))
-
-
-sum by(instance) (irate(node_cpu_seconds_total{instance="$host",job="$job", mode="user"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance="$host",job="$job"}[$__rate_interval])))
-
-(sum by(instance) (irate(node_cpu_seconds_total{instance="$host",job="$job", mode!="idle"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance="$host",job="$job"}[$__rate_interval])))) * 100
+## 示例
 
 
-CPU USED
-sum by(instance) (irate(node_cpu_seconds_total{instance="$host",job="$job", mode!="idle"}[$__rate_interval])) / on(instance) group_left sum by (instance)((irate(node_cpu_seconds_total{instance="$host",job="$job"}[$__rate_interval])))
+### 节点连接
 
+```bash
+# job 中包含 Node 的(1 连接, 0 断连)
+up{job=~".*Node"}
+up{instance="10.121.238.42:6100", job="V2-Node"}     1
+up{instance="10.121.238.42:7100", job="V2-Node"}     1
+up{instance="10.143.232.175:9100", job="V2-Node"}    1
+up{instance="10.144.226.244:9100", job="V1-Node"}    1
+```
 
-irate(node_cpu_seconds_total{mode="idle"}) / on(instance)  irate(node_cpu_seconds_total)
+### CPU 占用率
 
-sum by(instance) (irate(node_cpu_seconds_total{}[5m])) / sum by(instance) (irate(node_cpu_seconds_total[5m]))
+/proc/stat 保存 CPU 执行时间数据([Counter](#counter)类型)  
+CPU 占用: 一段时间内, CPU 工作时间(总时间 - 空闲时间)占总时间的比值  
 
+|字段|`user`|`nice`|`system`|`idle`|`iowait`|`irq`|`softirq`|`steal/guest/guest_nice`|
+|:-:|:-|:-|:-|:-|:-|:-|:-|:-|
+|值|`1128155`|`0`|`990765`|`52801349`|`8147`|`0`|`5547`|`0/0/0`|
+|含义|用户态时间|低优先级用户态时间|内核态时间|空闲时间|I/O等待时间|硬中断时间|软中断时间|虚拟机占用时间|
 
-Memory Total
-node_memory_MemTotal_bytes{instance="$host",job="$job"}
+`CPU Used = 1 - (idle / (user + nice + system + idle + iowait + irq + softirq + steal + guest + guest_nice))`
 
-Memory used
-node_memory_MemTotal_bytes{instance="$host",job="$job"} - node_memory_MemFree_bytes{instance="$host",job="$job"}
+```bash
+# 12m 最后两组数据计算平均增长率
+irate(node_cpu_seconds_total{mode="idle"}[2m])
+irate(node_cpu_seconds_total[2m])
 
-sum by(instance) node_memory_MemTotal_bytes - sum by(instance) node_memory_MemFree_bytes
+# 1 减去空闲百分比获得 CPU 占用百分比(按)
+1 - (sum by(instance) (irate(node_cpu_seconds_total{mode="idle"}[2m])) / sum by(instance) (irate(node_cpu_seconds_total[2m])))
+```
 
-1 - ((avg_over_time(node_memory_MemFree_bytes[$__rate_interval])) / (avg_over_time(node_memory_MemTotal_bytes[$__rate_interval])))
+### 内存占用
 
-1 - ((avg_over_time(node_memory_MemAvailable_bytes{instance="$host",job="$job"} [$__rate_interval]) / avg_over_time(node_memory_MemTotal_bytes{instance="$host",job="$job"} [$__rate_interval])))
+/proc/meminfo 保存 Memory 数据([Gauge](#gauge)类型)  
+Memory Used: (MemTotal - MemAvailable) / MemTotal  
 
-Memory used percent
-((avg_over_time(node_memory_MemTotal_bytes{instance="$host",job="$job"}[$__rate_interval]) - avg_over_time(node_memory_MemFree_bytes{instance="$host",job="$job"}[$__rate_interval])) / (avg_over_time(node_memory_MemTotal_bytes{instance="$host",job="$job"}[$__rate_interval]) )) * 100
+```bash
+# 已使用内存(单位 Byte)
+node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes
 
+# 已使用内存(单位 GB)
+(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024 / 1024
 
-100 - ((node_filesystem_avail_bytes{instance="$node",job="$job",device!~'rootfs'} * 100) / node_filesystem_size_bytes{instance="$node",job="$job",device!~'rootfs'})
+# 内存占用百分比
+(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) /  node_memory_MemTotal_bytes
+```
 
+### 硬盘占用
 
+Disk Used: 1- (Disk Available / Disk Total)  
 
-node_filesystem_avail_bytes{device="/dev/nvme0n1p2",fstype="ext2",mountpoint="/release"} 3.303907328e+09
-node_filesystem_size_bytes{device="/dev/nvme0n1p2",fstype="ext2",mountpoint="/release"}
+```bash
+# 可用空间
+node_filesystem_avail_bytes
 
-avg_over_time(node_filesystem_avail_bytes{instance="$host",job="$job",mountpoint="/release"}[$__rate_interval]) /  avg_over_time(node_filesystem_size_bytes{instance="$host",job="$job",mountpoint="/release"}[$__rate_interval])
+# 硬盘总空间
+node_filesystem_size_bytes
 
-
-avg_over_time(node_filesystem_avail_bytes{mountpoint="/release"}[$__rate_interval]) /  avg_over_time(node_filesystem_size_bytes{mountpoint="/release"}[$__rate_interval])
+1 - ((node_filesystem_avail_bytes) /  node_filesystem_size_bytes)
+```
