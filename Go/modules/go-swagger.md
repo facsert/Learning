@@ -26,7 +26,7 @@ description: "Swagger UI 配置 Gin API"
 下载 swagger 关联的库
 
 ```bash
- $ go get -u github.com/swaggo/swag/cmd/swag     # 命令行工具
+ $ go get -u github.com/swaggo/swag/cmd/swag     # swag 命令行工具
  $ go get -u github.com/swaggo/gin-swagger
  $ go get -u github.com/swaggo/files
 
