@@ -16,6 +16,14 @@ Powershell 是 windows 上推荐的 shell 脚本语言
 
 ## 基础
 
+```powershell
+# 允许任意 powershell 脚本执行
+Set-ExecutionPolicy Unrestricted
+
+# 计算机管理=>服务=>启动 OpenSSH(外部 SSH 进入 windows 默认 shell 设为 powershell)
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+```
+
 powershell 使用 `# commit` `<# commit #>` 作为单行和多行注释
 
 ```powershell

@@ -1,0 +1,53 @@
+---
+author: facsert
+pubDatetime: 2024-03-05 17:18:43
+title: HTML Base
+slug: HTML Base
+featured: false
+draft: false
+tags:
+  - HTML
+description: "HTML 基础"
+---
+
+## Table of Contents
+
+## 介绍
+
+HTML(Hypertext Markup Language) 翻译为超文件标记语言, 用于描述网页的结构和内容  
+- 语义化: HTML 标签具有语义化, 标签名和作用紧密相关
+- 层级结构: HTML 标签具有层级结构, 通过嵌套关系描述网页结构
+- 可拓展性: HTML 可通过自定义属性拓展网页内容
+
+```html
+<!DOCTYPE html>                                  <!-- 声明文档类型 -->
+<html lang="en">                                 <!-- 文档根元素 -->
+    <head>                                       <!-- 文档头部, 包含了元数据和引用的外部资源等信息 -->
+        <meta charset="UTF-8">                   <!-- 字符编码 -->
+        <title>HTML5 页面示例</title>             <!-- 浏览器标题栏内容 -->
+    </head>
+
+    <body>                                       <!-- 主体可视部分 -->
+        <header>                                 <!-- 页眉, 包含标题导航等 -->
+            <h1>欢迎来到我的网站</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">关于我们</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>                                   <!-- 页面主要内容 -->
+            <article>
+                <h2>最新文章</h2>
+                <p>这是一篇关于HTML5的文章...</p>
+            </article>
+        </main>
+
+        <footer>                                 <!-- 页脚, 版权信息, 外部链接 -->
+            <p>&copy; 2024 我的网站</p>
+        </footer>
+    </body>
+</html>
+```
