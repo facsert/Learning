@@ -51,3 +51,17 @@ HTML(Hypertext Markup Language) 翻译为超文件标记语言, 用于描述网�
     </body>
 </html>
 ```
+
+## head
+
+head 用以描述文件的标题, 关键字, 字符编码, 引入外部资源, 通过页面元数据(描述和概括能)可更容易找到相关信息  
+
+```html
+<head>
+    <meta charset="UTF-8">                       <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置移动设备视口 -->
+    <meta name="description" content="web site"> <!-- 设置页面描述 -->
+    <title>web title</title>                     <!-- 设置页面标题 -->
+    <link rel="stylesheet"  href="styles.css">   <!-- 引入外部 CSS 样式 -->
+</head>
+```
