@@ -33,16 +33,19 @@ zsh 可以通过 oh-my-zsh 添加主题和插件实现美观高效的命令行�
  
  $ zsh && echo $SHELL                            # mac 默认是 zsh
  > /bin/zsh
+
+ $ cat /etc/passwd | grep root                   # 查看 root 用户的默认 shell
 ```
 
 ```zsh
  $ zsh                                           # 使用 zsh 命令启动 zsh
+ $ cat /etc/shells                               # 查看所有 shell
 
  $ echo $SHELL                                   # 查看当前 shell
  > /bin/bash
 
  $ which zsh                                     # 查看 zsh 执行文件位置
- $ chsh -s /bin/zsh                              # /bin/zsh 需要和 zsh 执行文件位置一致
+ $ chsh -s /bin/zsh                              # /bin/zsh 为 zsh 执行文件位置(重新登录账号生效)
 
  $ ~/.zshrc                                      # 启动 zsh 时执行的配置文件
  $ source ~/.zshrc                               # 配置立即生效
