@@ -198,17 +198,42 @@ li:last-child {
 
 ## 文本属性
 
+
+font-family：用于指定文字的字体  
+font-style：用于指定文字的样式, 例如italic或normal  
+
+font-size：用于指定文字的大小  
+font-weight：用于指定文字的粗细程度  
+color：用于指定文字的颜色  
+text-shadow: 文字阴影  
+text-decoration: 文本装饰, nonde, underline(下划线), line-through(删除线)  
+
+text-align：用于指定文字的对齐方式，例如left、center或right  
+line-height: 行高, 行与行间的距离  
+
+
 ### 水平位置
 
-### 垂直位置
+|值|`left`|`right`|`center`|`justify`|`inherit`|
+|:-:|:-|:-|:-|:-|:-|
+|含义|左对齐(默认值)|右对齐|居中对齐|两端对齐|继承父元素|
 
-### 换行
+```css
+p {
+    text-align: center;
+}
+```
+
 
 ## 盒模型
 
 |属性|`padding`|`border`|`margin`|
 |:-:|:-|:-|:-|
 |描述|内边距(边框和内容距离)|边框(边框厚度)|外边距(边框与外部距离)|
+
+标准盒模型 width, height 指定的是盒子内容大小, 实际占用大小需要加上内边距, 边框, 外边距  
+box_width = width + 2 * border + padding-left + padding-right + margin-left + margin-right  
+box_height = height + 2 * border + padding-top + padding-bottom + margin-top + margin-bottom  
 
 ```css
 .box {
