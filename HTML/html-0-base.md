@@ -77,7 +77,7 @@ style
 
 
 
-## head
+## 语意标签
 
 head 用以描述文件的标题, 关键字, 字符编码, 引入外部资源, 通过页面元数据(描述和概括能)可更容易找到相关信息  
 
@@ -89,4 +89,65 @@ head 用以描述文件的标题, 关键字, 字符编码, 引入外部资源, �
     <title>web title</title>                     <!-- 设置页面标题 -->
     <link rel="stylesheet"  href="styles.css">   <!-- 引入外部 CSS 样式 -->
 </head>
+```
+
+## 文本标签
+
+```html
+<P>text 文本标签</P>
+<i>italic 斜体</i>
+<b>bold 加粗</b>
+<u>underline 下划线</u>
+<s>delete 删除线</s>
+```
+
+## 表格
+
+```html
+<!-- 有序列表 -->
+<ol>
+    <li>line 1</li>
+    <li>line 2</li>
+    <li>line 3</li>
+</ol>
+
+<!-- 无序列表 -->
+<ul>
+    <li>line 1</li>
+    <li>line 2</li>
+    <li>line 3</li>
+</ul>
+
+<!-- 定义术语列表, dt 术语名, dd 术语解释 -->
+<dl>
+    <dt>name</dt>
+    <dd>John</dd>
+
+    <dt>age</dt>
+    <dd>20</dd>
+</dl>
+```
+
+```html
+<!-- table 表格(边框 2px) -->
+<table border="2px">
+    <!-- tr table row, 一行 -->
+    <tr>
+        <!-- th table header, 表头 -->
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr>
+        <!-- td table data, 表格数据 -->
+        <td>1</td>
+        <td>John</td>
+        <td>20</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Jack</td>
+        <td>21</td>
+    </tr>
+</table>
 ```
