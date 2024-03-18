@@ -43,6 +43,10 @@ zsh 可以通过 oh-my-zsh 添加主题和插件实现美观高效的命令行�
 
  $ which zsh                                     # 查看 zsh 执行文件位置
  $ chsh -s /bin/zsh                              # /bin/zsh 需要和 zsh 执行文件位置一致
+ $ usermod --shell /usr/bin/zsh root             # root 用户设置 zsh 为默认 shell
+
+ $ cat /etc/passwd |grep root                    # 检查 root 用户默认shell
+ > root:x:0:0:root:/root:/usr/bin/zsh
 
  $ ~/.zshrc                                      # 启动 zsh 时执行的配置文件
  $ source ~/.zshrc                               # 配置立即生效
