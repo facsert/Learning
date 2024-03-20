@@ -155,7 +155,7 @@ oh-my-zsh 可以安装许多高效插件, 安装后可使用插件功能
 错误语法高亮, 正确命令绿色, 错误命令红色
 
 ```bash
- $ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+ $ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-/root/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
  $ vi ~/.bashrc                                  # 编辑 zsh 配置文件, plugins 添加插件
  > plugins=(
