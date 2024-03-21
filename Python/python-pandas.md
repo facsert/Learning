@@ -81,6 +81,11 @@ s * 2
 
 ## DataFrame
 
+DataFrame 表示一个大小可变的二维数据, 类似于一张表  
+DataFrame 有行索引和列索引  
+DataFrame 可容纳多种数据类型  
+DataFrame 允许缺失值, 提供方法处理缺失值  
+
 ```py
 data = [
   {'name': 'A', 'age': '16', 'height': '1.75'}, 
@@ -89,7 +94,7 @@ data = [
   {'name': 'D', 'age': '19', 'height': '1.90'}
 ]
 
-# index 使用自定义行号
+# index 使用自定义行索引(默认行索引是 0 开始的整数)
 df = pd.DataFrame(data, index=['a', 'b', 'c', 'd'])
 >    name age height
 > a    A  16   1.75
@@ -97,6 +102,32 @@ df = pd.DataFrame(data, index=['a', 'b', 'c', 'd'])
 > c    C  18   1.85
 > d    D  19   1.90
 
+# DataFrame 的列索引, list(df.columns) 转列表
+df.columns
+Index(['name', 'age', 'height'], dtype='object')
+
+# DataFrame 的行索引 list(df.index) 转列表
+df.index
+Index(['a', 'b', 'c', 'd'], dtype='object')
+
+# DataFrame 取值 numpy 数组
+df.values
+array([['A', '16', '1.75'],
+       ['B', '17', '1.80'],
+       ['C', '18', '1.85'],
+       ['D', '19', '1.90']], dtype=object)
+
+# DataFrame 开头和结尾切片 
+df.head(3) / df.tail(3)
+
+# df.fillna(value) 缺失值赋值
+df.fillna(0)
+
+# df.dropna() 删除包含缺失值的行
+df.dropna()
+```
+
+```py
 # DataFrame[column name] -> Serial 获取一列数据
 df['name']
 > a    A
@@ -123,7 +154,7 @@ df.iloc[range(3)]
 # DataFrame 合并
 df = pd.concat([df1, df2])
 
-# DataFrame 追加行
+# DataFrame 追加 Series 行
 df.append(s, ignore_index=True)
 ```
 
@@ -155,14 +186,18 @@ df['name'] = 'pre' + df['name']
 > d  pre_D  19   1.90
 
 
-# 插入列, 插入序号
+# 插入列, 插入序号, 列名, 可迭代数据
 df.insert(index, 'name', iterable)
-df1.insert(3, "count", [3, 2, 5, 1])
+df.insert(3, "count", [3, 2, 5, 1])
 >    name age height  count
 > a    A  16   1.75      3
 > b    B  17   1.80      2
 > c    C  18   1.85      5
 > d    D  19   1.90      1
+
+# 结尾追加列, 该列的值全为 3
+df['column'] = 3
+
 
 # 删除列, inplace=True 会直接修改原数据
 df.drop(columns=['name'], inplace=True)
@@ -206,18 +241,33 @@ C          60   50  55.0
 A {'max': 20.0, 'min': 10.0, 'mean': 15.0}
 B {'max': 40.0, 'min': 30.0, 'mean': 35.0}
 C {'max': 60.0, 'min': 50.0, 'mean': 55.0}
+
+## 分组聚合
+data = {
+    'name': ['张三', '张三', '李四', '李四', '王五', '王五'],
+    'address': ['北京市', '北京市', '上海市', '上海市', '广州市', '广州市'],
+    'age': [25, 25, 30, 32, 35, 35],
+    'height': [170, 175, 180, 185, 165, 170],
+    'date': ['2024-03-21', '2024-03-22', '2024-03-21', '2024-03-22', '2024-03-21', '2024-03-22']
+}
+df = pd.DataFrame(data)
+# 筛选分组的列, 指定列数据操作(max: 最大值, min: 最小值, mean: 平均值, first: 第一个值)
+df.groupby(["name", "address", "age"]).agg({"height": ["max", "min", "mean"], "date": "first"})
+                           height          date
+                        max  min   mean    first
+name address     age
+张三   北京市     25     175  170  172.5  2024-03-21
+李四   上海市     30     180  180  180.0  2024-03-21
+                 32     185  185  185.0  2024-03-22
+王五   广州市     35     170  165  167.5  2024-03-21
+
+# agg 可用参数
+# first/last 最初非 None 值/最后一个非 None 值
+# count/size 组中非 None 值的数量/组中数据的数量(包含 None 值)
+# sum 该分组所有值得总和
+# max/min/mean  最大值/最小值/平均值
+# std/var 标准差/方差
+# median/quantile  中位数/分位数
+
+
 ```
-
-import pandas as pd
-
-# 假设有一个 DataFrame df，其中有两列 'category' 和 'value'
-df2 = pd.DataFrame({
-    'category': ['A', 'A', 'B', 'B', 'C', 'C'],
-    'value': [10, 20, 30, 40, 50, 60]
-})
-
-# 按照 'category' 列进行分组，并计算 'value' 列的 最大值、最小值 和 平均值
-result = df.groupby('category')['value'].agg(['max', 'min', 'mean'])
-
-# 输出结果
-print(result)
