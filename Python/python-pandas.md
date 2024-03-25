@@ -22,14 +22,18 @@ pandas 是一个用于处理表格型数据的 Python 库, 可以轻松地处理
 |Series|s = pd.Series([1, 2, 3])|一维数组|
 |DataFrame|df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})|二维数组|
 
-```bash
-# 按列创建 pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+```py
+import pandas as pd
+
+# 按列创建 
+pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
    A   B     
 0  1   4  
 1  2   5 
 2  3   6
 
-# 按行创建 pd.DataFrame([{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}])
+# 按行创建 
+pd.DataFrame([{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}])
    a   b     c
 0  1   2   NaN
 1  5  10  20.0
@@ -127,6 +131,8 @@ df.fillna(0)
 df.dropna()
 ```
 
+### DataFrame 取值
+
 ```py
 # DataFrame[column name] -> Serial 获取一列数据
 df['name']
@@ -150,12 +156,6 @@ df.iloc[range(3)]
 > a    A  16   1.75
 > b    B  17   1.80
 > c    C  18   1.85
-
-# DataFrame 合并
-df = pd.concat([df1, df2])
-
-# DataFrame 追加 Series 行
-df.append(s, ignore_index=True)
 ```
 
 ```py
@@ -185,6 +185,11 @@ df['name'] = 'pre' + df['name']
 > c  pre_C  18   1.85
 > d  pre_D  19   1.90
 
+# DataFrame 合并
+df = pd.concat([df1, df2])
+
+# DataFrame 追加 Series 行
+df.append(s, ignore_index=True)
 
 # 插入列, 插入序号, 列名, 可迭代数据
 df.insert(index, 'name', iterable)
@@ -207,6 +212,8 @@ df.drop(columns=['name'], inplace=True)
 > c     C  18   1.85
 > d     D  19   1.90
 ```
+
+### DataFrame 分组聚合
 
 ```py
 # 排序
@@ -237,11 +244,6 @@ A          20   10  15.0
 B          40   30  35.0
 C          60   50  55.0
 
-[print(i, dict(r)) for i, r in res.iterrows()]
-A {'max': 20.0, 'min': 10.0, 'mean': 15.0}
-B {'max': 40.0, 'min': 30.0, 'mean': 35.0}
-C {'max': 60.0, 'min': 50.0, 'mean': 55.0}
-
 ## 分组聚合
 data = {
     'name': ['张三', '张三', '李四', '李四', '王五', '王五'],
@@ -252,7 +254,7 @@ data = {
 }
 df = pd.DataFrame(data)
 # 筛选分组的列, 指定列数据操作(max: 最大值, min: 最小值, mean: 平均值, first: 第一个值)
-df.groupby(["name", "address", "age"]).agg({"height": ["max", "min", "mean"], "date": "first"})
+df = df.groupby(["name", "address", "age"]).agg({"height": ["max", "min", "mean"], "date": "first"})
                            height          date
                         max  min   mean    first
 name address     age
@@ -261,6 +263,23 @@ name address     age
                  32     185  185  185.0  2024-03-22
 王五   广州市     35     170  165  167.5  2024-03-21
 
+# 分组后指定列索引会提升
+df.columns
+MultiIndex([('height',   'max'),
+            ('height',   'min'),
+            ('height',  'mean'),
+            (  'date', 'first')],
+           )
+
+# 重新定义列索引后恢复
+df.columns = ["height_max", "height_min", "height_mean", "date"]
+df.reset_index(inplace=True)
+    name    address  age     height_max  height_min  height_mean  date
+0   张三     北京市   25         175         170        172.5  2024-03-21
+1   李四     上海市   30         180         180        180.0  2024-03-21
+2   李四     上海市   32         185         185        185.0  2024-03-22
+3   王五     广州市   35         170         165        167.5  2024-03-21
+
 # agg 可用参数
 # first/last 最初非 None 值/最后一个非 None 值
 # count/size 组中非 None 值的数量/组中数据的数量(包含 None 值)
@@ -268,6 +287,4 @@ name address     age
 # max/min/mean  最大值/最小值/平均值
 # std/var 标准差/方差
 # median/quantile  中位数/分位数
-
-
 ```

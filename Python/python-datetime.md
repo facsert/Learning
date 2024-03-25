@@ -21,8 +21,6 @@ datetime 是 python 操作日期和时间的标准库
 datetime 包含 date time 对象所有信息的时间对象  
 datetime 表示一个时间点, 可以与其它 datetime 时间点加减运算  
 
-
-
 ```py
 import time
 from datetime import datetime
@@ -51,7 +49,6 @@ datetime.strptime('2024-03-18 15:23:38', "%Y-%m-%d %H:%M:%S")
 datetime.now().isoformat()
 > '2024-03-18T16:07:10.323165'
 ```
-
 
 ## fromisoformat
 
