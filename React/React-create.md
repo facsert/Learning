@@ -132,6 +132,26 @@ export default defineConfig({
 });
 ```
 
+## Root
+
+```js
+// app/page.jsx
+export default function RootPage() {
+  return <h1>Hello Next.js</h1>
+}
+
+// app/layout.jsx, page 内容会作为 children 变量, 嵌入模板
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <div>{children}</div>
+      </body>
+    </html>
+  )
+}
+```
+
 ## Router
 
 ```js
