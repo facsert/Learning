@@ -145,7 +145,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div>{children}</div>
+        {/* Layout UI */}
+        <main>{children}</main>
       </body>
     </html>
   )
