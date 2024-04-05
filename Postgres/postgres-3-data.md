@@ -119,4 +119,3 @@ SET
 WHERE id = 1;
 > UPDATE 1
 ```
-
