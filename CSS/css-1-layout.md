@@ -1,13 +1,13 @@
 ---
 author: facsert
-pubDatetime: 2024-03-05 16:11:43
-title: CSS flex
-slug: CSS flex
+pubDatetime: 2024-04-08 16:11:43
+title: CSS layout
+slug: CSS layout
 featured: false
 draft: false
 tags:
   - CSS
-description: "CSS flex 布局"
+description: "CSS flex 和 Grid 布局"
 ---
 
 ## Table of Contents
@@ -24,6 +24,28 @@ Flex 布局模型提供了一种更加简单, 高效的方式来布局, 对齐, 
 [FreeCodeCamp CSS Flexbox](https://www.freecodecamp.org/chinese/news/the-css-flexbox-handbook/#the-align-content-property)
 
 主轴方向为 flex-direction 的值, 值为 row, 水平方向为主轴
+
+```css
+.layout {
+  display: flex | inline-flex;
+  flex-direction: row | row-reverse | column | column-reverse;
+  flex-wrap: nowrap | wrap | wrap-reverse;
+  flex-flow: <'flex-direction'> || <'flex-wrap'>;
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+  align-items: stretch | flex-start | flex-end | center | baseline ;
+  align-content: stretch | flex-start | flex-end | center | space-between | space-around ;
+  place-content: <'align-content'> || <'justify-content'>;
+}
+
+.item {
+  order: <integer>;
+  flex-grow: <number>; /* default 0 */
+  flex-shrink: <number>; /* default 1 */
+  flex-basis: <length> | auto; /* default auto */
+  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+  align-self: auto | flex-start | flex-end | center | baseline | stretch;
+}
+```
 
 ```css
 .contain {
@@ -44,5 +66,26 @@ Flex 布局模型提供了一种更加简单, 高效的方式来布局, 对齐, 
 
     /* 当主轴空间不足容纳子元素时操作, 不换行(溢出), 换行, 换行并反向排列 */
     flex-wrap: nowrap|wrap|wrap-reverse;
+}
+```
+
+## Grid 布局
+
+[Grid 布局](https://www.freecodecamp.org/chinese/news/how-to-use-css-grid-layout/)
+
+```css
+.layout {
+    display: grid;
+    
+    grid-template-columns: 100px auto 100px;
+    grid-template-rows: 100px 100px;
+    grid-template: 50px 50px / 100px auto 100px;
+
+    column-gap: 10px;
+    row-gap: 10px;
+    gap: 10px;
+
+    justify-content: center;
+    align-content: center;
 }
 ```
