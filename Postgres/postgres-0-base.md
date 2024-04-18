@@ -85,6 +85,28 @@ select version();                                /* 显示版本信息 */
 
 ## 修改容器时区
 
+查看 postgres 容器和数据库时区
+
+```bash
+ # 查看容器内时区
+ $ date -R
+ > Thu, 18 Apr 2024 21:13:38 +0800
+ 
+ # 查看 postgres 数据库时区
+ postgres=# SHOW TIMEZONE;
+    TimeZone    
+ ---------------
+  Asia/Shanghai
+ 
+ # 查看 postgres 数据库当前时间
+ postgres=# SELECT current_timestamp;
+  current_timestamp       
+ -------------------------------
+  2024-04-18 21:17:02.490132+08
+```
+
+修改 postgres 容器和数据库时区
+
 ```bash
  # 进入容器内, 创建备份, 修改时区
  $ cp /etc/localtime /etc/localtime.bak
