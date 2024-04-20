@@ -87,7 +87,6 @@ node_memory_MemTotal_bytes 2.4360300544e+10
 node_memory_Mlocked_bytes 0
 ```
 
-
 ### Histogram
 
 直方图, 表示一组观测值的分布, 通常用于度量请求持续时间等  
@@ -189,7 +188,6 @@ node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}[5m]
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |含义|秒[5s]|分钟[5m]|小时[5h]|天[5d]|周[5w]|年[5y]|
 
-
 默认查询都是以当前时间作为基准, 取当前时间点或者, 当前往前推一段时间  
 若要更换时间基准, 如 1 天前同一时刻, 或者昨天一整天的数据, 使用 **offset** 切换时间基准  
 
@@ -201,7 +199,7 @@ node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"} off
 node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}[1d] offset 10h
 ```
 
-## 聚会操作
+## 聚合操作
 
 对瞬时向量进行聚合操作
 
@@ -229,7 +227,7 @@ node_cpu_seconds_total  +  on(instance, job, mode, cpu) node_cpu_guest_seconds_t
 ### increase
 
 计算一个 Counter 数据的增长, 取最后时刻的数据减去最初时刻的数据  
-`increase(range-vector)` 
+`increase(range-vector)`
 
 ```bash
 increase(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node",mode="idle"}[5m])
@@ -256,9 +254,7 @@ irate(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-No
 > {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}       0.8286666666666861
 ```
 
-
 ## 示例
-
 
 ### 节点连接
 
@@ -290,6 +286,15 @@ irate(node_cpu_seconds_total[2m])
 
 # 1 减去空闲百分比获得 CPU 占用百分比(按)
 1 - (sum by(instance) (irate(node_cpu_seconds_total{mode="idle"}[2m])) / sum by(instance) (irate(node_cpu_seconds_total[2m])))
+```
+
+```bash
+# 注: sum by 语句后仅保留设置的索引, 类似于 pandas 的 groupby
+sum by(job,instance) (node_cpu_seconds_total{mode="idle"})
+{instance="10.121.238.42:1100", job="V2-Node"}        192876.24
+{instance="10.121.238.42:2100", job="V2-Node"}        1113100.96
+{instance="10.121.238.42:6100", job="V2-Node"}        1156084.41
+{instance="10.121.238.42:7100", job="V2-Node"}        1154130.68
 ```
 
 ### 内存占用
