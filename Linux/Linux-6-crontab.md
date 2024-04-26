@@ -11,3 +11,12 @@ description: "Linux 定时任务"
 ---
 
 ## Table of Contents
+
+```bash
+ # 列出所有定时任务
+ $ crontab -l
+ > 0 9 * * * echo hello >> /root/temp.log  # test
+ 
+ # 编辑定时任务
+ $ crontab -e
+```

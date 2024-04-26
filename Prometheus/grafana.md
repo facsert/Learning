@@ -19,7 +19,6 @@ Grafana 是一个强大的可视化平台, 可以集成多种数据工具进行�
 
 Grafana 是一个数据可视化工具, 可用将某数据源通过图表的方式呈现  
 
-
 ## 安装
 
 Grafana 用于展示 Prometheus 采集的监控数据, 通过 promQL 语句绘制图表或使用第三方模板进行数据可视化  
@@ -55,7 +54,7 @@ Grafana 本身无法采集数据, 需要其它工具提供数据
 
 ## Dashboard
 
-使用 Grafana 创建图表, 使用 promql 筛选数据填入图表  
+使用 Grafana 创建图表, 使用 promQl 筛选数据填入图表  
 [Dashboard](https://grafana.com/docs/grafana/latest/dashboards/)  
 [Panels and visualizations](https://grafana.com/docs/grafana/latest/panels-visualizations/)  
 
@@ -82,5 +81,6 @@ Data links: 数据添加外部链接
 Value mappings: 数据固定值固定值替换文本(如 up 值为 0 替换为 OFF) {0: OFF, 1: ON}  
 Thresholds: 阈值颜色设定 {base: green, 70: orange, 90:red, Thresholds mode: Percentage}  
 
-
-
+`$__timeFrom` Grafana 选择的时间起始值  $__timeFrom -> timestamp  
+`$__timeTo` Grafana 选择的时间结束值  $__timeTo -> timestamp  
+`$__timeFilter` 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool  
