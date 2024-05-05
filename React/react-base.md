@@ -1,8 +1,8 @@
 ---
 author: facsert
 pubDatetime: 2024-04-29 22:39:27
-title: React bae
-slug: React bae
+title: React base
+slug: React base
 featured: false
 draft: false
 tags:

@@ -1,13 +1,13 @@
 ---
 author: facsert
 pubDatetime: 2023-11-20 09:20:27
-title: React Configuration
-slug: React Configuration
+title: React material
+slug: React material
 featured: false
 draft: false
 tags:
   - React
-description: "React 基本配置"
+description: "React material"
 ---
 
 ## Table of Contents
