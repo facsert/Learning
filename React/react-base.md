@@ -18,13 +18,16 @@ description: "React base"
 function Parent() {
     const messages = "parent message"
     return (
-        <Child messages={messages} />
+        <Child messages={messages}><p>parent p html</p> </Child>
     )
 }
 
 function Child(props) {
     return (
+        <div>
         <p>{props.messages}</p>
+        {props.children}
+        </div>
     )
 }
 ```
