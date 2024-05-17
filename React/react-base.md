@@ -18,13 +18,33 @@ description: "React base"
 function Parent() {
     const messages = "parent message"
     return (
-        <Child messages={messages} />
+        <Child messages={messages}><p>parent p html</p> </Child>
     )
 }
 
 function Child(props) {
     return (
+        <div>
         <p>{props.messages}</p>
+        {props.children}
+        </div>
     )
 }
+```
+
+## 数据持久化
+
+```js
+// localStorage 设置数据(仅能保存字符串)
+localStorage.setItem('key', 'value')
+
+let students = [
+    {id: 1, name: 'John'},
+    {id: 2, name: 'Jane'},
+]
+localStorage.setItem('students', JSON.stringify(students))
+
+// localStorage 获取数据(若字段不存在返回 null)
+let value = localStorage.getItem('key')
+value = value ? JSON.parse(value) : "key is null"
 ```
