@@ -14,7 +14,7 @@ description: "React 表格组件"
 
 ```js
 "use client"
-import { toast } from "sonner"
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,7 @@ export default function FormPage() {
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {id, value} = event.target as HTMLInputElement;
+        // 根据 id 值变更 client 属性
         setClient({...client, [id]: value})
         console.log(client)
     }
@@ -48,7 +49,6 @@ export default function FormPage() {
         console.log("TEST ACTION");
         console.log(client.host);
         console.log(client.username);
-        toast.success("Success");
     }
     return (
         <form onSubmit={handleSubmit}>
