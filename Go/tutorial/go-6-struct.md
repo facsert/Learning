@@ -35,20 +35,20 @@ description: "Go 结构体"
    age int                                       // Student 类型有 age 属性, 属性类型为 int
  }
 
- var kertory Student                             // 初始化 Student 类型变量 kertory
- kertory.name = "kertory"                        // 使用 . 赋值
- kertory.age = 18
+ var John Student                                // 初始化 Student 类型变量 John
+ John.name = "John"                              // 使用 . 赋值
+ John.age = 18
 
- facsert := Student{                             // 初始化 Student 类型变量 facsert
-   name: "facsert",
+ Lily := Student{                                // 初始化 Student 类型变量 Lily
+   name: "Lily",
    city: "shanghai",
  }
 
- Printf("%#v\n", kertory)
- Printf("%#v\n", facsert)
+ Printf("%#v\n", John)
+ Printf("%#v\n", Lily)
 
- > main.Student{name:"kertory", city:"", age:18} // 未初始化的属性使用类型的零值
- > main.Student{name:"facsert", city:"shanghai", age:0}
+ > main.Student{name:"John", city:"", age:18}    // 未初始化的属性使用类型的零值
+ > main.Student{name:"Lily", city:"shanghai", age:0}
 ```
 
 ### struct 方法
@@ -60,23 +60,23 @@ description: "Go 结构体"
  }
 
  func (s Student) Learn() {
-   Printf("%s learnig in %s\n", s.name, s.city)
+   Printf("%s learning in %s\n", s.name, s.city)
  }
 
  func (s Student) Play() {
    Printf("%s play games\n", s.name)
  }
 
- facsert := Student{
-    name: "facsert",
+ John := Student{
+    name: "John",
     city: "shanghai",
  }
 
- facsert.Learn()
- facsert.Play()
+ John.Learn()
+ John.Play()
 
- > facsert learnig in shanghai
- > facsert play games
+ > John learning in shanghai
+ > John play games
 ```
 
 ### struct 属性修改
@@ -97,18 +97,18 @@ description: "Go 结构体"
    Printf("rename2 to %s\n", s.name)
  }
 
- facsert := Student{
-    name: "facsert",
+ John := Student{
+    name: "John",
     city: "shanghai",
  }
 
- facsert.rename1("kertory")
- facsert.rename2("squtary")
- Printf("name: %s\n", facsert.name)
+ John.rename1("Lily")
+ John.rename2("Jack")
+ Printf("name: %s\n", John.name)
 
- > rename1 to kertory                            // 重命名结果只在函数内生效
- > rename2 to squtary                            // 重命名结果对结构体生效
- > name: squtary
+ > rename1 to Lily                               // 重命名结果只在函数内生效
+ > rename2 to Jack                               // 重命名结果对结构体生效
+ > name: Jack
 ```
 
 ### struct 转 json
@@ -125,20 +125,20 @@ import (
      Age int     `json:"age"`                    // 可以通过定义 tag, 修改转化为 json 后 key 名称
 }
 
- facsert := Student{
-    Name: "facsert",
+ John := Student{
+    Name: "John",
     city: "shanghai",
     Age: 18,
  }
 
- jsonStu, err := json.Marshal(facsert)           // struct 转 json
+ jsonStu, err := json.Marshal(John)              // struct 转 json
  if err != nil {
-   panic("json mashal failed")
+   panic("json marshal failed")
  }
 
- Println(facsert)
+ Println(John)
  Println(string(jsonStu))
 
- > {facsert shanghai 18}                         // facsert 结构体所有属性值
- > {"Name":"facsert","age":18}                   // city 属性不在, Age 属性名变为 age
+ > {John shanghai 18}                            // John 结构体所有属性值
+ > {"Name":"John","age":18}                      // city 属性不在, Age 属性名变为 age
 ```

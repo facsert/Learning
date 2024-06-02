@@ -38,9 +38,16 @@ func main() {
     Println(time.Now())                          // 执行前打印时间
 
     wg.Add(2)                                    // 标记需要执行两个协程
-    go cook()                                    // 新建协程, 类似于将 cook 放后台执行, main 直接接执行下一行
-    go wash()                                    // 新建协程, 类似于将 wash 放后台执行, main 直接接执行下一行
-
+    go func() {                                  // 新建协程, 类似于将函数放后台执行, main 直接接执行下一个函数
+        cook()
+        wg.Done()                                // 标记协程执行完毕
+    }
+    
+    go func() {                                 
+        wash()
+        wg.Done()
+    }
+                                  
     wg.Wait()                                    // 等待所有的协程执行完成
     Println(time.Now())                          // 所有协程执行完后打印时间
 }
@@ -48,13 +55,11 @@ func main() {
 func cook() {
     time.Sleep(time.Second * 3)                  // sleep 3s
     Println("cook by machine use 3s")
-    wg.Done()                                    // 标记协程执行完毕
 }
 
 func wash() {
     time.Sleep(time.Second * 2)
     Println("wash colse by machine use 2s")
-    wg.Done()
 }
 
 > 2023-04-01 21:51:20.692681383 +0800 CST m=+0.000016384
@@ -68,9 +73,7 @@ main 也是一个协程, main 中若不设置 wg.Wait() 等待其余协程完成
 
 ## channel
 
-```go
-
-```
+为了确保协程同步, 或协程之间的数据传递, 通道是队列(先进先出)
 
 ### 无缓冲通道
 
@@ -154,5 +157,4 @@ func receive(ch chan int) {
 > send 1,2 at 2023-04-02 12:20:34.693231007 +0800 CST m=+0.000069413
 > receive [1 2] at 2023-04-02 12:20:35.693311209 +0800 CST m=+1.000149614
 > over at 2023-04-02 12:20:35.693371227 +0800 CST m=+1.000209634
-
 ```

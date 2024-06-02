@@ -183,12 +183,12 @@ Golang 扩容增速从 2 倍逐渐减少至 1.25 倍
 slice := make([]int, 80, 80)
 
 for i:=0; i < 2049; i ++ {
-    oldcap := cap(slice)
+    oldCap := cap(slice)
     slice = append(slice, 1)
     newcap := cap(slice)
 
-    if oldcap != newcap {
-        Printf("int old: %d  new %d \n", oldcap, newcap)
+    if oldCap != newcap {
+        Printf("int old: %d  new %d \n", oldCap, newcap)
     }
 }
 
