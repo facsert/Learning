@@ -55,7 +55,7 @@ func activate(singer s, player p) {              // 定义函数, 参数为 sing
     p.play()
 }
 
-human := People{ name: "facser" }                // 实例化 People, People 实现了 sing() play()
+human := People{ name: "John" }                  // 实例化 People, People 实现了 sing() play()
 activate(human, human)                           // 第一个 human 作为 singer 类型，第二个 human 作为 player 类型
 ```
 

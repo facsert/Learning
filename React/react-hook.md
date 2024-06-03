@@ -17,8 +17,12 @@ description: "React hooks"
 状态控制钩子, 创建状态值和变更函数  
 状态和变更函数可以作为参数传递给其它组件以跨组件通信  
 
-`const [state, setState] = useState(defaultValue)`  
-只允许使用 `setState` 函数变更 `state`, 且状态变更后, 组件会重新渲染  
+`useState` 是 React 一个 hook, 可以创建一个状态变量和设置状态函数  
+`const [status, setStatus] = useState<T>(StatusDefault);`  
+
+- 只能使用 setStatus 改变 status 的值
+- status 变更后会触发组件重新渲染
+- status 和 setStatus 可以传递给其他组件达到跨组件通信
 
 ```ts
 import { useState } from 'react';
@@ -40,36 +44,40 @@ export default function Switch() {
 }
 ```
 
-```js
+### 跨组件通信
+
+通过传递状态变量和设置状态函数来传递状态
+
+```ts
+// Home Page
 function HomePage() {
-    const [open, setOpen] = useState(true);
+    const [dark, setDark] = useState<boolean>(true);
     return (
-        <div>
-            <header>
-                <Menu open={open} setOpen={setOpen}/>
-            </header>
-            <main>
-                <Sidebar open={open} />
-            </main>
-        </div>
+        ...
+        <Menu dark={dark} setDark={setDark} />
+        <SideBar dark={dark} />
+        ...
     )
 }
 
-function Menu({open, setOpen}) {
+// Menu Component
+function Menu({ dark, setDark }: { dark: boolean, setDark: (dark: boolean) => void }) {
     return (
-        <div>
-            <button onClick={()=>{setOpen(!open)}}></button>
-        </div>
-    )
-}
-
-function Sidebar({open}) {
-    const sidebar = {
-        display: open ? "block" : "none"
-    };
-    return (
-        <div style={sidebar}>
+        <>
             ...
+            // 切换主题
+            <button onClick={() => setDark(!dark)}>{dark? "Dark": "Light"}</button>
+            ...
+        </>
+        )
+}
+
+// SideBar Component
+function SideBar({ dark }: { dark: boolean }) {
+    return (
+        // Menu 设置 dark 属性, 触发 SideBar 组件重新渲染
+        <div className={dark ? 'dark' : 'light'}>
+        ...
         </div>
     )
 }
@@ -77,6 +85,23 @@ function Sidebar({open}) {
 
 ## useEffect
 
-```js
+`useEffect` 是 React 一个 hook, 可以在组件渲染后执行一些操作  
+`useEffect(() => { ... }, [])`  
 
+- useEffect 的第一个参数是一个函数, 该函数会在组件渲染后执行
+- useEffect 的第二个参数是一个数组, 该数组中的元素会作为依赖项, 当依赖项发生变化时, useEffect 会再次执行
+
+```ts
+import { useEffect } from 'react';
+export default function Counter() {
+    useEffect(() => {
+        console.log('组件渲染后执行');
+        return () => {
+            console.log('组件销毁时执行');
+        }
+        // 依赖项发生变化时执行
+
+    }, [])
+    ...
+}
 ```
