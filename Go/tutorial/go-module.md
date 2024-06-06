@@ -90,11 +90,18 @@ demo                                             # 创建 demo 文件夹, 存放
 ├── go.mod                                       # module learn  使用 go mod 在 demo 文件下创建 learn 项目
 ├── main.go                                      # package main  learn 项目的入口
 └── lib
-    ├── config                                   # 创建 config 文件夹存放 config 模块, 文件夹最好与模块同名, 以便于查询
+    ├── config                                   # 创建 config 文件夹存放 config 模块, 文件夹最好与模块同名, 以便于查找
     |   ├── remote.go                            # remote.go 属于 config 模块, 是 config 模块进一步划分
     |   └── local.go                             # local.go 属于 config 模块, 是 config 模块进一步划分
     └── summary                                  # 创建 summary 文件夹存放 log 模块, 反面示例. 模块与文件夹不同名
         └── logger.go                            # logger.go 属于 log 模块
+```
+
+```go
+import (
+    "demo/lib/config"                            // 引入 config 模块
+    "demo/lib/summary"                           // 引入 summary 路径下模块
+)
 ```
 
 - 单个文件夹只允许存放一个包, 包内可以继续划分为多个文件

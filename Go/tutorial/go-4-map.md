@@ -107,7 +107,7 @@ map 使用 [key] 取值
 
  value, ok := intMap["3rd"]                      // map 取值
 
- if ok == true {                                 // ok 为 true, vaule 为对应 key 的值
+ if ok == true {                                 // ok 为 true, valUe 为对应 key 的值
     Printf("value: %v\n", value)
  }
 

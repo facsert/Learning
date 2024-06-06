@@ -23,7 +23,7 @@ description: "Go 函数"
 
 ```go
 func <function name> (<parameter name> <parameter type>) (<return type>) {
-    <functuion code>
+    <function code>
 }
 
 func show() {                                    // 无参数, 无返回值, 对应内容不填
@@ -53,9 +53,9 @@ golang 允许不定数量的参数
 golang 允许多个返回值
 
 ```go
-func sum(nums ...int) int {                      // 设置可变参数, 可变参数通常作为最后一个参数
+func sum(numList ...int) int {                   // 设置可变参数, 可变参数通常作为最后一个参数
     res := 0
-    for _, i := range nums {                     // 可变参数本质是一个切片
+    for _, i := range numList {                  // 可变参数本质是一个切片
         res += i
     }
     return res

@@ -43,13 +43,13 @@ name := "str"                                    // 声明变量, 赋值, 并使
 var (
    str    string                                 // ""    声明变量未赋值, 使用 string 类型默认值 ""
    num    int                                    // 0     声明变量未赋值, 使用 int 类型默认值 0
-   boolen bool                                   // false 声明变量未赋值, 使用 bool 类型默认值 false
+   boolean bool                                  // false 声明变量未赋值, 使用 bool 类型默认值 false
 )
 
 var (
    str string = "hello"                          // 批量声明并赋值
    num int    = 4
-   boolen     = true
+   boolean     = true
 )
 
 str, num := "hello", 3                           // 多个变量声明并赋值
@@ -61,13 +61,13 @@ Go 中存在**未被使用**的变量会报错
 使用匿名变量 `_` 处理无需使用的变量
 
 ```go
-var name string = "facsert"
+var name string = "John"
 fmt.Println("hello world")
 > ./main.go:10:6: name declared but not used     // 变量 name 未使用, 报错
 
-name, _ := "facsert", "variable"                 // 使用匿名变量, 忽略后一个值
+name, _ := "John", "variable"                    // 使用匿名变量, 忽略后一个值
 fmt.Println("hello ", name)
-> hello  facsert
+> hello  John
 
 import {
    . "fmt"                                       // 使用模块时无需添加模块名称
@@ -152,7 +152,7 @@ Golang 中存在一些关键字和保留字， 不能作为变量名称
    case         defer        go           map          struct
    chan         else         goto         package      switch
    const        fallthrough  if           range        type
-   continue     for          import       retrun       var
+   continue     for          import       return       var
 ```
 
 ### 保留字
