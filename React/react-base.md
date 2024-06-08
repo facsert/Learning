@@ -12,6 +12,20 @@ description: "React base"
 
 ## Table of Contents
 
+## jsx
+
+```js
+import React from 'react'
+
+function Component() {
+    return (
+        <div>
+        <p>JSX Component</p>
+        </div>
+    )
+}
+```
+
 ## Props
 
 ```js
