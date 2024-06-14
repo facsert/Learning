@@ -326,3 +326,24 @@ node_filesystem_size_bytes
 
 1 - ((node_filesystem_avail_bytes) /  node_filesystem_size_bytes)
 ```
+
+## API
+
+prometheus 提供了API, 可以通过 API 获取数据
+
+```python
+import requests
+
+query_url = "http://localhost:9090/api/v1/query"
+r = requests.get(query_url, params={"query": "node_cpu_seconds_total{mode=\"idle\"}"})
+r.json()
+
+query_range_url = "http://localhost:9090/api/v1/query_range"
+r = requests.get(query_range_url, params={
+  "query": "node_cpu_seconds_total{mode=\"idle\"}", 
+  "start": "2021-02-22T10:00:00Z", 
+  "end": "2021-02-22T10:05:00Z", 
+  "step": "1m"
+})
+r.json()
+```
