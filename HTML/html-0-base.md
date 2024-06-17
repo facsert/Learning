@@ -15,6 +15,7 @@ description: "HTML 基础"
 ## 介绍
 
 HTML(Hypertext Markup Language) 翻译为超文件标记语言, 用于描述网页的结构和内容  
+
 - 语义化: HTML 标签具有语义化, 标签名和作用紧密相关
 - 层级结构: HTML 标签具有层级结构, 通过嵌套关系描述网页结构
 - 可拓展性: HTML 可通过自定义属性拓展网页内容
@@ -56,7 +57,6 @@ HTML(Hypertext Markup Language) 翻译为超文件标记语言, 用于描述网�
 
 全局属性 (global attributes) 是所有元素都可以使用的属性(有些属性对部分元素无意义)  
 
-
 ```html
 <!-- id class 均用于选择器定位元素  -->
 <div id="id id-name" class="div-class div-name"> select html </div>
@@ -67,17 +67,12 @@ HTML(Hypertext Markup Language) 翻译为超文件标记语言, 用于描述网�
 <!-- style 可定义 html 内联样式 -->
 <div style="color:red;"> css in html </div>
 
-
 ```
-
-id
-class
-title
-style
-
 
 
 ## 语意标签
+
+## head
 
 head 用以描述文件的标题, 关键字, 字符编码, 引入外部资源, 通过页面元数据(描述和概括能)可更容易找到相关信息  
 
@@ -151,3 +146,5 @@ head 用以描述文件的标题, 关键字, 字符编码, 引入外部资源, �
     </tr>
 </table>
 ```
+=======
+

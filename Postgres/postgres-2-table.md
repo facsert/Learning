@@ -1,8 +1,8 @@
 ---
 author: facsert
 pubDatetime: 2024-02-22 20:31:28
-title: Postgresql database
-slug: Postgresql database
+title: Postgresql table
+slug: Postgresql table
 featured: false
 draft: false
 tags:
