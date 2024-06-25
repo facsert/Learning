@@ -280,7 +280,7 @@ scrape_configs:
 
 ```bash
  $ ./promtail-linux-amd64 -config.file=$PWD/config.yaml
+ >
 ```
 
-http://localhost:9080 promtail 界面查看
-
+`http://localhost:9080` promtail 界面查看

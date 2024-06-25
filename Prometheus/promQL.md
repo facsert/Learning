@@ -334,16 +334,64 @@ prometheus 提供了API, 可以通过 API 获取数据
 ```python
 import requests
 
+# 查询瞬时数据
 query_url = "http://localhost:9090/api/v1/query"
-r = requests.get(query_url, params={"query": "node_cpu_seconds_total{mode=\"idle\"}"})
+r = requests.get(query_url, params={"query": 'node_cpu_seconds_total{mode="idle", "instance": "192.168.1.100:9100", "cpu"="0"}'})
 r.json()
 
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+        "__name__": "node_cpu_seconds_total",
+        "cpu": "0",
+        "instance": "192.168.1.100:9100",
+        "job": "Node",
+        "mode": "idle"
+        },
+        "value": [1719297314.563, "26458.92"]
+      }
+    ]
+  }
+}
+
+# 查询时间段数据
 query_range_url = "http://localhost:9090/api/v1/query_range"
 r = requests.get(query_range_url, params={
-  "query": "node_cpu_seconds_total{mode=\"idle\"}", 
-  "start": "2021-02-22T10:00:00Z", 
-  "end": "2021-02-22T10:05:00Z", 
+  "query": 'node_cpu_seconds_total{mode="idle", "instance": "192.168.1.100:9100", "cpu"="0"}', 
+  "start": "2024-06-25T12:00:00+08:00", 
+  "end": "2024-06-25T12:05:00+08:00",
   "step": "1m"
 })
 r.json()
+
+{
+  "status": "success",
+  "data": {
+    "resultType": "matrix",
+    "result": [
+      {
+        "metric": {
+          "__name__": "node_cpu_seconds_total",
+          "cpu": "0",
+          "instance": "192.168.1.100:9100",
+          "job": "Node",
+          "mode": "idle"
+        },
+        "values": [
+          [1719230400, "4454.3"],
+          [1719230460, "4504.85"],
+          [1719230520, "4555.09"],
+          [1719230580, "4605.51"],
+          [1719230640, "4655.95"],
+          [1719230700, "4697.64"]
+        ]
+      }
+    ]
+  }
+}
+
 ```
