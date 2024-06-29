@@ -7,7 +7,6 @@ featured: false
 draft: false
 tags:
   - Prometheus
-  - Grafana
 description: "Grafana 是一个数据可视化工具"
 ---
 
@@ -43,7 +42,7 @@ Grafana 本身无法采集数据, 需要其它工具提供数据
 3. 选择数据源(prometheus)
 4. 配置数据源
    Name: 数据源名称
-   Connection: prometheus IP 端口(http://localhost:9090)
+   Connection: prometheus IP 端口(`http://localhost:9090`)
    Save: 保存数据源
 
 ## Dashboard

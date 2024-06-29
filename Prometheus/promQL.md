@@ -280,12 +280,13 @@ CPU 占用: 一段时间内, CPU 工作时间(总时间 - 空闲时间)占总时
 `CPU Used = 1 - (idle / (user + nice + system + idle + iowait + irq + softirq + steal + guest + guest_nice))`
 
 ```bash
-# 12m 最后两组数据计算平均增长率
+# 2m 最后两组数据计算平均增长率
 irate(node_cpu_seconds_total{mode="idle"}[2m])
 irate(node_cpu_seconds_total[2m])
 
 # 1 减去空闲百分比获得 CPU 占用百分比(按)
 1 - (sum by(instance) (irate(node_cpu_seconds_total{mode="idle"}[2m])) / sum by(instance) (irate(node_cpu_seconds_total[2m])))
+1 - ((irate(node_cpu_seconds_total{mode="idle", instance="192.168.1.100"}[2m])) / (irate(node_cpu_seconds_total{instance="192.168.1.100"}[2m])))
 ```
 
 ```bash
@@ -393,5 +394,4 @@ r.json()
     ]
   }
 }
-
 ```
