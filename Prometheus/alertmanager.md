@@ -33,8 +33,8 @@ alertmanager 是一个告警组件, 默认端口 9093
  $ ./alertmanager-linux-amd64 --config.file=alertmanager-config.yaml
 ```
 
-浏览器打开 http://localhost:9093 界面查看  
-重启 alermanager 服务 curl -X POST http://localhost:9093/-/reload  
+浏览器打开 `http://localhost:9093` 界面查看  
+重启 alermanager 服务 curl -X POST `http://localhost:9093/-/reload`  
 
 ## 配置
 

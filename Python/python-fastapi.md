@@ -148,48 +148,70 @@ def add_routers(app: FastAPI):
 定义数据连接和使用
 
 ```py
+from contextlib import contextmanager
+from dataclasses import dataclass
+
 import psycopg
-from psycopg import Cursor, Connection
+from psycopg_pool import ConnectionPool
 from psycopg.rows import dict_row
+from loguru import logger
+
+
+@dataclass
+class DBConnect:
+    """ 数据库连接 """
+    host: str
+    port: int
+    dbname: str
+    user: str
+    password: str
+
+DEFAULT_DATABASE: DBConnect = DBConnect(
+    host="localhost",
+    port="5432",
+    dbname="learn",
+    user="postgres",
+    password="password"
+)
 
 class Database:
-    
-    connect: None | Connection = None
+    """ database module """
+    pool: ConnectionPool| None = None
+    db: DBConnect = DEFAULT_DATABASE
 
     @classmethod
-    def connect_database(cls) -> None:
-        cls.connect = psycopg.connect(
-            host="localhost",
-            port="5432",
-            dbname="learn",
-            user="postgres",
-            password="password"
+    def init(cls, db: DBConnect|None=None) -> None:
+        """ 数据库初始化连接 """
+        cls.db = db if db else cls.db
+        cls.pool: ConnectionPool = ConnectionPool(
+            min_size=1,
+            max_size=10,
+            conninfo=" ".join(f"{k}={v}" for k, v in vars(cls.db).items())
         )
-    
-    @classmethod
-    def create_session(cls):
-        session = cls.connect.cursor(row_factory=dict_row)
-        yield session
-        
-        session.close()
-        cls.connect.commit()
 
-    @classmethod
-    def get_session(cls) -> Cursor:
-        return cls.connect.cursor(row_factory=dict_row)
-        
-    @classmethod
-    def create_tables(cls):
-        pass
-        
-    @classmethod
-    def close(cls):
-        cls.connect.close()
-        
-    @classmethod
-    def init(cls):
-        cls.connect_database()
-        cls.create_tables()
+    @contextmanager
+    def __new__(cls, db: DBConnect|None=None):
+        _ = cls.init(db) if db else None
+        try:
+            conn = cls.pool.getconn()
+            cursor = conn.cursor(row_factory=dict_row)
+            yield cursor
+            conn.commit()
+        except Exception as e:
+            _ = conn.rollback() if conn else None
+            logger.error(f"error: {e}")
+        finally:
+            _ = cursor.close() if cursor else None
+            _ = cls.pool.putconn(conn) if cls.pool else None
+
+
+if __name__ == "__main__":
+    # 起服务时连接数据库
+    Database.init()
+    # 使用连接池执行 sql 语句
+    with Database() as cursor:
+        cursor.execute("SELECT id, title FROM article")
+        print(cursor.fetchall())
 ```
 
 ## api 路由

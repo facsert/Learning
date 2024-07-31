@@ -40,10 +40,10 @@ description: "Postgresql 表操作"
 ```sql
 /* 创建表 */
 CREATE TABLE [IF NOT EXISTS] table_name (
-   column1 datatype(length) column_contraint,
-   column2 datatype(length) column_contraint,
-   column3 datatype(length) column_contraint,
-   table_constraints
+  column1 datatype(length) column_contraint,
+  column2 datatype(length) column_contraint,
+  column3 datatype(length) column_contraint,
+  table_constraints
 );
 
 /* 创建表示例(create 是关键字不可作为表头) */
