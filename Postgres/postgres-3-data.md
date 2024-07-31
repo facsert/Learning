@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS students (
    name VARCHAR(20) NOT NULL,                  
    age  INT,                                   
    locked BOOLEAN NOT NULL DEFAULT false,      
-   create_at TIMESTAMP NOT NULL                
+   create_at TIMESTAMP NOT NULL              
 );
 
 \d students
@@ -109,6 +109,31 @@ SELECT * FROM students;
 ----+------+-----+--------+---------------------
   1 | John |  18 | f      | 2024-02-22 20:31:38
   2 | Lily |  19 | f      | 2024-02-22 20:31:38
+```
+
+```sql
+/* 添加唯一约束 */
+ALTER TABLE "students"
+ADD CONSTRAINT unique_student UNIQUE ("name", "age");
+
+/* 插入数据, 与 unique_student 规则重复则不操作 */
+INSERT INTO students (name, age, locked, create_at)
+VALUES
+  ('John', 18, false, '2024-02-22 20:31:38'),
+  ('Lily', 19, false, '2024-02-22 20:31:38')
+ON CONFLICT unique_student DO NOTHING;
+
+/* 插入数据, 与 unique_student 规则重复则更新部分数据 */
+INSERT INTO students (name, age, locked, create_at)
+VALUES
+  ('John', 18, false, '2024-02-22 20:31:38'),
+  ('Lily', 19, false, '2024-02-22 20:31:38')
+ON CONFLICT unique_student
+DO UPDATE SET
+    name = EXCLUDED.name,
+    age = EXCLUDED.age,
+    locked = EXCLUDED.locked,
+RETURNING *;
 ```
 
 ## 删除数据

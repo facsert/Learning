@@ -47,12 +47,13 @@ CREATE TABLE [IF NOT EXISTS] table_name (
 );
 
 /* 创建表示例(create 是关键字不可作为表头) */
-CREATE TABLE IF NOT EXISTS students (            /* IF NOT EXISTS 表存在则不创建 */
-   id SERIAL NOT NULL PRIMARY KEY,               /* id 作为主键且不能为空 */
-   name VARCHAR(20) NOT NULL,                    /* name 最长为20字符且不能为空 */
-   age  INT,                                     /* age 可以为空 */
-   locked BOOLEAN NOT NULL DEFAULT false,        /* locked 默认为 false 且不能为空 */
-   create_at TIMESTAMP NOT NULL                  /* create_at 时间戳且不能为空 */
+CREATE TABLE IF NOT EXISTS "students" (             /* IF NOT EXISTS 表存在则不创建 */
+    "id" SERIAL NOT NULL PRIMARY KEY,               /* id 作为主键且不能为空 id 自增*/
+    "name" VARCHAR(20) NOT NULL,                    /* name 最长为20字符且不能为空 */
+    "age" INT,                                      /* age 可以为空 */
+    "locked" BOOLEAN NOT NULL DEFAULT false,        /* locked 默认为 false 且不能为空 */
+    "create_at" TIMESTAMP NOT NULL DEFAULT NOW(),   /* create_at 时间戳且不能为空 */
+  CONSTRAINT unique_name UNIQUE ("name", "age")     /* 设置唯一约束 unique_name */
 );
 
 /* 查看所有表 */
@@ -77,12 +78,6 @@ Indexes:
 
 /* 删除表 */
 DROP TABLE IF EXISTS students;
-```
-
-## 修改表
-
-```sql
-ALTER
 ```
 
 ## 表约束
@@ -193,7 +188,7 @@ ALTER TABLE users DROP CONSTRAINT unique_cols;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     age INTEGER NOT NULL,
-    CONSTAINT user_age 
+    CONSTRAINT user_age 
       CHECK(age > 0)
 );
 
@@ -202,4 +197,54 @@ ALTER TABLE users ADD CONSTRAINT user_age CHECK (age > 0);
 
 /* 删除 CHECK 约束 */
 ALTER TABLE users DROP CONSTRAINT user_age;
+```
+
+## 修改表
+
+```sql
+ALTER TABLE [IF EXISTS] "table_name"
+    /* 重命名表 * */
+    RENAME TO new_table_name;
+    /* 添加列 */
+    ADD COLUMN column_name datatype(length) column_contraint;
+    /* 修改列 */
+    ALTER COLUMN column_name datatype(length) column_contraint;
+    /* 删除列 */
+    DROP COLUMN column_name;
+    /* 添加约束 */
+    ADD CONSTRAINT constraint_name constraint_type;
+```
+
+注意: ALTER TABLE 每次只执行一个修改操作
+
+```sql
+/* 创建表 */
+CREATE TABLE IF NOT EXISTS "job" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(10) NOT NULL
+);
+
+/* 添加列 */
+ALTER TABLE "job"
+ADD COLUMN "status_name" VARCHAR(20) DEFAULT 'pending';
+
+/* 重命名列 */
+ALTER TABLE "job"
+RENAME COLUMN "status_name" TO "status";
+
+/* 删除列 */
+ALTER TABLE "job"
+DROP COLUMN "status";
+
+/* 添加约束 */
+ALTER TABLE "job"
+ADD CONSTRAINT "unique_task" UNIQUE ("name");
+
+/* 修改列 */
+ALTER TABLE "job"
+ALTER COLUMN "name" TYPE VARCHAR(50);
+
+/* 重命名表 */
+ALTER TABLE "job"
+RENAME TO "task";
 ```
