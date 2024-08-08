@@ -130,12 +130,53 @@ type Article struct {
 ### 查询
 
 ```go
+// 查询单个数据, 主键升序 First(第一条), Last(最后一条), Take(随机一条)
+var article Article
+database.DB.Table("article").Select("title", "created_at", "updated_at").First(&article)
+database.DB.Table("article").Select("title", "created_at", "updated_at").Last(&article)
+database.DB.Table("article").Select("title", "created_at", "updated_at").Take(&article)
+
+// First, Last, Take 没有数据返回错误 gorm.ErrRecordNotFound
+result := database.DB.Table("article").Select("id", "title", "content").First(&article)
+if res.Error == gorm.ErrRecordNotFound {
+    fmt.Println("no data")
+}
+
+
+// 查询所有数据 Find
 var articles []Article
-res := database.DB.Table("article").Select("id", "title", "content").Find(&articles)
-if res.Error != nil {
-    fmt.Printf("err: %#v\n", res.Error)
-}
-for _, article := range articles {
-    fmt.Printf("node: %#v\n", article)
-}
+database.DB.Table("article").Select("id", "title", "content").Find(&articles)
+
+// Limit 限制查询条数, 规避 ErrorRecordNotFound 错误
+database.DB.Table("article").Select("id", "title", "content").Limit(1).Find(&articles)
+
+// 查询条数
+result.RowsAffected
+
+// 执行报错或 nil
+result.Error
+```
+
+```go
+// Where 查询条件  SELECT * FROM article WHERE id = 6 LIMIT 1;
+database.DB.Where("id = ?", 6).First(&articles)
+
+// Where 查询条件  SELECT * FROM article WHERE id IN (1, 2, 3);
+database.DB.Where("id IN ?", []int{1, 2, 3}).Find(&articles)
+
+// Where 查询条件  SELECT * FROM article WHERE id > 3 AND id < 8;
+database.DB.Where("id > ? AND id < ?", 3, 8).Find(&articles)
+
+// OR 查询条件 SELECT * FROM article WHERE id > 3 OR title = 'gorm';
+database.DB.Where("id = 5").Or("title = 'gorm'").Find(&articles)
+
+// 设置查询字段 Select 多个参数或数组 SELECT id, title, content FROM article;
+database.DB.Select([]string{"id", "title", "content"}).Find(&articles)
+
+// Order 排序 SELECT * FROM article ORDER BY name DESC;
+database.DB.Order("name DESC").Find(&articles)
+
+// Limit Offset 限制查询条数和偏移 SELECT * FROM article OFFSET 3 LIMIT 10;
+database.DB.Limit(10).Offset(3).Find(&articles)
+
 ```
