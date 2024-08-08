@@ -116,19 +116,19 @@ SELECT * FROM students;
 ALTER TABLE "students"
 ADD CONSTRAINT unique_student UNIQUE ("name", "age");
 
-/* 插入数据, 与 unique_student 规则重复则不操作 */
+/* 插入数据, 与 unique_student 规则冲突则不操作 */
 INSERT INTO students (name, age, locked, create_at)
 VALUES
   ('John', 18, false, '2024-02-22 20:31:38'),
   ('Lily', 19, false, '2024-02-22 20:31:38')
-ON CONFLICT unique_student DO NOTHING;
+ON CONFLICT ON CONSTRAINT unique_student DO NOTHING;
 
-/* 插入数据, 与 unique_student 规则重复则更新部分数据 */
+/* 插入数据, 与 unique_student 规则冲突则更新部分数据 */
 INSERT INTO students (name, age, locked, create_at)
 VALUES
   ('John', 18, false, '2024-02-22 20:31:38'),
   ('Lily', 19, false, '2024-02-22 20:31:38')
-ON CONFLICT unique_student
+ON CONFLICT ON CONSTRAINT unique_student
 DO UPDATE SET
     name = EXCLUDED.name,
     age = EXCLUDED.age,
