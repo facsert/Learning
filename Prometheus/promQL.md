@@ -203,13 +203,13 @@ node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}[1d]
 
 对瞬时向量进行聚合操作
 
-- sum: 求和 sum(node_cpu_seconds_total{cpu="0"})
-- min: 最小值 min(node_cpu_seconds_total{cpu="0"})
-- max: 最大值 max(node_cpu_seconds_total{cpu="0"})
-- avg: 平均值 avg(node_cpu_seconds_total{cpu="0"})
-- count: 计数 count(node_cpu_seconds_total{cpu="0"})
-- topk: 前 n 条数据 topk(5, node_cpu_seconds_total{cpu="0"})
-- bottomk: 最后 n 条数据 bottomkk(5, node_cpu_seconds_total{cpu="0"})
+- sum: `求和 sum(node_cpu_seconds_total{cpu="0"})`
+- min: `最小值 min(node_cpu_seconds_total{cpu="0"})`
+- max: `最大值 max(node_cpu_seconds_total{cpu="0"})`
+- avg: `平均值 avg(node_cpu_seconds_total{cpu="0"})`
+- count: `计数 count(node_cpu_seconds_total{cpu="0"})`
+- topk: `前 n 条数据 topk(5, node_cpu_seconds_total{cpu="0"})`
+- bottomk: `最后 n 条数据 bottomkk(5, node_cpu_seconds_total{cpu="0"})`
 - stddev: 标准差
 
 ## 数学运算

@@ -27,8 +27,8 @@ description: "Postgresql 表操作"
 |浮点类型|DOUBLE PRECISION/FLOAT8|双精度浮点数(8字节)|
 |浮点类型|NUMERIC(p, s)|高精度数字, p表示数字总长度, s表示小数位数|
 |时间类型|DATE|日期(yyyy-mm-dd)|
-|时间类型|TIME|一天中的某个时刻(HH:MM:SS.ssssss)|
-|时间类型|TIMESTAMP|时间日期和时刻(YYYY-MM-DD HH:MI:SS[.ssssss])|
+|时间类型|TIME|`一天中的某个时刻(HH:MM:SS.ssssss)`|
+|时间类型|TIMESTAMP|`时间日期和时刻(YYYY-MM-DD HH:MI:SS[.ssssss])`|
 |时间类型|INTERVAL|时间间隔|
 |时间类型|TIMESTAMP|带时区的时间日期和时刻|
 |JSON类型|JSON|JSON格式的字符串|
