@@ -44,6 +44,7 @@ Grafana 本身无法采集数据, 需要其它工具提供数据
 
 ## Dashboard
 
+```yaml
 使用 Grafana 创建图表, 使用 promQl 筛选数据填入图表  
 [Dashboard](https://grafana.com/docs/grafana/latest/dashboards/)  
 [Panels and visualizations](https://grafana.com/docs/grafana/latest/panels-visualizations/)  
@@ -62,8 +63,8 @@ Label: job
 Metric: node_uname_info
 
 Panel options: 仪表盘的标题和描述  
-Tooltip: 鼠标悬停表格显示的配置{Tooltip mode: All, Values sort order: Descending}  
-Legend: 图表中数据注释显示形式, {Visibility: true, Mode: List, placement: Right}  
+Tooltip: 鼠标悬停表格显示的配置`{Tooltip mode: All, Values sort order: Descending}`  
+Legend: 图表中数据注释显示形式, `{Visibility: true, Mode: List, placement: Right}`
 Axis: 数轴设置 default  
 Graph styles: 图表中数据显示形式(线, 柱状, 散点) {Style: Lines}  
 Standard options: 数值设置(单位, 不同数据颜色变化) {Unit: Percent(0.0-1.0), Color scheme: Classic palette}  
@@ -77,3 +78,4 @@ Table: 表格设置, 分页, 列宽, 表格内容对齐, 添加筛选
 `$__timeFrom` Grafana 选择的时间起始值  $__timeFrom -> timestamp  
 `$__timeTo` Grafana 选择的时间结束值  $__timeTo -> timestamp  
 `$__timeFilter` 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool  
+```

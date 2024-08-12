@@ -51,7 +51,7 @@ Redis 数据库中, 字符串数据就是简单的键值对, key-value
 
 ### Hash
 
-Hash 是多个键值对的集合{k1-v1, k2-v2}
+Hash 是多个键值对的集合`{k1-v1, k2-v2}`
 
 ```bash
 # 创建 students 字段, 添加键值对
