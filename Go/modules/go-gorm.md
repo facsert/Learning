@@ -272,10 +272,22 @@ database.DB.Table("article").Where("id IN (?)", []int{1,2,3}).Updates(map[string
 
 ## 原生 sql
 
+查询使用 `Raw` 可以返回查询数据, 使用 `Exec` 不返回数据
+
 ```go
-// 使用原生 sql 语句
+// 使用原生 sql 语句 
 var articles []map[string]any
-database.DB.Row("SELECT * FROM article WHERE id < @id AND title = @title",
+database.DB.Raw("SELECT * FROM article WHERE id < ? AND title = ?", 4, "gorm",).Scan(&articles)
+
+// 使用 map 做变量替换 (表名和列名无法使用变量替换)
+database.DB.Raw("SELECT * FROM article WHERE id < @id AND title = @title",
     map[string]any{"id": 4, "title": "gorm"},
-).Find(&articles)
+).Scan(&articles)
+
+// 删除 插入 更新不返回数据使用 Exec
+database.DB.Exec("DELETE FROM article WHERE id = ?", 5)
+
+// postgres 支持 RETURNING 可以接收返回值
+var article map[string]any
+database.DB.Raw("DELETE FROM article WHERE id = ? RETURNING *", 5).Scan(&article)
 ```
