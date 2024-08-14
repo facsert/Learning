@@ -33,6 +33,43 @@ docker 安装 docker-stack(自带 redisinsight), 便于 web 界面修改和查�
 
 浏览器打开 `http://localhost:8001` 进入 redisinsight 界面
 
+## 数据持久化
+
+`redis` 数据是保存内存中, 一旦关机，内存数据会丢失, redis 支持将数据保存为本地文件
+
+- 手动保存
+- 自动保存策略
+
+```bash
+# redis-cli (redis-stack 支持命令, 不区分大小写)
+
+# 主动保存数据库内容
+> bgsave
+"Background saving started"
+
+# 上一次保存数据的时间点
+> lastsave
+(integer) 1723623129
+
+# 保存策略 (300 100: 300s 内超过 100次修改触发, 每两个数据 1 个策略)
+> config get save
+1) "SAVE"
+2) "3600 1 300 100 60 10000"
+```
+
+## 连接
+
+```py
+# pip install redis
+import redis
+
+pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(connection_pool=pool)
+
+print(r.get("host"))
+print(r.hgetall("node"))
+```
+
 ## 数据类型
 
 Redis 命令不区分大小写, 键值对是大小写敏感

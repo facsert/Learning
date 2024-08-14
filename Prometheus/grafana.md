@@ -33,49 +33,73 @@ Grafana 用于展示 Prometheus 采集的监控数据, 通过 promQL 语句绘�
 初始用户 admin  
 初始密码 admin  
 
+## 界面
+
+<!-- ![侧边栏](./assets/siderbar.png) -->
+
+- 仪表盘: 监控面板列表
+- 连接: 连接第三方数据源泉(prometheus 或 数据库)
+- 管理: grafana 设置和用户管理
+
 ## 数据源
 
-Grafana 本身无法采集数据, 需要其它工具提供数据  
+Grafana 本身只用于显示数据无法采集数据, 需要其它工具提供数据  
+Grafana 使用 promql, sql 从数据源中获取数据, 在 web 上使用图表, 表格等方式显示
+
+常用的数据源(Grafana 自带):
 
 - prometheus
 - alertmanager
 - mysql
 - postgres
 
-## Dashboard
+部分数据源 grafana 如 mongo 有支持, 但需要下载额外插件
 
-```yaml
-使用 Grafana 创建图表, 使用 promQl 筛选数据填入图表  
-[Dashboard](https://grafana.com/docs/grafana/latest/dashboards/)  
-[Panels and visualizations](https://grafana.com/docs/grafana/latest/panels-visualizations/)  
+## 仪表盘
 
-  左上角 Menu => Dashboards => 右上角 New
-  New dashboard: 新建仪表盘
-  New folder: 新建文件夹
-  Import: 导入仪表盘模板([Grafana Template](#安装) 下载模板引入)
+有两种方式创建面板
 
-创建全局变量
-dashboard setting => Variables => New variable
-Name: 变量名  job
-Label: 选择框名称 Job
-Query type: Label values  
-Label: job
-Metric: node_uname_info
+- json 文件导入
+- 自定义
 
-Panel options: 仪表盘的标题和描述  
-Tooltip: 鼠标悬停表格显示的配置`{Tooltip mode: All, Values sort order: Descending}`  
-Legend: 图表中数据注释显示形式, `{Visibility: true, Mode: List, placement: Right}`
-Axis: 数轴设置 default  
-Graph styles: 图表中数据显示形式(线, 柱状, 散点) {Style: Lines}  
-Standard options: 数值设置(单位, 不同数据颜色变化) {Unit: Percent(0.0-1.0), Color scheme: Classic palette}  
-Data links: 数据添加外部链接  
-Value mappings: 数据固定值固定值替换文本(如 up 值为 0 替换为 OFF) {0: OFF, 1: ON}  
-Thresholds: 阈值颜色设定 {base: green, 70: orange, 90:red, Thresholds mode: Percentage}  
+### json 导入
 
-Panel options: 仪表盘的标题和描述  
-Table: 表格设置, 分页, 列宽, 表格内容对齐, 添加筛选
+- 进入面板页面, 点击右上角 **分享**, 选择 **导出**, **保存至文件**
+- 官方提供的模板 [Grafana Template](https://grafana.com/grafana/dashboards/) 下载(部分使用旧版本生成, 可能不兼容或者需要修改)
+- 进入仪表盘页面, 点击 **新建**, 选择 **导入**, 选择面板 json 文件导入
 
-`$__timeFrom` Grafana 选择的时间起始值  $__timeFrom -> timestamp  
-`$__timeTo` Grafana 选择的时间结束值  $__timeTo -> timestamp  
-`$__timeFilter` 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool  
+## 自定义
+
+创建一个面板, 在面板上自定义多个图表, 每个图表自定义数据源, 图表类型, 显示样式  
+[官方创建面板教程](https://grafana.com/docs/grafana/latest/dashboards/)  
+[官方创建图表教程](https://grafana.com/docs/grafana/latest/panels-visualizations/)  
+
+1. 进入仪表盘页面, 点击 **新建**, 选择 **新建仪表板**, 选择面板 **添加可视化**  
+2. 选择数据源, 配置仪表盘, 右上角 **apply** 完成单个图表
+3. 右上角 **保存图标**, 填写 commit 保存面板
+
+### 配置
+
+面板配置: 面板名称, 时间等基本设置, 面板全局变量, JSON 配置  
+<!-- ![设置](./assets/setting.png) -->
+
+图表配置: 图表类型, 数据内容, 显示样式  
+<!-- ![图表](./assets/table.png) -->
+
+### 全局变量
+
+面板全局变量使用
+<!-- ![变量](./assets/varibale.png) -->
+
+设置全局变量
+<!-- ![变量配置](./assets/var_tag.png) -->
+
+```bash
+# promql 中使用全局变量
+node_time_seconds{host="$host",tag="$tag"} - node_boot_time_seconds{host="$host",tag="$tag"}
+
+# 特殊变量
+$__timeFrom Grafana 选择的时间起始值  $__timeFrom -> timestamp  
+$__timeTo Grafana 选择的时间结束值  $__timeTo -> timestamp  
+$__timeFilter 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool  
 ```
