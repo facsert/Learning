@@ -39,4 +39,8 @@ str.toLowerCase()
 "ababa".split("a")                               // ['a', 'a', 'a'] 字符串分割
 
 "  space  ".trim()                               // space, 取出两边空格
+
+str.includes('java')                             // true 检查字符串包含
+str.startsWith('java')                           // true 检查字符串开头
+str.endsWith('java')                             // false 检查字符串结尾
 ```

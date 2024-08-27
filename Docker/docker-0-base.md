@@ -60,6 +60,89 @@ Docker 安装
  > Docker version 24.0.7, build afdd53b
 ```
 
+离线包安装  
+
+[官方离线包](https://download.docker.com/linux/static/stable/x86_64/)
+[阿里云镜像](https://mirrors.aliyun.com/docker-ce/linux/static/stable/?spm=a2c6h.25603864.0.0.41fd2494LNwwk8)
+
+```bash
+# 下载 docker 离线包, 解压安装
+$ tar -zxvf docker-27.1.1.tgz
+$ cp docker/* /usr/bin/
+$ docker -v
+> Docker version 27.1.1, build 6312585
+```
+
+编辑 `/etc/systemd/system/docker.service` 文件, 写入一下内容
+
+```bash
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target docker.socket firewalld.service containerd.service time-set.target
+Wants=network-online.target containerd.service
+#Requires=docker.socket
+
+
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock 
+ExecStart=/usr/bin/dockerd 
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=0
+RestartSec=2
+Restart=always
+
+# Note that StartLimit* options were moved from "Service" to "Unit" in systemd 229.
+# Both the old, and new location are accepted by systemd 229 and up, so using the old location
+# to make them work for either version of systemd.
+StartLimitBurst=3
+
+# Note that StartLimitInterval was renamed to StartLimitIntervalSec in systemd 230.
+# Both the old, and new name are accepted by systemd 230 and up, so using the old name to make
+# this option work for either version of systemd.
+StartLimitInterval=60s
+
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+
+# Comment TasksMax if your systemd version does not support it.
+# Only systemd 226 and above support this option.
+TasksMax=infinity
+
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+OOMScoreAdjust=-500
+
+[Install]
+WantedBy=multi-user.target
+```
+
+启动 docker
+
+```bash
+ $ systemctl start docker
+ $ systemctl status docker
+
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/etc/systemd/system/docker.service; disabled; vendor preset: enabled)
+     Active: active (running) since Tue 2024-07-30 15:48:08 CST; 4 weeks 0 days ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 2491134 (dockerd)
+      Tasks: 72
+     Memory: 77.1M
+```
+
 ## 配置
 
 编辑 `/etc/docker/daemon.json`(不存在则创建一个), 选择需要修改的配置写入文件  

@@ -148,6 +148,7 @@ schedule.add_job(func, 'interval', minute=5)
 schedule.add_job(func, 'interval', hour=5)
 schedule.add_job(func, 'interval', day=5)
 ```
+
 注: 时间间隔与时间点有对应关系, 所以用时间点字符串转化为时间间隔
 
 ## date 触发器
@@ -189,7 +190,6 @@ scheduler.start()
 |:-:|:-:|:-:|:-:|
 |含义|job.id|job.next_run_time|job状态|
 
- 
 ## 任务调度
 
 ```py

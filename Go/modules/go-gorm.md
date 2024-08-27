@@ -117,7 +117,7 @@ type Article struct {
     Content string `gorm:"column:content"`
 }
 
-// 自定义的表名
+// 自定义的表名, gorm 可通过 Article 实例方法定位表
 func (Article) TableName() string {
     return "article" 
 }
