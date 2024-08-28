@@ -28,9 +28,7 @@ sudo apt update
 sudo apt install caddy
 ```
 
-## 配置
-
-基本使用
+## 基本使用
 
 ```bash
  # caddy 使用说明
@@ -51,7 +49,9 @@ sudo apt install caddy
 
  # 重载服务, 进行中的服务请求不会中断
  $ caddy reload
-···
+```
+
+## 配置
 
 - 服务接口
 - 静态文件服务器
@@ -74,48 +74,32 @@ sudo apt install caddy
 ```
 
 ```bash
-# 静态文件服务器(指定配置文件路径列表)
+# 静态文件服务器(配置文件路径列表)
 :2023 {
+    file_server browse 
+}
+
+# 指定路径为 caddy 文件列表 
+# http://localhost:2023  => /root/temp
+:2023 {
+    root * /root/temp
     file_server browse 
 }
 ```
 
-```caddyfile
-# 监听 80 端口
-http:// {
-    # 网站根目录
-    root * /var/www/html
-    # 网站默认文件
-    file_server
-}
-
-# 监听 443 端口
-https:// {
-    # 网站根目录
-    root * /var/www/html
-    # 网站默认文件
-    file_server
-    # 自动 HTTPS
-    tls {
-        dns cloudflare
+```bash
+# localhost:2026 代理 8010 8011 端口服务, 并设置轮询
+:2026 {
+    reverse_proxy {
+        to localhost:8010 localhost:8011
+        lb_policy random
     }
 }
+
+# round_robin 轮询
+# random 随机
+# least_conn 最少连接数
+# ip_hash 根据 IP 哈希
+# url_hash 根据 URL 哈希
+# first 第一个可用的服务
 ```
-
-## 启动
-
-```bash
-sudo systemctl start caddy
-```
-
-## 停止
-
-```bash
-sudo systemctl stop caddy
-```
-
-## 重启
-
-```bash
-sudo systemctl restart caddy
-
