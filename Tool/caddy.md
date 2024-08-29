@@ -51,7 +51,36 @@ sudo apt install caddy
  $ caddy reload
 ```
 
-## 配置
+## 全局配置
+
+全局配置用于设置一些全局的配置项，比如监听的端口、日志级别、默认网站根目录等  
+全局配置必须在文件顶部, 且必须是第一个代码快  
+
+```bash
+
+{
+    debug
+    log {
+        # 日志输出(默认 stderr), 可选标准输出: stdout, 忽略: discard, 文件: file /path/to/log.txt
+        output file /root/log/caddy.log {
+            roll_size 50mb     # 每个日志文件大小 (默认 100MB)
+            roll_keep 5        # 保留日志文件个数 (默认 10)
+            roll_keep_for 7h   # 保留日志文件时间 (默认 2160h 90天)
+            roll_local_time    # 使用本地时间 (默认 UTC 时间)
+            roll_uncompressed  # 日志文件是否压缩
+        }
+
+        # 日志格式, 可选: console, json, 自定义格式
+        format json
+
+        # 日志级别, 仅有 ERROR 和 INFO 两种日志, 可选: ERROR, INFO
+        level  INFO
+    }
+}
+
+```
+
+## 代理配置
 
 - 服务接口
 - 静态文件服务器
@@ -102,4 +131,40 @@ sudo apt install caddy
 # ip_hash 根据 IP 哈希
 # url_hash 根据 URL 哈希
 # first 第一个可用的服务
+```
+
+## api 接口
+
+```bash
+
+# 获取服务配置 config 后可以接 json 路径
+$ curl localhost:2019/config/ | jq
+$ curl localhost:2019/config/apps/http/servers | jq
+
+# 停止服务
+$ curl -X POST localhost:2019/stop/
+
+# 获取服务状态
+$ curl localhost:2019/status/
+
+# 获取服务统计信息
+$ curl localhost:2019/stats/
+
+# 重载服务配置
+$ curl -X POST localhost:2019/reload/
+
+# 重新加载 TLS 证书
+$ curl -X POST localhost:2019/load_certs/
+
+# 重新加载插件
+$ curl -X POST localhost:2019/load_plugins/
+
+# 重新加载模块
+$ curl -X POST localhost:2019/load_modules/
+
+# 重新加载主题
+$ curl -X POST localhost:2019/load_themes/
+
+# 重新加载所有配置
+$ curl -X POST localhost:2019/load_all/
 ```
