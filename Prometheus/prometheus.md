@@ -24,11 +24,11 @@ description: "自动化运维监控工具 Prometheus"
 ## 工具介绍
 
 - Prometheus      : 系统监控和报警系统
-- node_exporter   : 节点信息采集工具
-- process-exporter: 进程信息采集工具
+- node_exporter   : 节点信息采集工具(读取 linux /proc 系统文件数据)
+- process-exporter: 进程信息采集工具(读取 linux /proc 进程文件数据)
 - loki            : log 聚合系统, 类似于 prometheus
 - promtail        : 节点 log 采集工具
-- alertmanager    : 报警系统
+- alertmanager    : 告警整合和发送系统
 - grafana         : 数据可视化面板
 
 ## Prometheus
