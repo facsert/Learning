@@ -63,7 +63,9 @@ description: "Docker 镜像"
 
  $ docker pull ubuntu:20.04
 
- # 下载指定平台的镜像
+ # 下载指定平台的镜像, 镜像区分 CPU 架构(arm/x86)
+ $ uname -m
+ > x86_64
  $ docker pull --platfrom linux/amd64 mysql
  $ docker pull --platfrom linux/arm64 mysql
 ```
@@ -73,15 +75,18 @@ description: "Docker 镜像"
 
 ```bash
  $ docker login [person registry]
- > docker login registry.facser:8081
- Username (facser): facser
+ > docker login registry.facsert:8081
+ Username (facsert): facsert
  Password:
  Login Succeeded
 
- $ docker pull registry.facser:8081/ubuntu:20.04
+ $ docker pull registry.facsert:8081/ubuntu:20.04
 ```
 
 ## 删除镜像
+
+要删除 A 镜像, 必须先停止以 A 镜像创建的所有容器(或使用 docker rmi -f 强制删除)  
+删除镜像 A 镜像后, 以 A 创建的容器无法拉起
 
 ```bash
  $ docker rmi [OPTIONS] IMAGE [IMAGE...]

@@ -19,10 +19,9 @@ description: "Docker 基本配置"
 
 ## Table of Contents
 
-## 安装
+## 在线安装
 
-Docker 安装  
-下载官方一键安装脚本安装
+官方脚本一键安装, 在线下载包安装
 
 ```bash
  # 卸载原有 docker
@@ -60,7 +59,9 @@ Docker 安装
  > Docker version 24.0.7, build afdd53b
 ```
 
-离线包安装  
+## 离线安装
+
+下载离线包, 配置 docker 系统服务
 
 [官方离线包](https://download.docker.com/linux/static/stable/x86_64/)
 [阿里云镜像](https://mirrors.aliyun.com/docker-ce/linux/static/stable/?spm=a2c6h.25603864.0.0.41fd2494LNwwk8)
@@ -89,8 +90,8 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock 
-ExecStart=/usr/bin/dockerd 
+#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=/usr/bin/dockerd
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutStartSec=0
 RestartSec=2
@@ -148,7 +149,7 @@ TriggeredBy: ● docker.socket
 编辑 `/etc/docker/daemon.json`(不存在则创建一个), 选择需要修改的配置写入文件  
 [官方参数说明](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon)
 
-```bash
+```py
 {
     "insecure-registries": ["192.168.2.2:8080"],                               # 私有镜像仓库, 第三方镜像源 "<IP>:<PORT>"
     "dns": [],                                                                 # 设定容器DNS的地址，在容器的 /etc/resolv.conf文件中可查看
@@ -169,12 +170,12 @@ TriggeredBy: ● docker.socket
 ```json
 {
   "registry-mirrors": [
-     "https://docker.mirrors.ustc.edu.cn",
-     "https://registry.docker-cn.com",
-     "http://hub-mirror.c.163.com",
-     "https://mirror.ccs.tencentyun.com",
-     "https://registry.mirrors.ustc.edu.cn",
-     "https://ucjisdvf.mirror.aliyuncs.com"
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com",
+    "https://mirror.ccs.tencentyun.com",
+    "https://registry.mirrors.ustc.edu.cn",
+    "https://ucjisdvf.mirror.aliyuncs.com"
   ]
 }
 ```

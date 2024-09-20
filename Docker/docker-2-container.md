@@ -57,6 +57,8 @@ ee0c15a3a0ee   mongo         "docker-entrypoint.s…"   44 hours ago   Up 44 hou
 
 ## 创建容器
 
+使用 `docker run` 命令创建容器, 使用不通参数将容器内端口或路径映射到主机(映射都是 server:docker 结构)
+
 ```bash
 Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 
@@ -82,12 +84,60 @@ Options:
   --privileged                                                                 # 给容器特权
 ```
 
-```bash
- $ docker run -it --rm ubuntu bash                                             # 以 ubuntu 镜像创建容器(自动命名), 创建后执行 bash, 退出后自动删除容器
- $ docker run -itd -p 8589:27017 --name demo mongo                             # 以 mongo 镜像创建 demo 容器, 后台运行, 机器 8589 端口映射到容器 27017 端口
- $ docker run -it --rm -v /root/docker:/root debian bash                       # debian 镜像创建容器, 容器 /root 目录映射到主机 /root/docker 目录
+容器和主机环境是隔离的, docker 提供一些方法进入容器
 
-$ docker ps
-CONTAINER ID  IMAGE  COMMAND                 CREATED         STATUS         PORTS                     NAMES
-ee0c15a3a0ee  mongo  "docker-entrypoint.s…"  13 seconds ago  Up 11 seconds  0.0.0.0:8589->27017/tcp   demo
+- 将容器内端口映射到主机端口, 通过主机端口连接容器
+- 将容器内路径映射到主机路径, 通过修改主机映射路径文件同步到容器内
+- `docker exec` 命令进入容器
+
+```bash
+ # 使用 mongo 镜像创建 demo 容器, 后台运行, 容器 27017 端口映射机器 8589 端口
+ $ docker run -d -p 8589:27017 --name demo mongo
+ $ docker ps
+ CONTAINER ID  IMAGE  COMMAND                 CREATED         STATUS         PORTS                     NAMES
+ ee0c15a3a0ee  mongo  "docker-entrypoint.s…"  13 seconds ago  Up 11 seconds  0.0.0.0:8589->27017/tcp   demo
+
+ $ docker run -d \                                                                   
+  -p 5432:5432 \                                                               # 端口映射  server port:docker port
+  --name postgres \                                                            # 容器名称
+  -e POSTGRES_PASSWORD=root \                                                  # 设置容器内环境变量(数据库密码)
+  -e TZ=Asia/Shanghai \                                                        # 设置容器内环境变量(数据库时区)
+  -v /root/postgres:/var/lib/postgresql/data \                                 # 容器目录映射到主机路径
+  postgres                                                                     # 指定镜像
+
+ # 创建容器(自动命名), 创建后进入容器执行 bash, 退出容器后自动删除容器
+ $ docker run -it --rm ubuntu bash
+```
+
+## docker-compose
+
+在命令行可以通过 `docker run` 创建容器, 为了更简单更快创建多个复杂容器有了 `docker-compose`  
+创建 `docker-compose.yml` 定义容器, 然后一键拉起多个复杂容器, 且可以重复使用  
+
+```yml
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: demo
+    ports:
+      - 8589:27017
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - /root/postgres:/var/lib/postgresql/data
+    environment:
+      TZ: Asia/Shanghai
+      POSTGRES_PASSWORD: root
+```
+
+```bash
+
 ```
