@@ -19,8 +19,8 @@ pandas 是一个用于处理表格型数据的 Python 库, 可以轻松地处理
 
 |类型|示例|含义|
 |:--:|:--:|:--:|
-|Series|s = pd.Series([1, 2, 3])|一维数组|
-|DataFrame|df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})|二维数组|
+|Series|`s = pd.Series([1, 2, 3])`|一维数组|
+|DataFrame|`df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})`|二维数组|
 
 ```py
 import pandas as pd

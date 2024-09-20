@@ -14,6 +14,9 @@ description: "React hooks"
 
 ## useState
 
+状态控制钩子, 创建状态值和变更函数  
+状态和变更函数可以作为参数传递给其它组件以跨组件通信  
+
 `useState` 是 React 一个 hook, 可以创建一个状态变量和设置状态函数  
 `const [status, setStatus] = useState<T>(StatusDefault);`  
 
@@ -101,3 +104,4 @@ export default function Counter() {
     }, [])
     ...
 }
+```

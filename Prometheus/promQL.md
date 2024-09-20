@@ -14,7 +14,7 @@ description: "PromQl 是 prometheus 用具数据筛选的语言"
 
 ## 介绍
 
-PromQL 是 prometheus 内置的数据查询语言, 使用 PromQL 对 prometheus 收集的数据进行筛选计算等  
+PromQL 是 prometheus 内置的数据查询语言, 使用 PromQL 对 prometheus 收集的数据进行筛选计算  
 prometheus 数据格式: `data_name{label0=value, label1=value, label2=value} data_value`  
 
 ```bash
@@ -36,16 +36,16 @@ node_memory_MemFree_bytes 9.904422912e+09
 node_memory_Active_bytes 4.65158144e+08
 ```
 
-使用 `data_name{label0=value, label1=value,}` 筛选数据
+使用 `data_name{label0=value, label1=value}` 筛选数据
 
 ```bash
 # 显示所有的 node_cpu_seconds_total 数据中 cpu="0" 的数据(不同节点的信息会附带 instance 和 job)
 node_cpu_seconds_total{cpu="0"}
-> node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    26274.44
+> node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="Node", mode="idle"}    26274.44
 > ......
-> node_cpu_seconds_total{cpu="0", instance="10.39.104.158:9100", job="V2-Node", mode="system"}   392.63
+> node_cpu_seconds_total{cpu="0", instance="10.39.104.158:9100", job="Node", mode="system"}   392.63
 > ......
-> node_cpu_seconds_total{cpu="0", instance="10.39.104.18:9100", job="V2-Node", mode="steal"}     0
+> node_cpu_seconds_total{cpu="0", instance="10.39.104.18:9100", job="Node", mode="steal"}     0
 ```
 
 ## metrics 数据类型
@@ -101,14 +101,14 @@ http_request_duration_seconds_bucket{le="10"} 40
 http_request_duration_seconds_bucket{le="+Inf"} 50
 http_request_duration_seconds_sum 235.5
 http_request_duration_seconds_count 50
-```
 
-操作次数 50, 耗时 235.5s  
-耗时 小于 0.1s 的有 10次  
-耗时 小于 1s 的有 20次  
-耗时 小于 5s 的有 30次  
-耗时 小于 10s 的有 40次  
-耗时 小于 无穷大的有 50次  
+# 操作次数 50, 耗时 235.5s  
+# 耗时 小于 0.1s 的有 10次  
+# 耗时 小于 1s 的有 20次  
+# 耗时 小于 5s 的有 30次  
+# 耗时 小于 10s 的有 40次  
+# 耗时 小于 无穷大的有 50次  
+```
 
 ### Summary
 
@@ -122,17 +122,15 @@ prometheus_tsdb_wal_fsync_duration_seconds{quantile="0.9"} 0.014458005
 prometheus_tsdb_wal_fsync_duration_seconds{quantile="0.99"} 0.017316173
 prometheus_tsdb_wal_fsync_duration_seconds_sum 2.888716127000002
 prometheus_tsdb_wal_fsync_duration_seconds_count 216
-```
 
-操作的总次数为216次，耗时2.888716127000002s, 按耗时给所有次数排序  
-中位数（quantile=0.5）的耗时为0.012352463  
-9分位数（quantile=0.9）的耗时为0.014458005s  
+# 操作的总次数为216次，耗时2.888716127000002s, 按耗时给所有次数排序  
+# 中位数（quantile=0.5）的耗时为0.012352463  
+# 9分位数（quantile=0.9）的耗时为0.014458005s  
+```
 
 ## 匹配数据
 
-Prometheus 采集的数据有类别和时间两个重要属性, 以空间坐标轴比喻  
-x 轴的点为不同的时间, y 轴上不同点表示不同类别, z 轴表示数据的值  
-
+Prometheus 采集的数据有类别, 时间和值类型 3 种属性
 使用 PromQL 查询返回的数据有 4 种类型  
 
 - Instan vector: **瞬时向量**, 某个时间点采集的数据集合
@@ -152,11 +150,11 @@ node_cpu_seconds_total{cpu="0"}
 # 非 cpu0
 node_cpu_seconds_total{cpu!="0"}
 
-# cpu0 job 中包含 V2 
-node_cpu_seconds_total{cpu="0",job=~".*V2.*"}
+# cpu0 job 中包含 Node
+node_cpu_seconds_total{cpu="0",job=~".*Node.*"}
 
-# cpu0 job 中包含 V2 
-node_cpu_seconds_total{cpu="0",job!~".*V2.*"}
+# cpu0 job 中包含 Node
+node_cpu_seconds_total{cpu="0",job!~".*Node.*"}
 ```
 
 ## 范围查询
@@ -166,6 +164,7 @@ node_cpu_seconds_total{cpu="0",job!~".*V2.*"}
 
 ```bash
 # 在瞬时表达式结尾添加 [time] 表示从当前往前一段时间的数据
+# 节点 5 分钟前到现在 cpu0 idle 的值(每 15s 查询一次), 34848.9(值) @1708573601.411(时间点)
 node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}[5m]
 > node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}  34848.9 @1708573601.411
 >                                                                               34863.28 @1708573616.411
@@ -203,13 +202,13 @@ node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", mode="idle"}[1d]
 
 对瞬时向量进行聚合操作
 
-- sum: 求和 sum(node_cpu_seconds_total{cpu="0"})
-- min: 最小值 min(node_cpu_seconds_total{cpu="0"})
-- max: 最大值 max(node_cpu_seconds_total{cpu="0"})
-- avg: 平均值 avg(node_cpu_seconds_total{cpu="0"})
-- count: 计数 count(node_cpu_seconds_total{cpu="0"})
-- topk: 前 n 条数据 topk(5, node_cpu_seconds_total{cpu="0"})
-- bottomk: 最后 n 条数据 bottomkk(5, node_cpu_seconds_total{cpu="0"})
+- sum: `求和 sum(node_cpu_seconds_total{cpu="0"})`
+- min: `最小值 min(node_cpu_seconds_total{cpu="0"})`
+- max: `最大值 max(node_cpu_seconds_total{cpu="0"})`
+- avg: `平均值 avg(node_cpu_seconds_total{cpu="0"})`
+- count: `计数 count(node_cpu_seconds_total{cpu="0"})`
+- topk: `前 n 条数据 topk(5, node_cpu_seconds_total{cpu="0"})`
+- bottomk: `最后 n 条数据 bottomkk(5, node_cpu_seconds_total{cpu="0"})`
 - stddev: 标准差
 
 ## 数学运算
@@ -231,7 +230,7 @@ node_cpu_seconds_total  +  on(instance, job, mode, cpu) node_cpu_guest_seconds_t
 
 ```bash
 increase(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node",mode="idle"}[5m])
-> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    	218.2709700476184
+> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    218.2709700476184
 ```
 
 ### rate
@@ -241,7 +240,7 @@ increase(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2
 
 ```bash
 rate(node_cpu_seconds_total{cpu="0", instance="10.143.232.175:9100", job="V2-Node",mode="idle"}[5m])
-> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    		0.7518475626666798
+> {cpu="0", instance="10.143.232.175:9100", job="V2-Node", mode="idle"}    0.7518475626666798
 ```
 
 ### irate
@@ -280,12 +279,13 @@ CPU 占用: 一段时间内, CPU 工作时间(总时间 - 空闲时间)占总时
 `CPU Used = 1 - (idle / (user + nice + system + idle + iowait + irq + softirq + steal + guest + guest_nice))`
 
 ```bash
-# 12m 最后两组数据计算平均增长率
+# 2m 最后两组数据计算平均增长率
 irate(node_cpu_seconds_total{mode="idle"}[2m])
 irate(node_cpu_seconds_total[2m])
 
 # 1 减去空闲百分比获得 CPU 占用百分比(按)
 1 - (sum by(instance) (irate(node_cpu_seconds_total{mode="idle"}[2m])) / sum by(instance) (irate(node_cpu_seconds_total[2m])))
+1 - ((irate(node_cpu_seconds_total{mode="idle", instance="192.168.1.100"}[2m])) / (irate(node_cpu_seconds_total{instance="192.168.1.100"}[2m])))
 ```
 
 ```bash
@@ -334,16 +334,63 @@ prometheus 提供了API, 可以通过 API 获取数据
 ```python
 import requests
 
+# 查询瞬时数据
 query_url = "http://localhost:9090/api/v1/query"
-r = requests.get(query_url, params={"query": "node_cpu_seconds_total{mode=\"idle\"}"})
+r = requests.get(query_url, params={"query": 'node_cpu_seconds_total{mode="idle", "instance": "192.168.1.100:9100", "cpu"="0"}'})
 r.json()
 
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+        "__name__": "node_cpu_seconds_total",
+        "cpu": "0",
+        "instance": "192.168.1.100:9100",
+        "job": "Node",
+        "mode": "idle"
+        },
+        "value": [1719297314.563, "26458.92"]
+      }
+    ]
+  }
+}
+
+# 查询时间段数据
 query_range_url = "http://localhost:9090/api/v1/query_range"
 r = requests.get(query_range_url, params={
-  "query": "node_cpu_seconds_total{mode=\"idle\"}", 
-  "start": "2021-02-22T10:00:00Z", 
-  "end": "2021-02-22T10:05:00Z", 
+  "query": 'node_cpu_seconds_total{mode="idle", "instance": "192.168.1.100:9100", "cpu"="0"}', 
+  "start": "2024-06-25T12:00:00+08:00", 
+  "end": "2024-06-25T12:05:00+08:00",
   "step": "1m"
 })
 r.json()
+
+{
+  "status": "success",
+  "data": {
+    "resultType": "matrix",
+    "result": [
+      {
+        "metric": {
+          "__name__": "node_cpu_seconds_total",
+          "cpu": "0",
+          "instance": "192.168.1.100:9100",
+          "job": "Node",
+          "mode": "idle"
+        },
+        "values": [
+          [1719230400, "4454.3"],
+          [1719230460, "4504.85"],
+          [1719230520, "4555.09"],
+          [1719230580, "4605.51"],
+          [1719230640, "4655.95"],
+          [1719230700, "4697.64"]
+        ]
+      }
+    ]
+  }
+}
 ```

@@ -78,8 +78,8 @@ main 也是一个协程, main 中若不设置 wg.Wait() 等待其余协程完成
 ### 无缓冲通道
 
 通道容量为 0, 不能存值, 发送语句和结束语句需要都执行, 否则一方会一直等待另一方导致阻塞  
-发送语句先执行, 则发送语句阻塞, 等待接收语句执行  
-接受语句先执行, 则接受语句阻塞, 等待发送语句执行  
+发送语句先执行, 则发送语句阻塞, 等待接收语完后继续执行  
+接受语句先执行, 则接受语句阻塞, 等待发送语完后继续执行  
 以上特性常用于协程同步, 无缓冲通道也被称为同步通道
 
 ```go
@@ -158,3 +158,72 @@ func receive(ch chan int) {
 > receive [1 2] at 2023-04-02 12:20:35.693311209 +0800 CST m=+1.000149614
 > over at 2023-04-02 12:20:35.693371227 +0800 CST m=+1.000209634
 ```
+
+## 锁
+
+Go 中一些操作不是并发安全的, 需要锁保证同一时间一个资源只能被一个协程操作
+
+```go
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    var wg sync.WaitGroup
+    var str string
+
+    add := func() {
+        for i := 0; i < 500; i++ {
+            str += "a"
+        }
+        wg.Done()
+    }
+
+    wg.Add(2)
+    go add()
+    go add()
+
+    wg.Wait()
+    fmt.Printf("str: %d\n", len(str))
+}
+
+$ go run .\main.go
+> str: 827
+```
+
+两个协程同时操作 `str`, 存在数据竞争, 结果互相覆盖和预期不符
+
+```go
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    var wg sync.WaitGroup
+    var mu sync.Mutex
+    var str string
+
+    add := func() {
+        for i := 0; i < 500; i++ {
+            mu.Lock()
+            str += "a"
+            mu.Unlock()
+        }
+        wg.Done()
+    }
+
+    wg.Add(2)
+    go add()
+    go add()
+
+    wg.Wait()
+    fmt.Printf("str: %d\n", len(str))
+}
+
+$ go run .\main.go
+> str: 1000
+```
+
+使用互斥锁, 保证同一时间资源只被一个协程操作

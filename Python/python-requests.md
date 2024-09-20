@@ -36,7 +36,6 @@ requests 是一个简单强大的 http请求库，支持同步和异步
 `requests` 是一个 python 的 http 库, 它可以用来发送 http 请求, 并接收 http 响应  
 HTTP 的全称是 HyperText Transfer Protocol (超文本传输协议)的缩写，是一种建立在 TCP 上的无状态连接  
 HTTP 是互联网的基础协议，用于客户端与服务器之间的通信，它规定了客户端和服务器之间的通信格式，包括请求与响应的格式  
-
 客户端通过地址链接生成 HTTP 报文, 并发送给服务器, 服务器根据请求方法，向客户端返回响应  
 
 ```bash
@@ -76,7 +75,37 @@ server: uvicorn
 
 ## 发送请求
 
-request 支持 4 种基本请求方法: GET, POST, PUT, DELETE
+request 支持多种种基本请求方法, 常用有 4 种(RESTFUL API):
+
+- GET: 获取数据
+- POST: 新增数据
+- PUT: 修改数据
+- DELETE: 删除数据
+
+```py
+import requests
+
+# 根据源码, 所有请求方法都是对 `request(method, url, **kwargs)` 的封装
+requests.get(url, params=None, **kwargs) => requests.request("get", url, params=params, **kwargs)
+requests.post(url, data=None, json=None, **kwargs) => request("post", url, data=data, json=json, **kwargs)
+requests.put(url, data=None, **kwargs) => requests.request("put", url, data=data, **kwargs)
+requests.delete(url, **kwargs) => requests.request("delete", url, **kwargs)
+
+# request 注释主要参数
+"""Constructs and sends a :class:`Request <Request>`.
+
+:param method：用于新类的方法：Request 对象：GET、OPTIONS、Head、POST、PUT、PATCH 或 DELETE
+:param url：`Request`对象的URL
+:param params:（可选）字典，要发送的元组或字节列表, 在：class:`Request`的查询字符串中
+:param data:(可选) 字典、元组列表、字节或类似文件的要在：类的主体中发送的对象：`Request`
+:param json:（可选）要在：类的主体中发送的JSON可序列化Python对象：`Request`
+:param headers:（可选）要发送的HTTP标头的字典：类：`Request`
+:param Cookie:（可选）Dict或CookieJar对象要与：class:`Request`一起发送
+:param auth:（可选）用于启用基本/摘要/自定义HTTP身份验证的身份验证元组
+:param timeout:（可选）等待服务器发送数据的秒数在放弃之前，作为一个浮点数，或一个：ref:`(连接超时，读取timeout)<timeout>`元组
+:param stream:（可选）如果``False``，响应内容将立即下载
+"""
+```
 
 ### GET
 
@@ -86,25 +115,29 @@ GET 请求可在 url 中携带参数, 以 `?` 分界, `&` 分割多个参数
 ```python
 import requests
 
-r = requests.get('http://localhost:8001/node/get?name=lily')
-r = requests.get('http://localhost:8001/node/get', params={'name': 'lily'})
+# 以下 4 种方式等效
+r = requests.get('http://localhost:8001/person?name=lily')
+r = requests.get('http://localhost:8001/person', params={'name': 'lily'})
+r = requests.request('GET', 'http://localhost:8001/person?name=lily')
+r = requests.request('GET', 'http://localhost:8001/person', params={'name': 'lily'})
 
 print(r.status_code)
 print(r.text)
+
+# requetst.get 源码
+def get(url, params=None, **kwargs):
+    r"""Sends a GET request.
+
+    :param url: URL for the new :class:`Request` object.
+    :param params: (optional) Dictionary, list of tuples or bytes to send
+        in the query string for the :class:`Request`.
+    :param \*\*kwargs: Optional arguments that ``request`` takes.
+    :return: :class:`Response <Response>` object
+    :rtype: requests.Response
+    """
+
+    return request("get", url, params=params, **kwargs)
 ```
-
-requests.get 参数说明:
-
-- url: 请求的 URL
-- params: 请求的 URL 中的参数
-- data: 请求的 body 数据
-- headers: 请求的 header 数据
-- cookies: 请求的 cookie 数据
-- files: 请求的上传文件数据
-- auth: 认证信息
-- timeout: 超时时间
-- allow_redirects: 是否允许重定向
-- proxies: 代理服务器
 
 ### POST
 
@@ -115,169 +148,90 @@ POST 请求在请求体中发送数据, 如: `http://localhost:8001/node/post`
 import requests
 
 r = requests.post('http://localhost:8001/node/post', data={'name': 'lily'})
+
+def post(url, data=None, json=None, **kwargs):
+    r"""Sends a POST request.
+
+    :param url: URL for the new :class:`Request` object.
+    :param data: (optional) Dictionary, list of tuples, bytes, or file-like
+        object to send in the body of the :class:`Request`.
+    :param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
+    :param \*\*kwargs: Optional arguments that ``request`` takes.
+    :return: :class:`Response <Response>` object
+    :rtype: requests.Response
+    """
+
+    return request("post", url, data=data, json=json, **kwargs)
 ```
-
-requests.post 参数说明:
-
-- url: 请求的 URL
-- data: 请求的 body 数据
-- json: 请求的 JSON 数据
-- headers: 请求的 header 数据
-- cookies: 请求的 cookie 数据
-- files: 请求的上传文件数据
-- auth: 认证信息
-- timeout: 超时时间
-- allow_redirects: 是否允许重定向
 
 ## Response
 
-### Response.text
+```py
+import requests
 
-返回响应体的文本内容
+r = requests.get('http://localhost:8001/person?name=lily')
+
+# attr
+r.status_code                                    # 响应状态码
+r.url                                            # 请求链接
+r.headers                                        # 响应头
+r.content                                        # 响应体, 常用于接收类文件数据
+r.text                                           # 响应 unicode 字符串
+
+# method
+r.ok()                                           # 状态码小于 400 True, 否则为 False
+r.close()                                        # 关闭响应, 停止接收
+r.iter_lines(chunk_size=512, decode_unicode=False, delimiter=None) # 逐行读取响应体
+r.json(**kwargs)                                 # 将响应体转为 json 格式数据
+```
 
 ```python
 import requests
 
+# 返回响应体的文本内容
 r = requests.get('http://localhost:8001/node/get?name=lily')
 print(r.text)
-```
 
-### Response.json
-
-返回响应体的 JSON 数据
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应体的 JSON 数据
 print(r.json())
-```
 
-### Response.status_code
-
-返回响应状态码
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应状态码
 print(r.status_code)
-```
 
-### Response.headers
-
-返回响应头
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应头
 print(r.headers)
-```
 
-### Response.url
-
-返回请求的 URL
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回请求的 URL
 print(r.url)
-```
 
-### Response.cookies
-
-返回响应的 cookies
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应的 cookies
 print(r.cookies)
-```
 
-### Response.encoding
-
-返回响应的编码格式
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应的编码格式
 print(r.encoding)
-```
 
-### Response.raise_for_status
-
-如果响应状态码不是 200, 则抛出异常
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 如果响应状态码不是 200, 则抛出异常
 r.raise_for_status()
-```
 
-### Response.content
-
-返回响应体的二进制内容
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应体的二进制内容
 print(r.content)
-```
 
-### Response.iter_lines
-
-返回响应体的迭代器, 迭代器每迭代一次, 就返回一行内容
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应体的迭代器, 迭代器每迭代一次, 就返回一行内容
 for line in r.iter_lines():
     print(line)
-```
 
-### Response.iter_content
-
-返回响应体的迭代器, 迭代器每迭代一次, 就返回一部分内容
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回响应体的迭代器, 迭代器每迭代一次, 就返回一部分内容
 for chunk in r.iter_content(chunk_size=1024):
     print(chunk)
 
-```
-
-### Response.close
-
-关闭响应体
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 关闭响应体
 r.close()
-```
 
-### Response.raw
-
-返回原始的响应对象
-
-```python
-import requests
-
-r = requests.get('http://localhost:8001/node/get?name=lily')
+# 返回原始的响应对象
 print(r.raw)
 ```
 
-## 文件
+## 文件传输
 
 requests 支持文件上传和下载
 

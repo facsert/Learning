@@ -33,8 +33,8 @@ alertmanager 是一个告警组件, 默认端口 9093
  $ ./alertmanager-linux-amd64 --config.file=alertmanager-config.yaml
 ```
 
-浏览器打开 http://localhost:9093 界面查看  
-重启 alermanager 服务 curl -X POST http://localhost:9093/-/reload  
+浏览器打开 `http://localhost:9093` 界面查看  
+重启 alermanager 服务 curl -X POST `http://localhost:9093/-/reload`  
 
 ## 配置
 
@@ -201,8 +201,7 @@ node1 node2 node3 告警一直未恢复, 等待 4h(repeat_interval) 后再次发
 </table>
 {{ end -}}
 {{ end -}} 
+
+<!-- {{ range $i, $alert :=.Alerts }}: 遍历所有告警, 使用 `$alert` 获取单个告警对象, 使用 . 获取规则配置中 alert 字段下内容  
+如: $alert.Labels.instance => alert.labels.instance   -->
 ```
-
-{{ range $i, $alert :=.Alerts }}: 遍历所有告警, 使用 $alert 获取单个告警对象, 使用 . 获取规则配置中 alert 字段下内容  
-如: $alert.Labels.instance => alert.labels.instance  
-
