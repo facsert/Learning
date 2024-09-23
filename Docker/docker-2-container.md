@@ -115,10 +115,12 @@ Options:
 创建 `docker-compose.yml` 定义容器, 然后一键拉起多个复杂容器, 且可以重复使用  
 
 ```yml
+# docker compose v1.27 后 无需 version 关键字
 version: '3'
 
 services:
-
+  
+  # service 名称, docker compose 以 service 名称做唯一标识
   mongo:
     image: mongo:latest
     container_name: demo
@@ -139,5 +141,53 @@ services:
 ```
 
 ```bash
+ # 在当前路径下寻找 docker-compose.yml 文件创建容器并后台执行
+ $ dockrer compose up -d
+ > [+] Running 1/2
+ > ⠴ Network docker_default    Created                                                                       
+ > ✔ Container docker-redis-1  Started
 
+ # 指定 docker compose 文件创建容器
+ $ docker compose -f docker-compose.yml up -d
+ 
+ # 默认前台执行, 加 -d 后台. 创建容器服务(容器不存在), 启动服务(容器服务未运行), 重启服务(容器服务运行中) 
+ $ docker compose up
+
+ # 启动已存在且停止的容器服务(默认后台执行), 添加 service 名称启动指定 service
+ $ docker compose start [service]
+
+ # 启动已存在且停止的容器服务(后台执行)
+ $ docker compose stop [service]
+
+ # 停止并删除指定容器服务(加 -v 同时删除数据卷)
+ $ docker compose down redis
+ > [+] Running 2/2
+ > ✔ Container docker-redis-1  Removed
+ > ✔ Network docker_default    Removed
+
+ # 读取 docker-compose.yml 文件, 查看配置信息
+ $ docker compose config
+```
+
+```yml
+services:
+  backend:
+    image: example/database
+    volumes:
+      - db-data:/etc/data
+    networks:
+      - db-network
+
+  backup:
+    image: backup-service
+    volumes:
+      - db-data:/var/lib/backup/data
+    networks:
+      - db-network
+
+# 设置共享数据卷和网络
+volumes:
+  db-data:
+networks:
+  db-network:
 ```
