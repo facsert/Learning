@@ -16,6 +16,7 @@ description: "Mermaid basic"
 
 mermaid 是一个开源的图表和流程图生成工具，可以生成多种类型的图表  
 mermaid 可以在 markdown 和 html 中使用  
+[Mermaid 官网](https://mermaid.nodejs.cn/)
 
 ```mermaid
 ---
@@ -50,6 +51,54 @@ graph TD;
 
 ## 语法
 
+### 图
+
+```mermaid
+---
+title: 流程图 flowchat/graph
+---
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+```mermaid
+---
+title: 时序图 sequenceDiagram
+---
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!
+```
+
+```mermaid
+---
+title: 状态图 stateDiagram
+---
+stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]
+```
+
+```mermaid
+---
+title: 饼图 pie
+---
+pie showData
+    title Pets adopted by volunteers
+    "Dogs" : 386
+    "Cats" : 85
+    "Rats" : 15
+```
+
 ### 图形
 
 ```mermaid
@@ -58,12 +107,9 @@ title: markdown 形状
 ---
 
 flowchart LR;
-    A
-    B[box]
-    C{diamond}
-    D(circle)
-    E([round-md])
-    F((round))
+    A <--> B[box]
+    C{diamond} <--> D(circle)
+    E([round-md]) <--> F((round))
     G[(Database)]
 ```
 

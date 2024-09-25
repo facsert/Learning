@@ -43,24 +43,24 @@ description: "Git 本地仓库"
 
 > git-status - Show the working tree status
 
-git 用一下3种描述表示**文件状态**, 进一步可划分为**未追踪**和**已追踪**
-工作区 -- `git add` --> 暂存区 -- `git commit` --> 本地仓库
+git 用以下 3 种方式描述表示**文件状态**, 3 种状态可划分为**未追踪**和**已追踪**
+工作区 --> `git add` --> 暂存区 -- `git commit` --> 本地仓库
 
 | 区域                            |      描述      |              状态              |
 | :------------------------------ | :------------: | :----------------------------: |
-| `Untracked files`               |    新增文件    |    文件处于工作区, 未被追踪    |
-| `Changes not staged for commit` | 有新修改的文件 | 文件处于工作区, 新修改未被追踪 |
-| `Changes to be committed`       |  无修改的文件  |   文件处于暂存区, 修改已追踪   |
+| `Untracked files`               |  新增文件, 未 add 修改 |    文件处于工作区, 未被追踪    |
+| `Changes to be committed`       |  已 add 修改, 未 commit  |   文件处于暂存区, 修改已追踪   |
+| `Changes not staged for commit` | 已 commit 过, 但新的修改为 commit | 处于工作区, 暂存区保存了commit 的内容 |
 
 ```bash
  $ git status                                    # 查看本地仓库状态, 有新增文件未被记录
  > Untracked files:                              # 新增文件 first_file.txt
  >      first_file.txt
- >
- > Changes to be committed:                      # ADD 新文件 first_file.txt, 待 commit
+ 
+ > Changes to be committed:                      # git add 文件 first_file.txt 后, 状态变为待 commit
  >      new file:   first_file.txt
- >
- > Changes not staged for commit:                # 已被记录文件 first_file.txt，又有新修改但未被记录
+ 
+ > Changes not staged for commit:                # commit 文件 first_file.txt 后, 修改该文件, 状态变为待 commit
  >      modified:   first_file.txt
 ```
 

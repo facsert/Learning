@@ -86,10 +86,17 @@ request 支持多种种基本请求方法, 常用有 4 种(RESTFUL API):
 import requests
 
 # 根据源码, 所有请求方法都是对 `request(method, url, **kwargs)` 的封装
-requests.get(url, params=None, **kwargs) => requests.request("get", url, params=params, **kwargs)
-requests.post(url, data=None, json=None, **kwargs) => request("post", url, data=data, json=json, **kwargs)
-requests.put(url, data=None, **kwargs) => requests.request("put", url, data=data, **kwargs)
-requests.delete(url, **kwargs) => requests.request("delete", url, **kwargs)
+requests.get(url, params=None, **kwargs) 
+=> requests.request("get", url, params=params, **kwargs)
+
+requests.post(url, data=None, json=None, **kwargs)
+=> request("post", url, data=data, json=json, **kwargs)
+
+requests.put(url, data=None, **kwargs)
+=> requests.request("put", url, data=data, **kwargs)
+
+requests.delete(url, **kwargs)
+=> requests.request("delete", url, **kwargs)
 
 # request 注释主要参数
 """Constructs and sends a :class:`Request <Request>`.
@@ -149,6 +156,8 @@ import requests
 
 r = requests.post('http://localhost:8001/node/post', data={'name': 'lily'})
 
+# data 对应前端中的表单类型数据(一般是 form 组件)
+# json 对应前端中 JS 对象类型数据
 def post(url, data=None, json=None, **kwargs):
     r"""Sends a POST request.
 
