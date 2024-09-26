@@ -13,6 +13,7 @@ description: "代码仓库 gitlab"
 ## 介绍
 
 GitLab是一个开源的的Git仓库管理软件, 支持多种版本控制系统  
+[Gitlab 官方文档](https://gitlab.cn/docs/)  
 
 ## 安装
 
@@ -78,4 +79,104 @@ gitlab图标(左上) -> Projects -> Configure Gitlab -> Settings -> Preferences 
 
 # 用户管理(root用户创建, 其他用户通过注册申请, root用户通过申请)
 gitlab图标(左上) -> Projects -> Configure Gitlab -> Overview -> Users
+```
+
+## gitlab CI/CD
+
+```yml
+# 全局关键字
+workflow: 定义流水线名称
+default: 自定义每个阶段的默认值
+stages: 自定义阶段名称和顺序
+include: 导入外部 yaml 文件配置
+
+# 步骤关键字
+after_script: 覆盖作业后执行的一组命令
+allow_failure: 允许作业失败。失败的作业不会导致流水线失败
+artifacts: 成功时附加到作业的文件和目录列表
+before_script: 覆盖在作业之前执行的一组命令
+cache: 应在后续运行之间缓存的文件列表
+coverage: 给定作业的代码覆盖率设置
+dast_configuration: 在作业级别使用来自 DAST 配置文件的配置
+dependencies: 通过提供要从中获取产物的作业列表，来限制将哪些产物传递给特定作业
+environment: 作业部署到的环境的名称
+except: 控制何时不创建作业
+extends: 此作业继承自的配置条目
+image: 使用 Docker 镜像
+inherit: 选择所有作业继承的全局默认值
+interruptible: 定义当新运行使作业变得多余时，是否可以取消作业
+needs: 在 stage 顺序之前执行的作业
+only: 控制何时创建作业
+pages: 上传作业的结果，与 GitLab Pages 一起使用
+parallel: 应该并行运行多少个作业实例
+release: 指示运行器生成 release 对象
+resource_group: 限制作业并发
+retry: 在失败的情况下可以自动重试作业的时间和次数
+rules: 用于评估和确定作业的选定属性以及它是否已创建的条件列表
+script: 由 runner 执行的 Shell 脚本
+secrets: 作业所需的 CI/CD secret 信息
+services: 使用 Docker 服务镜像
+stage: 定义作业阶段
+tags: 用于选择 runner 的标签列表
+timeout: 定义优先于项目范围设置的自定义作业级别超时
+trigger: 定义下游流水线触发器
+variables: 在作业级别定义作业变量
+when: 何时运行作业
+```
+
+gitlab-ci.yml 简单示例
+
+```yml
+workflow: test
+
+default:
+  images: ubuntu:lates
+
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - echo "run build job"
+
+test_job1:
+  stage: test
+  script:
+    - echo "run test job1"
+
+test_job2:
+  stage: test
+  script:
+    - echo "run test job2"
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "run deploy job"
+
+# 所有 job 默认使用 ubuntu 镜像
+# 定义 build, test, deploy 三种 job 类型和执行顺序
+# test_job1, test_job2 都是 test 类型, 并行执行
+```
+
+```yml
+# 定义流水线名称
+workflow: "gitlab ci/cd"
+
+# 设置每个阶段的默认值(步骤内设置可覆盖全局默认值)
+# after_script artifacts before_script cache hooks
+# image interruptible retry services tags timeout
+default:
+  image: node:latest
+
+# 自定义阶段名称和阶段执行顺序(同名阶段并行执行)
+# 未定义使用默认值 (build, test, deploy)
+stage:
+  - step1
+  - step2
+  - step3
+
 ```

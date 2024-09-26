@@ -46,3 +46,21 @@ function sum(...nums) {
 console.log(sum(1,2,3,4))                        // 10, 遍历参数求和
 console.log(sum(...[1,2,3,4]))                   // 10, 等同于上, 将数组解包
 ```
+
+## 常用函数
+
+```js
+const n1 = [1,2,3,4];
+
+// map 遍历数组, 返回每个元素在执行函数的返回值
+const n2 = n1.map(i => i * i)                    // n2 [ 1, 4, 9, 16 ]
+
+// filter 筛选数组, 筛选执行函数为 true 的值
+const n3 = n1.filter(i => i%2 === 0)             // n3 [ 2, 4 ]
+
+// reduce 累计函数, 开始两个值, 之后将累计结果和下一个值循环 (1, 2) -> (3, 3) -> (6, 4)
+const n4 = n1.reduce((accu, i) => accu + i)      // n4 10
+
+// find 查找函数, 返回找到的第一个数据, 不存在返回 undefine
+const n = n1.find(i => i === 5)                  // n undefine
+```
