@@ -15,32 +15,28 @@ description: "React hooks"
 ## useState
 
 状态控制钩子, 创建状态值和变更函数  
-状态和变更函数可以作为参数传递给其它组件以跨组件通信  
+状态和变更函数可以作为参数传递给其它组件以跨组件通信
 
 `useState` 是 React 一个 hook, 可以创建一个状态变量和设置状态函数  
-`const [status, setStatus] = useState<T>(StatusDefault);`  
+`const [status, setStatus] = useState<T>(StatusDefault);`
 
 - 只能使用 setStatus 改变 status 的值
 - status 变更后会触发组件重新渲染
 - status 和 setStatus 可以传递给其他组件达到跨组件通信
 
 ```ts
-import { useState } from 'react';
+import { useState } from "react";
 
 // 计数器
 export default function Counter() {
-    const [count, setCount] = useState(0);
-    return (
-        <button onClick={() => setCount(count + 1)}></button>
-    );
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}></button>;
 }
 
 // 开关
 export default function Switch() {
-    const [open, setOpen] = useState(true);
-    return (
-        <button onClick={() => setCount(!open)}></button>
-    );
+  const [open, setOpen] = useState(true);
+  return <button onClick={() => setCount(!open)}></button>;
 }
 ```
 
@@ -86,7 +82,7 @@ function SideBar({ dark }: { dark: boolean }) {
 ## useEffect
 
 `useEffect` 是 React 一个 hook, 可以在组件渲染后执行一些操作  
-`useEffect(() => { ... }, [])`  
+`useEffect(() => { ... }, [])`
 
 - useEffect 的第一个参数是一个函数, 该函数会在组件渲染后执行
 - useEffect 的第二个参数是一个数组, 该数组中的元素会作为依赖项, 当依赖项发生变化时, useEffect 会再次执行
