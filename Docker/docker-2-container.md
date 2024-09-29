@@ -114,7 +114,7 @@ Options:
 在命令行可以通过 `docker run` 创建容器, 为了更简单更快创建多个复杂容器有了 `docker-compose`  
 创建 `docker-compose.yml` 定义容器, 然后一键拉起多个复杂容器, 且可以重复使用  
 
-```yml
+```yaml
 # docker compose v1.27 后 无需 version 关键字
 version: '3'
 
@@ -169,7 +169,7 @@ services:
  $ docker compose config
 ```
 
-```yml
+```yaml
 services:
   backend:
     image: example/database

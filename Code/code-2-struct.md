@@ -29,28 +29,31 @@ description: "简化代码控制流"
 提前退出, 优先解决简单问题
 
 ```python
-if connect_client():
-    if file_exist():
-        if read_file():
-            # read file success
+# 判断年份是否是闰年 (year % 4 == 0, year % 100 != 0, year % 400 == 0)
+def is_leap(year: int) -> bool:
+    if year % 4 == 0:
+        if year % 100 != 0:
+            if year % 400 == 0:
+                return True
+            else:
+                return False
         else:
-            return 'read file failed'
+            return False
     else:
-        return 'file not exist'
-else:
-    return 'connect host failed'
+        return False
 
+# 提前退出, 最少条件判断
+def is_leap(year: int) -> bool:
+    if year % 400 == 0:                        
+        return True
 
-if not connect_client():                        
-    return 'connect host failed'
+    if year % 100 == 0:                        
+        return False
 
-if not file_exist():                         
-    return 'file not exist'
+    if year % 4 == 0:                        
+        return True
 
-if not read_file():                        
-    return 'read file failed'
-
-# read file success
+    return False
 ```
 
 ### 正向优先

@@ -76,6 +76,19 @@ services:
       POSTGRES_PASSWORD: root
 ```
 
+## 备份
+
+```bash
+ # 进入 postgres 容器
+ $ docker exec -it postgres bash
+
+ # pg_dump 备份数据
+ $ pg_dump -U <username> -d <databas name> -f <sql file path>
+ $ pg_dump -U <username> -d <databas name> -t <table name> -f <sql file path>
+ 
+ $ pg_dump -U postgres -d postgres -t node -f /root/backup_node.sql
+```
+
 PostgreSQL 命令行在处理 SQL 语句时, 不区分大小写, 结尾以分号(;)结尾  
 `psql -h host -p port -U username -d databasename -W password`
 
