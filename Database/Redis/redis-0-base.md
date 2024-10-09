@@ -31,6 +31,21 @@ docker 安装 docker-stack(自带 redisinsight), 便于 web 界面修改和查�
  # -p: 端口映射, 6379 是 redis 端口, 8001 是 redisinsight web 端口
 ```
 
+```yml
+# 使用 docker-compose.yml 拉起
+services:
+
+  redis-stack:
+    image: redis/redis-stack:latest
+    container_name: redis-stack
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - /root/redis/data:/data
+    restart: always
+```
+
 浏览器打开 `http://localhost:8001` 进入 redisinsight 界面
 
 ## 数据持久化

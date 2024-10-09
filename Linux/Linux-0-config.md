@@ -87,9 +87,12 @@ Debian vim 初始设置难以使用, 修改 vim 配置文件
 
 ## 配置 ssh
 
-```bash
- $ vi /etc/ssh/sshd_config                       # 编辑 ssh 系统配置文件
+ubuntu 22.04 默认未安装 ssh 服务, 需要手动安装  
+`apt install openssh-server -y`
 
+```bash
+ $ vi /etc/ssh/sshd_config                       # 编辑 ssh 系统配置文件(安装 openssh 后才有该文件)
+ 
  #PermitRootLogin prohibit-password
  PermitRootLogin yes                             # 允许远程 root 用户登录
 
@@ -174,7 +177,7 @@ WSL 下查看 ssh 服务端口
  $ service ssh start
  $ /etc/init.d ssh start
 
- $ systemctl ssh enable                          # 设置 ssh 自启动
+ $ systemctl enable ssh                         # 设置 ssh 自启动
  $ update-rc.d ssh enable
 ```
 

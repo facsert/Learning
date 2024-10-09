@@ -91,7 +91,7 @@ scrape_configs:
 ```
 
 注意: 添加 `--web.enable-lifecycle` 启用热重载, 执行 `curl -X POST http://localhost:9090/-/reload` 重载  
-浏览器打开 `http://localhost:9000` 打开 prometheus 控制台
+浏览器打开 `http://localhost:9090` 打开 prometheus 控制台
 
 ## node_exporter
 

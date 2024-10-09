@@ -35,11 +35,12 @@ services:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab
     restart: always
-    hostname: 'codehub.com'
+    # 设置主机名(使用本机 IP 避免域名解析问题)
+    hostname: '192.168.1.100'
     # 设置 gitlab 环境变量
     environment: 
       GITLAB_OMNIBUS_CONFIG: | 
-        external_url 'http://codehub.com'
+        external_url 'http://192.168.1.100:80'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
     # 映射端口
     ports:
@@ -179,4 +180,53 @@ stage:
   - step2
   - step3
 
+```
+
+## gitlab runner
+
+```bash
+ # 下载 gitlab runner 镜像
+ $ docker pull gitlab/gitlab-runner:latest
+ $ docker images
+ > REPOSITORY           TAG      IMAGEID       CREATED        SIZE
+ > gitlab/gitlab-runner latest   09c48aa4008e   2 weeks ago    798MB
+```
+
+```yml
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    volumes:
+      - '/home/gitlab/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+```
+
+`Admin -> CI/CD -> Runners -> Register a new runner`, 填写 runner tag(runner 名称), 点击创建 runner  
+自动跳转的注册页面(页面带有注册步骤和命令, 复制命令到 gitlab-runner 容器内执行)
+
+```bash
+ $ docker exec -it gitlab-runner bash
+
+ # 复制注册界面上的命令
+ $ gitlab-runner register  --url http://192.168.1.100  --token glrt-GsYgtN8bpu7MpLWzNyap
+
+ $ sudo docker exec -it gitlab-runner bash
+root@3339c5f4cca9:/# gitlab-runner register  --url http://192.168.1.100  --token glrt-GsYgtN8bpu7MpLWzNyap
+Runtime platform                                    arch=amd64 os=linux pid=32 revision=b92ee590 version=17.4.0
+Running in system-mode.
+# gitlab 地址
+Enter the GitLab instance URL (for example, https://gitlab.com/):
+[http://192.168.1.100]:
+Verifying runner... is valid                        runner=GsYgtN8bp
+# runner命名
+Enter a name for the runner. This is stored only in the local config.toml file:
+[3339c5f4cca9]: shell
+# 选择执行器类型, 这里选择 shell 执行器(使用系统 shell 环境)
+Enter an executor: custom, shell, ssh, parallels, virtualbox, instance, docker, docker-windows, docker+machine, kubernetes, docker-autoscaler:
+shell
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+
+Configuration (with the authentication token) was saved in "/etc/gitlab-runner/config.toml"
 ```
