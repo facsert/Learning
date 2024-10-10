@@ -21,12 +21,23 @@ description: "NodeJS 基本配置"
 
 ## Download and Update
 
-[nodejs 官网](https://nodejs.org/en)
+[nodejs 官网下载](https://nodejs.org/zh-cn)
 
 ```bash
- $ apt install nodejs                            # apt 下载 node
+ # 使用版本管理器 nvm 安装 node, 任选一种方式下载
+ $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+ $ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+ 
+ $ nvm install 20
+ $ nvm ls
+ $ nvm use 20
+ > Now using node v20.18.0 (npm v10.8.2)
+
  $ node -v                                       # 查看 node 版本
- > v18.17.0
+ > v20.18.0
+
+ $ nvm ls
+ >     v20.18.0
 ```
 
 nodejs 通过 n 模块更新或切换版本
