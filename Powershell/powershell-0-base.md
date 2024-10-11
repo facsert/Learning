@@ -14,7 +14,7 @@ Powershell 是 windows 上推荐的 shell 脚本语言
 
 ## Table of Contents
 
-## 基础
+## 介绍
 
 ```powershell
 # 允许任意 powershell 脚本执行
@@ -22,6 +22,13 @@ Set-ExecutionPolicy Unrestricted
 
 # 计算机管理=>服务=>启动 OpenSSH(外部 SSH 进入 windows 默认 shell 设为 powershell)
 New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+
+# 查找命令, 支持通配符
+Get-Command -Name *Process
+
+# 查看命令如何使用, 参数, 别名(使用 -detailed 或 -Full 参数显示详细, 推荐 Update-Help 更新 Help 文档)
+Get-Help Get-Process
+help Get-Process 
 ```
 
 powershell 使用 `# commit` `<# commit #>` 作为单行和多行注释
@@ -55,6 +62,52 @@ powershell 使用反引号作为转义符号
 command n>file
 
 Get-Process -Name python 2>&1
+```
+
+## 基础
+
+powershell 不区分大小写, 使用 tab 可以补全命令
+
+```powershell
+# 
+
+# 显示路径下的文件和文件夹, 类似 ls
+Get-ChildItem 别名: ls, dir, gci
+
+# 切换路径, 类似 cd
+Set-Location 别名: cd, chdir, sl
+
+# 打印内容, 类似 echo
+Write-Output 别名: echo, write
+
+# 读取文件内容(使用 findstr 筛选), 类似 cat
+Get-Content 别名: cat, gc, type
+cat text.log | findstr key
+
+# 创建文件或路径
+New-Item 别名: ni(默认创建文件, 支持 mkdir 创建路径)
+mkdir folder(ni -ItemType Directory folder)
+
+# 复制, 类似 cp
+Copy-Item 别名: cp, copy, cpi
+
+# 移动, 类似 mv
+Move-Item 别名: mv, move, mi
+
+# 删除, 类似 rm
+Remove-Item 别名: rm, rmdir, del, erase, rd, ri
+
+# 查看指定过的命令, 类似 history
+Get-History 别名: history, ghy, h
+
+# 查看进程列表, 类似于 ps
+Get-Process 别名: ps, gps
+
+# 行筛选
+Select-String 别名: sls, findstr
+Where-Object 别名: where
+ls | findstr "text.txt"
+ls | where name -match "txt"
 ```
 
 ## 变量
@@ -148,16 +201,17 @@ switch ($value) {
 ### 比较运算符
 
 ```powershell
-3 -eq 3                                          # True 数字或字符串相等
+3 -eq 3                                          # True 数字或字符串相等(-ceq 区分大小写)
 2 -ne 3                                          # True 数字或字符串不等
 3 -gt 2                                          # True 大于
 3 -ge 2                                          # True 大于等于
 3 -lt 2                                          # False 小于
 3 -le 2                                          # False 小于等于
 
-1,2,3 -contains 2                                # True 包含(列表包含)
-2 -in 1,2,3                                      # True
-"aab" -like "a*"                                 # True 相似匹配
+1,2,3 -Contains 2                                # True 列表包含(NotContains)
+2 -in 1,2,3                                      # True 列表包含(NotIn)
+"aab" -Match "a"                                 # True 字符串包含, 支持正则表达式(NotMatch)
+"aab" -Like "a*"                                 # True 相似匹配(NotLike)
 
 !2                                               # False, 取反
 1 -and 2                                         # True, 与
@@ -168,11 +222,35 @@ switch ($value) {
 ## 函数
 
 ```powershell
-
 function myfunc($param1, $param2) {
     # code
 }
 
+function max([int]$a, [int]$b) {
+    if ( $a -ge $b ) {
+        return $a
+    } else {
+        return $b
+    }
+}
+
+echo "max num: $(max 5 3)"
+
+# 官方函数定义
+function Max-Num {
+    Param (
+        [int] $M,
+        [int] $N
+    )
+
+    if ( $M -ge $N ) {
+        return $M
+    } else {
+        return $N
+    }
+}
+
+echo "max num: $(Max-Num -M 3 -N 5)"
 ```
 
 ## 特定变量

@@ -71,7 +71,11 @@ sudo apt install caddy
         }
 
         # 日志格式, 可选: console, json, 自定义格式
-        format json
+        format console {
+			time_format wall
+			level_format upper
+			time_local
+		}
 
         # 日志级别, 仅有 ERROR 和 INFO 两种日志, 可选: ERROR, INFO
         level  INFO

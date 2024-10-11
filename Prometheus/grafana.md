@@ -95,6 +95,14 @@ Grafana 使用 promql, sql 从数据源中获取数据, 在 web 上使用图表,
 <!-- ![变量配置](./assets/var_tag.png) -->
 
 ```bash
+# 获取 node_uname_info 命令包含 tag 属性的列表
+label_values(node_uname_info,tag)
+
+# 获取 node_uname_info 命令包含 host 属性且 tag 值等于全局变量中的 tag 的数据列表
+label_values(node_uname_info{tag="$tag"},host)
+```
+
+```bash
 # promql 中使用全局变量
 node_time_seconds{host="$host",tag="$tag"} - node_boot_time_seconds{host="$host",tag="$tag"}
 

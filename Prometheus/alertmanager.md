@@ -72,7 +72,7 @@ route:
 receivers:                                       # 定义接受人群组
   - name: group #
     email_configs:
-      - to: "dingwenlong4@huawei.com"            # 如果想发送多个人就以 ','做分割，写多个邮件人即可。
+      - to: "facsert@outlook.com"            # 如果想发送多个人就以 ','做分割，写多个邮件人即可。
         send_resolved: true
         html: '{{ template "email.default.message" .}}'
         headers:
@@ -80,7 +80,7 @@ receivers:                                       # 定义接受人群组
           subject: "Prometheus 告警邮件"
           to: "facsert"
     webhook_configs:                             # 发送告警信息给服务器
-      url: "http://localhost:8080"
+      url: "http://localhost:8080/api/v1/alerts"
 
 inhibit_rules:
   - source_match:
@@ -99,36 +99,18 @@ repeat_interval: 已发送告警, 告警一直未复位; 等待 repeat_interval 
 
 ```yaml
 groups:
-- name: Disconnect 
+- name: monitor                                  # 规则组名, 唯一
   rules:
 
-  - alert: node1 Disconnect
-    expr: sum(up{job="node1"}) == 0              # 告警规则, 表达式成立表示 node1 断连
+  - alert: Node Down
+    expr: up{job=~".*Node.*"} == 0               # 告警规则, 表达式成立表示 node1 断连
     for: 1m                                      # 表达式持续成立并持续 1 分钟 pending 时间, 未恢复则开始发送告警
-    labels:                                      # 自定义字段, 用于分组
-      team: node                                 
-      job: disconnect
-      severity: critical   
-      instance: "192.168.1.10" 
+    labels:                                      # 自定义字段, 可用于告警分组, 定义或覆盖变量
+      severity: critical
     annotations:
-      summary: "node1 disconnect"                #警报描述
-      description: "监控节点断连"
+      summary: "{{ $labels.instance }} down"     # 警报描述, 使用 {{ $label.instance }} 获取节点属性
+      description: ""
       value: "{{ $value }}"
-
-  - alert: node2 Disconnect
-    expr: sum(up{job="node2"}) == 0  
-    for: 1m  
-    labels:                                      # 自定义字段, 用于分组
-      team: node
-      job: disconnect
-      severity: critical   
-      instance: "192.168.1.11" 
-    annotations:
-      summary: "node2 disconnect"                #警报描述
-      description: "监控节点断连"
-      value: "{{ $value }}"
-
-      ......
 ```
 
 alertmanager 中 group_by 使用 `team` 字段分组, team 字段值一致为同一组  
@@ -204,4 +186,124 @@ node1 node2 node3 告警一直未恢复, 等待 4h(repeat_interval) 后再次发
 
 <!-- {{ range $i, $alert :=.Alerts }}: 遍历所有告警, 使用 `$alert` 获取单个告警对象, 使用 . 获取规则配置中 alert 字段下内容  
 如: $alert.Labels.instance => alert.labels.instance   -->
+```
+
+## 示例
+
+`prometheus.yml` 指定 alertmanager 服务, 规则文件, 添加监控节点
+
+```yaml
+# 添加 alertmanager 服务
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - localhost:9093
+
+# 指定规则文件
+rule_files:
+  - "rules.yml"
+
+scrape_configs:
+
+ # prometheus.yml 注册节点
+  - job_name: "Node"
+    static_configs:
+      - targets: ["192.168.1.100:9100"]
+        # 可选项, 通过 labels 添加自定义节点信息, 默认有 instance 属性对应 targets
+        labels:
+          host: "192.168.1.100"
+          tag: "python"
+```
+
+`rules.yml` 设定告警规则
+
+```yaml
+# rules.yml 定义断连规则
+groups:
+- name: monitor 
+  rules:
+
+  - alert: Node Down
+    expr: up{job=~".*Node.*"} == 0               # 告警规则, 表达式成立表示 node1 断连
+    for: 5m                                      # 表达式持续成立并持续 1 分钟 pending 时间, 未恢复则开始发送告警
+    labels:                                      # 自定义字段, 用于分组
+      severity: critical
+    annotations:
+      summary: "{{ $labels.host }} disconnect for 5m"
+      description: ""
+      value: "{{ $value }}"
+```
+
+`alertmanager.yml` 设定告警服务配置文件
+
+```yaml
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1h
+  receiver: 'devops'
+receivers:
+  - name: 'devops'
+    # 将告警消息发送给指定服务
+    webhook_configs:
+      - url: 'http://192.168.1.150:8030/api/v1/alerts'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+```
+
+拉起后端配置接口 POST `http://192.168.1.150:8030/api/v1/alerts` 接收告警
+
+```json
+{
+    "receiver": "devops",
+    "status": "firing",
+    "alerts": [
+        {
+            "status": "firing",
+            "labels": {
+                "alertname": "Node Down",
+                "host": "192.168.1.100",
+                "instance": "192.168.1.100:9100",
+                "job": "Node",
+                "severity": "critical",
+                "tag": "python"
+            },
+            "annotations": {
+                "description": "",
+                "summary": "192.168.1.100 disconnect for 5m",
+                "value": "0"
+            },
+            "startsAt": "2024-10-11T03:43:02.163Z",
+            "endsAt": "0001-01-01T00:00:00Z",
+            "generatorURL": "http://canpheds02659:9090/graph?g0.expr=up%7Bjob%3D~%22.%2ANode.%2A%22%7D+%3D%3D+0&g0.tab=1",
+            "fingerprint": "7e27892c867dd27f"
+        }
+    ],
+    "groupLabels": {
+        "alertname": "Node Down"
+    },
+    "commonLabels": {
+        "alertname": "Node Down",
+        "host": "192.168.1.100",
+        "instance": "192.168.1.100:9100",
+        "job": "Node",
+        "severity": "critical",
+        "tag": "python"
+    },
+    "commonAnnotations": {
+        "description": "",
+        "summary": "192.168.1.100:10101 disconnect for 5m",
+        "value": "0"
+    },
+    "externalURL": "http://canpheds02659:9093",
+    "version": "4",
+    "groupKey": "{}:{alertname=\"Node Down\"}",
+    "truncatedAlerts": 0
+}
 ```

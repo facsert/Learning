@@ -71,7 +71,6 @@ scrape_configs:
   # - job_name: "node_exporter"
   #   static_configs:
   #     - targets: ["localhost:9100"]
-
 ```
 
 默认端口: 9090
@@ -120,12 +119,25 @@ Prometheus 根据节点信息获取 node_exporter 采集的监控数据
 
 ```yaml
 scrape_configs:
-  ...
-  ...
 
   - job_name: "node_export"
     static_configs:
       - targets: ["<节点 HOST>:9100"]
+  
+  # 自定义 job 名称
+  - job_name: "Node"
+    static_configs:
+      - targets: ["192.168.1.100:9100"] 
+        # 自定义 labels 属性 host, tag(labels 默认带有 instance 属性对应 targets)
+        # 属性可以在设定规则, 邮件中使用 {{ $labels.instance }}
+        labels:
+          host: "192.168.1.100"
+          tag: "python"
+
+      - targets: ["192.168.1.101:9100"] 
+        labels:
+          host: "192.168.1.101"
+          tag: "golang"
 ```
 
 ## process_exporter
