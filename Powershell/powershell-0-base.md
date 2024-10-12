@@ -16,6 +16,8 @@ Powershell 是 windows 上推荐的 shell 脚本语言
 
 ## 介绍
 
+[PowerShell 官方文档](https://learn.microsoft.com/zh-cn/powershell/)
+
 ```powershell
 # 允许任意 powershell 脚本执行
 Set-ExecutionPolicy Unrestricted
@@ -85,7 +87,7 @@ Get-Content 别名: cat, gc, type
 cat text.log | findstr key
 
 # 创建文件或路径
-New-Item 别名: ni(默认创建文件, 支持 mkdir 创建路径)
+New-Item 别名: ni(默认创建文件, 支持 mkdir 创建路径), md
 mkdir folder(ni -ItemType Directory folder)
 
 # 复制, 类似 cp
@@ -108,6 +110,29 @@ Select-String 别名: sls, findstr
 Where-Object 别名: where
 ls | findstr "text.txt"
 ls | where name -match "txt"
+```
+
+```powershell
+# 通过进程名称匹配获取进程对象
+Get-Process -Name "*python*"
+Get-Process -Name "*python*"
+
+# 显示进程对象的所有属性 
+Get-Process -Name "*python*" | Get-Member
+
+# 根据属性名称获取进程对象属性值
+Get-Process -Name "*python*" | select <key name>
+
+Get-Process -Name "*python*" | select ProcessId
+Get-Process -Name "*python*" | select StartTime
+Get-Process -Name "*python*" | select Path
+
+# 类似于上述方式, 但获取的进程对象属性有差异
+Get-CimInstance Win32_Process | where Name -match "python"
+
+# 获取进程执行命令
+Get-CimInstance Win32_Process | where Name -match "python" | select CommandLine
+Get-CimInstance Win32_Process | where Name -match "python" | select Path
 ```
 
 ## 变量
