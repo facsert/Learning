@@ -92,10 +92,10 @@ DataFrame 允许缺失值, 提供方法处理缺失值
 
 ```py
 data = [
-  {'name': 'A', 'age': '16', 'height': '1.75'}, 
-  {'name': 'B', 'age': '17', 'height': '1.80'}, 
-  {'name': 'C', 'age': '18', 'height': '1.85'}, 
-  {'name': 'D', 'age': '19', 'height': '1.90'}
+  {'name': 'A', 'age': 16, 'height': '1.75'}, 
+  {'name': 'B', 'age': 17, 'height': '1.80'}, 
+  {'name': 'C', 'age': 18, 'height': '1.85'}, 
+  {'name': 'D', 'age': 19, 'height': '1.90'}
 ]
 
 # index 使用自定义行索引(默认行索引是 0 开始的整数)
@@ -108,18 +108,29 @@ df = pd.DataFrame(data, index=['a', 'b', 'c', 'd'])
 
 # DataFrame 的列索引, list(df.columns) 转列表
 df.columns
-Index(['name', 'age', 'height'], dtype='object')
+> Index(['name', 'age', 'height'], dtype='object')
+
+# 重命名列(列名首字母大写)
+df.rename(columns={'name': 'Name', 'age': 'Age', 'height': 'Height'}, inplace=True)
+df.rename(columns=lambda x: x.title(), inplace=True)
+
+> Index(['Name', 'Age', 'Height'], dtype='object')
 
 # DataFrame 的行索引 list(df.index) 转列表
 df.index
-Index(['a', 'b', 'c', 'd'], dtype='object')
+> Index(['a', 'b', 'c', 'd'], dtype='object')
 
 # DataFrame 取值 numpy 数组
 df.values
-array([['A', '16', '1.75'],
-       ['B', '17', '1.80'],
-       ['C', '18', '1.85'],
-       ['D', '19', '1.90']], dtype=object)
+array([['A', 16, '1.75'],
+       ['B', 17, '1.80'],
+       ['C', 18, '1.85'],
+       ['D', 19, '1.90']], dtype=object)
+
+# 行筛选(筛选 age 列大于 18 的行)
+df[df['age'] > 18]
+  name  age height
+d    D   19   1.90
 
 # DataFrame 开头和结尾切片 
 df.head(3) / df.tail(3)
@@ -156,9 +167,7 @@ df.iloc[range(3)]
 > a    A  16   1.75
 > b    B  17   1.80
 > c    C  18   1.85
-```
 
-```py
 # 行遍历
 for i, r in df.iterrows():
     print(f"{i}: {list(r)}")
@@ -171,14 +180,22 @@ for i, r in df.iterrows():
 for i, r in df.iterrows():
     print(f"{i}: {dict(r)}")
 
-> a: {'name': 'A', 'age': '16', 'height': '1.75'}
-> b: {'name': 'B', 'age': '17', 'height': '1.80'}
-> c: {'name': 'C', 'age': '18', 'height': '1.85'}
-> d: {'name': 'D', 'age': '19', 'height': '1.90'}
+> a: {'name': 'A', 'age': 16, 'height': '1.75'}
+> b: {'name': 'B', 'age': 17, 'height': '1.80'}
+> c: {'name': 'C', 'age': 18, 'height': '1.85'}
+> d: {'name': 'D', 'age': 19, 'height': '1.90'}
+
+# DataFrame 行遍历
+def add_age(row):
+    row['age'] = int(row['age']) + 1
+    return row
+
+df.apply(add_age, axis=1)
+df.transfor(add_age, axis=1)
 
 # 修改列
 df['name'] = df['name'].apply(lambda x: "pre_" + x)
-df['name'] = df['name'].transform(lambda x: "pre_" + x)
+df['name'] = df['name'].transform(lambda x: "pre_" + str(x))
 df['name'] = 'pre' + df['name']
 >     name age height
 > a  pre_A  16   1.75
@@ -202,8 +219,15 @@ df.insert(3, "count", [3, 2, 5, 1])
 > d    D  19   1.90      1
 
 # 结尾追加列, 该列的值全为 3
-df['column'] = 3
+df['column_name'] = 3
 
+# 列类型转换, astype(float) 转换为浮点数
+df['age'].astype(float)
+a    16.0
+b    17.0
+c    18.0
+d    19.0
+Name: age, dtype: float64
 
 # 删除列, inplace=True 会直接修改原数据
 df.drop(columns=['name'], inplace=True)
