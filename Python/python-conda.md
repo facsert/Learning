@@ -153,4 +153,35 @@ custom_channels:
   pytorch: https://mirrors.bfsu.edu.cn/anaconda/cloud
   pytorch-lts: https://mirrors.bfsu.edu.cn/anaconda/cloud
   simpleitk: https://mirrors.bfsu.edu.cn/anaconda/cloud
+
+```
+
+## miniforge
+
+Anaconda 占用空间较大, 可以使用 miniforge 作为替代, 仅包含 conda, python, pip 三个包  
+[miniforge 清华源](https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/)
+
+```bash
+ $ bash Miniforge3-4.10.3-Linux-x86_64.sh
+ 
+ # mamba 是 miniforge 的包管理器, 速度更快, 兼容 conda 环境和命令
+ $ mamba env list
+ > # conda environments:
+ > #
+ > base                  *  /root/mambaforge
+ 
+ # 创建环境
+ $ mamba create -n py3.12 python=3.12
+
+ # 启用退出
+ $ mamba activate py3.12
+ $ mamba deactivate
+
+ # 包管理
+ $ mamba install <pkg> -n <name>
+ $ mamba install toml -n py3.12
+ $ mamba uninstall <pkg> -n <name>
+
+ # 查看 mamba 源(配置 ~/.condarc)
+ $ mamba info
 ```
