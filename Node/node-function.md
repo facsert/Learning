@@ -63,4 +63,22 @@ const n4 = n1.reduce((accu, i) => accu + i)      // n4 10
 
 // find 查找函数, 返回找到的第一个数据, 不存在返回 undefine
 const n = n1.find(i => i === 5)                  // n undefine
+
+const box = {
+    name: 'box',
+    width: 10,
+    height: 20,
+    content: [1,2,3]
+}
+
+// 对象遍历
+Object.keys(box)
+Object.values(box)
+Object.entries(box).map(([key, value]) => {
+    console.log(key, value);
+})
+// name box
+// width 10
+// height 20    
+// content [1,2,3]
 ```
