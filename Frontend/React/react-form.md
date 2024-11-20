@@ -29,44 +29,53 @@ interface Client {
 
 export default function FormPage() {
     const [client, setClient] = useState<Client>({
-        host: "",
-        port: 0,
-        username: "",
-        password: ""
+        host: "192.168.1.100",
+        port: 22,
+        username: "root",
+        password: "admin"
     })
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log(client)
-    }
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {id, value} = event.target as HTMLInputElement;
-        // 根据 id 值变更 client 属性
-        setClient({...client, [id]: value})
-        console.log(client)
+        console.log(JSON.stringify(client))
     }
 
-    function testAction() {
-        console.log("TEST ACTION");
-        console.log(client.host);
-        console.log(client.username);
+    const handleAction = (formData: FormData) => {
+        const data = Object.fromEntries(formData)
+        setClient(data as Client)
+    }
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const {name, value} = event.target as HTMLInputElement;
+      setClient({...client, [name]: value})
+    }
+
+    function handleReset() {
+        setClient({
+            host: "192.168.1.100",
+            port: 22,
+            username: "root",
+            password: "admin"
+        })
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <Label htmlFor="host">host</Label>
-            <Input type="text" id="host" value={client.host} onChange={handleChange}/>
+      <form action={handleAction}>
+      {/* <form onSubmit={handleSubmit}> */}
+        <Label htmlFor="host">host</Label>
+        <Input type="text" id="host" value={client.host} onChange={handleChange}/>
 
-            <Label htmlFor="port">port</Label>
-            <Input type="number" id="port" value={client.port} onChange={handleChange} />
+        <Label htmlFor="port">port</Label>
+        <Input type="number" id="port" value={client.port} onChange={handleChange} />
 
-            <Label htmlFor="username">username</Label>
-            <Input type="text" id="username" value={client.username} onChange={handleChange} />
+        <Label htmlFor="username">username</Label>
+        <Input type="text" id="username" value={client.username} onChange={handleChange} />
 
-            <Label htmlFor="password">password</Label>
-            <Input type="text" id="password" value={client.password} onChange={handleChange} />
+        <Label htmlFor="password">password</Label>
+        <Input type="text" id="password" value={client.password} onChange={handleChange} />
 
-            <Button type="submit">Submit</Button>
-            <Button type="button" onClick={testAction}>Button</Button>
-        </form>
+        <Button type="submit">Submit</Button>
+        <Button type="button" onClick={handleReset}>Reset</Button>
+      </form>
     );
 }
 ```
