@@ -20,20 +20,17 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FormEvent, useState, ChangeEvent } from "react";
 
-interface Client {
-    host: string
-    port: number
-    username: string
-    password: string
+class Client {
+  constructor(
+    public host: string = "192.168.1.100",
+    public port: number = 22,
+    public username: string = "root",
+    public password: string = "admin"
+  ) {}
 }
 
 export default function FormPage() {
-    const [client, setClient] = useState<Client>({
-        host: "192.168.1.100",
-        port: 22,
-        username: "root",
-        password: "admin"
-    })
+    const [client, setClient] = useState<Client>(new Client())
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -46,35 +43,28 @@ export default function FormPage() {
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      // 获取 Input 组件的 name 和 value 属性
       const {name, value} = event.target as HTMLInputElement;
       setClient({...client, [name]: value})
     }
 
-    function handleReset() {
-        setClient({
-            host: "192.168.1.100",
-            port: 22,
-            username: "root",
-            password: "admin"
-        })
-    }
     return (
       <form action={handleAction}>
       {/* <form onSubmit={handleSubmit}> */}
         <Label htmlFor="host">host</Label>
-        <Input type="text" id="host" value={client.host} onChange={handleChange}/>
+        <Input name="host" type="text" id="host" value={client.host} onChange={handleChange}/>
 
         <Label htmlFor="port">port</Label>
-        <Input type="number" id="port" value={client.port} onChange={handleChange} />
+        <Input name="port" type="number" id="port" value={client.port} onChange={handleChange} />
 
         <Label htmlFor="username">username</Label>
-        <Input type="text" id="username" value={client.username} onChange={handleChange} />
+        <Input name="username" type="text" id="username" value={client.username} onChange={handleChange} />
 
         <Label htmlFor="password">password</Label>
-        <Input type="text" id="password" value={client.password} onChange={handleChange} />
+        <Input name="password" type="text" id="password" value={client.password} onChange={handleChange} />
 
         <Button type="submit">Submit</Button>
-        <Button type="button" onClick={handleReset}>Reset</Button>
+        <Button type="button" onClick={() => setClient(new Client())}>Reset</Button>
       </form>
     );
 }
