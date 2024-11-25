@@ -185,3 +185,5 @@ Anaconda 占用空间较大, 可以使用 miniforge 作为替代, 仅包含 cond
  # 查看 mamba 源(配置 ~/.condarc)
  $ mamba info
 ```
+
+注: Windows 需设置环境变量 `Miniforge\Scripts`, 使用下载源为用户路径下 `.condarc` 文件修改源
