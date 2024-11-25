@@ -23,6 +23,7 @@ description: "React hooks"
 - 只能使用 setStatus 改变 status 的值
 - status 变更后会触发组件重新渲染
 - status 和 setStatus 可以传递给其他组件达到跨组件通信
+- set 函数是异步执行, 不会阻塞组件渲染, 但可能会延迟状态更新
 
 ```ts
 import { useState } from "react";
@@ -31,7 +32,12 @@ import { useState } from "react";
 export default function Counter() {
   const [count, setCount] = useState(0);
   return <button onClick={() => setCount(count + 1)}></button>;
+  
+  // set 函数可以添加参数获取上一次状态
+  // const [count, setCount] = useState(0);
+  // return <button onClick={() => setCount(pre => pre + 1)}></button>;
 }
+
 
 // 开关
 export default function Switch() {
