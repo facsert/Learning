@@ -83,6 +83,7 @@ python 类型注解:
 
 - Union
 - Optional
+- Literal
 
 ```python
  from typing import Union
@@ -94,12 +95,17 @@ python 类型注解:
 ```
 
 ```python
- option_str: Optional[str] = 'a'                     # 可选类型, 值可为字符串或者 None
- option_int: Optional[int] = None                    # 可选类型, 值可为整形或者 None
+ option_str: Optional[str] = 'a'                 # 可选类型, 值可为字符串或者 None
+ option_int: Optional[int] = None                # 可选类型, 值可为整形或者 None
 
- Optional[int] = Union[int, None]                    # Optional 自带 None, 只能再添加一种类型
+ Optional[int] = Union[int, None]                # Optional 自带 None, 只能再添加一种类型
 
- optional_int: int | None = 3                        # python3.10 的新写法
+ optional_int: int | None = 3                    # python3.10 的新写法
+```
+
+```py
+value_type: Literal["min", "max"] = "min"        # 定义值类型, 值应为  Literal[] 列表中任意一个
+value_type: Literal["big", "small"] = "big"
 ```
 
 ### 抽象类型
@@ -117,7 +123,7 @@ python 类型注解:
  def func(name: str, age: int) -> dict:          # 参数添加类型, 返回值添加类型
      return {'name': name, 'age': age}
 
-  def func(name: str, age: int=18) -> str, int:  # 返回多个值
+  def func(name: str, age: int=18) -> tuple[str, int]:  # 返回多个值
       return name, age
 ```
 
