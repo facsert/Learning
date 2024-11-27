@@ -163,9 +163,9 @@ main div p {
 
 伪类是一种用于选择元素的特殊关键字, 伪类可以通过状态或位置选择元素  
 
-|伪类| `:hover`|`:first-child`|`:nth-child(3)`|`:last-child`|
-|:-:|:-|:-|:-|:-|:-|
-|含义|鼠标悬停于元素时|父元素的第一个子元素|父元素额第 3 个子元素|父元素的最后一个子元素|
+|伪类|`:hover`|`:first-child`|`:nth-child(3)`|`:last-child`|
+|:-:|:-|:-|:-|:-|
+|含义|鼠标悬停于元素时|父元素的第一个子元素|父元素的第 3 个子元素|父元素的最后一个子元素|
 
 ```css
 /* 类名为 static 的元素, 静态样式 */
@@ -228,19 +228,30 @@ p {
 |:-:|:-|:-|:-|
 |描述|内边距(边框和内容距离)|边框(边框厚度)|外边距(边框与外部距离)|
 
-标准盒模型 width, height 指定的是盒子内容大小, 实际占用大小需要加上内边距, 边框, 外边距  
-box_width = width + 2*border + padding-left + padding-right + margin-left + margin-right  
-box_height = height + 2*border + padding-top + padding-bottom + margin-top + margin-bottom  
+标准盒模型 width, height 指定的是盒子内容大小, 实际占用大小需要加上, 边框, 内边距(不包含外边距)  
+`box_width = width + 2*border + padding-left + padding-right`  
+`box_height = height + 2*border + padding-top + padding-bottom`  
 
 ```css
+/* 盒子模型 */
 .box {
-    width: 50vw;                                 /* 内容宽度 */
-    height: 10vh;                                /* 内容高度 */
-    padding: auto;                               /* 内边距 */
-    margin: auto;                                /* 外边距 */
-    border: 2px;                                 /* 边框厚度 */
+    width: 200px;
+    height: 100px;
+    background-color: orange;
+    border: 10px solid deepskyblue;
+    padding: 20px;
+    margin: 40px;
 }
+/* box width = width + 2 * border + 2 * padding = 200px + 2 * 10px + 2 * 20px = 260px */
+/* box height = height + 2 * border + 2 * padding = 100px + 2 * 10px + 2 * 20px = 160px */
 ```
+
+![盒模型](./assets/box.png)
+![2盒模型](./assets/two-box.png)
+
+左边通过开发工具显示盒模型详细数据, 右边为正常网页渲染效果  
+
+橙色的盒子是内容区(500px * 400px), 蓝色的边框是边框(10px), 棕色内边距占用空间(20px), 最外部粉色的外边距(40px)  
 
 ## 定位
 
