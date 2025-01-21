@@ -76,6 +76,9 @@ services:
       POSTGRES_PASSWORD: root
 ```
 
+[数据库可视化 Win](https://www.navicat.com.cn/download/direct-download?product=navicat170_premium_lite_cs_x64.exe&location=1)
+[数据库可视化 Mac](https://www.navicat.com.cn/download/direct-download?product=navicat170_premium_lite_cs.dmg&location=1)
+
 ## 备份
 
 ```bash
