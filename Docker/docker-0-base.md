@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-10-10 15:28:43
 title: Docker config
 slug: Docker config
@@ -9,13 +8,6 @@ tags:
   - docker
 description: "Docker 基本配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-10-10 15:28:43
- * @LastEditTime : 2023-12-06 20:35:54
- * @Description  : edit description
--->
 
 ## Table of Contents
 

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-02-22 20:31:28
 title: Postgresql table
 slug: Postgresql table
@@ -14,26 +13,26 @@ description: "Postgresql 表操作"
 
 ## 数据类型
 
-|数据类型|代码|描述|
-|:---:|:---|:---|
-|布尔型|BOOLEAN|TRUE('true', 't', 'yes', 'y', '1'), FALSE('false', 'f', 'no', 'n', '0') 或 NULL|
-|字符类型|CHAR(50)|固定长度的字符类型, 长度不足, 空格补齐, 超出将异常(不推荐)|
-|字符类型|VARCHAR(50)|可变长度的字符类型，不补长度, 超出将异常(不带长度与 TEXT 相同)|
-|字符类型|TEXT|变长度的字符类型, 存储任意长度的字符串|
-|整数类型|SMALLINT/INT2|2字节有符号整数(-32768, 32767)|
-|整数类型|INTEGER/INT/INT4|4字节有符号整数(-2147483648, 2147483647)|
-|整数类型|BIGINT/INT8|8字节有符号整数(-9223372036854775808, 9223372036854775807)|
-|浮点类型|REAL/FLOAT4|单精度浮点数(4字节)|
-|浮点类型|DOUBLE PRECISION/FLOAT8|双精度浮点数(8字节)|
-|浮点类型|NUMERIC(p, s)|高精度数字, p表示数字总长度, s表示小数位数|
-|时间类型|DATE|日期(yyyy-mm-dd)|
-|时间类型|TIME|`一天中的某个时刻(HH:MM:SS.ssssss)`|
-|时间类型|TIMESTAMP|`时间日期和时刻(YYYY-MM-DD HH:MI:SS[.ssssss])`|
-|时间类型|INTERVAL|时间间隔|
-|时间类型|TIMESTAMP|带时区的时间日期和时刻|
-|JSON类型|JSON|JSON格式的字符串|
-|数组类型|ARRAY|数组|
-|UUID类型|UUID|UUID|
+| 数据类型  | 代码                    | 描述                                                                            |
+| :-------: | :---------------------- | :------------------------------------------------------------------------------ |
+|  布尔型   | BOOLEAN                 | TRUE('true', 't', 'yes', 'y', '1'), FALSE('false', 'f', 'no', 'n', '0') 或 NULL |
+| 字符类型  | CHAR(50)                | 固定长度的字符类型, 长度不足, 空格补齐, 超出将异常(不推荐)                      |
+| 字符类型  | VARCHAR(50)             | 可变长度的字符类型，不补长度, 超出将异常(不带长度与 TEXT 相同)                  |
+| 字符类型  | TEXT                    | 变长度的字符类型, 存储任意长度的字符串                                          |
+| 整数类型  | SMALLINT/INT2           | 2 字节有符号整数(-32768, 32767)                                                 |
+| 整数类型  | INTEGER/INT/INT4        | 4 字节有符号整数(-2147483648, 2147483647)                                       |
+| 整数类型  | BIGINT/INT8             | 8 字节有符号整数(-9223372036854775808, 9223372036854775807)                     |
+| 浮点类型  | REAL/FLOAT4             | 单精度浮点数(4 字节)                                                            |
+| 浮点类型  | DOUBLE PRECISION/FLOAT8 | 双精度浮点数(8 字节)                                                            |
+| 浮点类型  | NUMERIC(p, s)           | 高精度数字, p 表示数字总长度, s 表示小数位数                                    |
+| 时间类型  | DATE                    | 日期(yyyy-mm-dd)                                                                |
+| 时间类型  | TIME                    | `一天中的某个时刻(HH:MM:SS.ssssss)`                                             |
+| 时间类型  | TIMESTAMP               | `时间日期和时刻(YYYY-MM-DD HH:MI:SS[.ssssss])`                                  |
+| 时间类型  | INTERVAL                | 时间间隔                                                                        |
+| 时间类型  | TIMESTAMP               | 带时区的时间日期和时刻                                                          |
+| JSON 类型 | JSON                    | JSON 格式的字符串                                                               |
+| 数组类型  | ARRAY                   | 数组                                                                            |
+| UUID 类型 | UUID                    | UUID                                                                            |
 
 ## 创建表
 
@@ -114,7 +113,7 @@ Indexes:
 TABLE TABLE users DROP CONSTRAINT users_pkey;
 ```
 
-设置主键为 SERIAL, UUID 自动生成主键  
+设置主键为 SERIAL, UUID 自动生成主键
 
 ```sql
 /* SERIAL 列自动生成连续递增整数 */
@@ -181,14 +180,14 @@ ALTER TABLE users DROP CONSTRAINT unique_cols;
 
 ## CHECK
 
-使用 `CHECK` 约束限制列的值范围, 不符合的数据无法添加  
+使用 `CHECK` 约束限制列的值范围, 不符合的数据无法添加
 
 ```sql
 /* age 列添加 CHECK 约束 */
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     age INTEGER NOT NULL,
-    CONSTRAINT user_age 
+    CONSTRAINT user_age
       CHECK(age > 0)
 );
 

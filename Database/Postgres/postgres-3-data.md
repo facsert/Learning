@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-02-22 20:31:38
 title: Postgresql data
 slug: Postgresql data
@@ -14,12 +13,12 @@ description: "Postgresql 数据操作"
 
 ```sql
 /* 创建一个表作为示例 */
-CREATE TABLE IF NOT EXISTS students (          
-   id SERIAL NOT NULL PRIMARY KEY,             
-   name VARCHAR(20) NOT NULL,                  
-   age  INT,                                   
-   locked BOOLEAN NOT NULL DEFAULT false,      
-   create_at TIMESTAMP NOT NULL              
+CREATE TABLE IF NOT EXISTS students (
+   id SERIAL NOT NULL PRIMARY KEY,
+   name VARCHAR(20) NOT NULL,
+   age  INT,
+   locked BOOLEAN NOT NULL DEFAULT false,
+   create_at TIMESTAMP NOT NULL
 );
 
 \d students
@@ -158,9 +157,9 @@ SET
 [WHERE clause]
 [RETURNING expr];
 
-UPDATE students 
-SET 
-  age = 20 
+UPDATE students
+SET
+  age = 20
 WHERE id = 1;
 > UPDATE 1
 ```

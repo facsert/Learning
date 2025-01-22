@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-09-12 20:17:32
 title: Mysql Configuration
 slug: Mysql Configuration
@@ -9,14 +8,6 @@ tags:
   - Mysql
 description: "Mysql 基本配置"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-09-12 20:17:32
- * @LastEditTime: 2023-11-01 20:05:30
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 

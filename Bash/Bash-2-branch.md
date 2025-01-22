@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-03 17:44:44
 modDatetime:
 title: 02.Bash Branch
@@ -11,12 +10,6 @@ tags:
 description: "Bash 条件分支"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-07 17:44:44
- * @LastEditTime: 2023-12-13 22:51:29
- * @Description  : edit description
--->
 
 [if 分支](#if-分支)
 [表达式](#表达式)

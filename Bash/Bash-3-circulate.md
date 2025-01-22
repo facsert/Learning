@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-08 21:50:45
 modDatetime:
 title: 03.Bash Loop
@@ -11,13 +10,6 @@ tags:
 description: "Bash 循环语法"
 ---
 
-<!--
- * @Author: facsert
- * @Date: 2023-10-08 21:50:45
- * @LastEditTime: 2023-10-09 20:00:18
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 

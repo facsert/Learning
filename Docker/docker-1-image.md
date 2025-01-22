@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-10-10 15:28:43
 title: Docker image
 slug: Docker image
@@ -9,13 +8,6 @@ tags:
   - docker
 description: "Docker 镜像"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-10-10 15:28:43
- * @LastEditTime : 2023-07-28 17:01:11
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -66,8 +58,8 @@ description: "Docker 镜像"
  # 下载指定平台的镜像, 镜像区分 CPU 架构(arm/x86)
  $ uname -m
  > x86_64
- $ docker pull --platfrom linux/amd64 mysql
- $ docker pull --platfrom linux/arm64 mysql
+ $ docker pull --platform linux/amd64 mysql
+ $ docker pull --platform linux/arm64 mysql
 ```
 
 从私有仓库拉取镜像前需要先登录, 然后指定仓库中的镜像拉取  
@@ -75,12 +67,12 @@ description: "Docker 镜像"
 
 ```bash
  $ docker login [person registry]
- > docker login registry.facsert:8081
- Username (facsert): facsert
+ > docker login registry.user:8081
+ Username (user): user
  Password:
  Login Succeeded
 
- $ docker pull registry.facsert:8081/ubuntu:20.04
+ $ docker pull registry.user:8081/ubuntu:20.04
 ```
 
 ## 删除镜像

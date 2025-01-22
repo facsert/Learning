@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-10 19:20:02
 title: C Basic
 slug: C Basic
@@ -10,12 +9,6 @@ tags:
 description: "C 语言基本介绍"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-25 19:20:02
- * @LastEditTime : 2023-07-28 11:46:18
- * @Description  : edit description
--->
 ## Table of Contents
 
 ## 示例

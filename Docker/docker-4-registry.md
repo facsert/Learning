@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-11-01 09:15:02
 title: Docker Registry
 slug: Docker Registry
@@ -9,13 +8,6 @@ tags:
   - docker
 description: "Docker 私有仓库"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-11-01 09:15:02
- * @LastEditTime : 2023-11-06 09:40:32
- * @Description  : edit description
--->
 
 ## Table of Contents
 

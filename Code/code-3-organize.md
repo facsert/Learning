@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-10-21 21:20:45
 title: 组织代码
 slug: 组织代码
@@ -9,13 +8,6 @@ tags:
   - code
 description: "组织代码功能"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-10-21 21:20:45
- * @LastEditTime : 2023-07-28 11:46:11
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -33,7 +25,6 @@ description: "组织代码功能"
 不要重复造轮子, 复用已有实现
 
 ```python
-
 def unique_list(array):
     pass
 
@@ -52,19 +43,20 @@ sort_list = sorted(raw_list)                     # 使用库函数排序
 抽离与系统无关的代码
 
 ```python
-def compare_list_average(list_a, list_b):
+def compare_list_average(list1, list2):
+    # 计算 list1 的平均值
+    sum1, length1 = 0, len(list1)
+    for i in list1:
+        sum1 += i
+    average1 = sum1 / length1
 
-    a_sum, a_length = 0, len(list_a)
-    for i in list_a:
-        a_sum += i
-    a_average = a_sum / a_length
+    # 计算 list2 的平均值
+    sum2, length2 = 0, len(list2)
+    for i in list2:
+        sum2 += i
+    average2 = sum2 / length2
 
-    b_sum, b_length = 0, len(list_b)
-    for i in list_b:
-        b_sum += i
-    b_average = b_sum / b_length
-
-    return a_average > b_average
+    return average1 > average2
 
 
 def average(array):
@@ -73,8 +65,8 @@ def average(array):
         array_sum += i
     return array_sum / array_length
 
-def compare_list_average(list_a, list_b):
-    a_average = average(list_a)
-    b_average = average(list_b)
-    return a_average > a_average
+def compare_list_average(list1, list2):
+    average1 = average(list1)
+    average2 = average(list2)
+    return average1 > average2
 ```

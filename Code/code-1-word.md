@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-08-09 21:20:45
 title: 代码
 slug: 代码
@@ -10,22 +9,15 @@ tags:
 description: ""
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2022-08-09 21:20:45
- * @LastEditTime : 2023-07-28 11:45:55
- * @Description  : edit description
--->
-
 ## Table of Contents
 
 ## 规则
 
-确定代码空格, 对齐, 换行的规则  
+确定代码空格, 对齐, 换行的规则
 
 ### 空格
 
-使用空格使运算语句更清晰, 分隔多个数据或参数  
+使用空格使运算语句更清晰, 分隔多个数据或参数
 
 ```python
  4 + 2                                           # 6 二元运算
@@ -43,7 +35,7 @@ description: ""
  func(msg='hello', name='petter')                # 参数之间空格区分
 ```
 
-无需空格的代码  
+无需空格的代码
 
 ```javascript
  !true                                           // false 非运算 一元运算
@@ -57,56 +49,50 @@ description: ""
 通过缩进区分代码所属区域, 同层级的代码对齐
 
 ```javascript
-if (count) {                                     // 通过缩进区分代码所属区域
-    while (count--) {
-        console.log(count);
+if (count) {
+  // 通过缩进区分代码所属区域
+  while (count--) {
+    console.log(count);
   }
-  console.log("while cycle over");               // 循环结束后打印结果
+
+  // 循环结束后打印结果
+  console.log("while cycle over");
 }
 ```
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-    </head>
-    <body></body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body></body>
 </html>
 ```
 
 ```python
+# 函数名较长和参数过多, 换行需要缩进
 run_long_name_function(
-    cycle='1',                                   # 函数名较长和参数过多, 换行需要缩进
+    cycle='1',
     step='reset',
     log='pass',
     time=133
 )
 
+# 较大的数据结构
 {
-    'SIT': {
-        'TA': {
-            ...
-        }
-        'BMC': {
-            ...
-        },
-        'BIOS': {
-            ...
-        },
-        'SV': {
-            ...
-        },
-    }
+    'name': 'petter',
+    'age': 25,
+    'gender': 'Male',
 }
 ```
 
 相同的内容对齐后更容易发现差异, 代码整体更加美观整洁
 
 ```python
-http.post(username='facser',  email='facser@example.com',  phone='12345678')
-http.post(username='kertory', email='kertory@example.com', phone='12345678')
+http.post(username='alice',   email='alice@example.com',   phone='12345678')
+http.post(username='bob',     email='bob@example.com',     phone='12345678')
 http.post(username='victory', email='victory@example.com', phone='12345678')
 http.post(username='petter',  email='petter@example.com',  phone='12345678')
 ```
@@ -116,28 +102,23 @@ http.post(username='petter',  email='petter@example.com',  phone='12345678')
 时用空行分隔无关的代码, 使相关的代码形成代码块
 
 ```python
-def connect_sut():
-    title('Connect SUT Test', 3)
+def check_server_info():
 
-    if not ping(config['BMC_host'], count=5, delay=5):
-        display(f"BMC host {config['BMC_host']} connect failed ", False)
+    if not connect("192.168.1.100:22"):
+        display("connect failed ", False)
         exit()
 
-    if not ping(config['OS_host'], count=5, delay=5):
-        display(f"OS host {config['OS_host']} connect failed ", False)
-        exit()
-
-    if not exists(config['Tool_dir']):
-        display(f"{config['Tool_dir']} not exist ", False)
+    if not exists("/home/server/info"):
+        display("file not exists", False)
         exit()
 
     try:
-        run(config['Get_bios_attribute'], timeout=30)
-    except TimeoutError as e:
-        display(f'Get BIOS option failed: {e}', False)
+        check("/home/server/info")
+    except TimeoutError as err:
+        display(f'check server info failed: {err}', False)
         exit()
 
-    display('Connect SUT successfully', True)
+    display('check server info success')
 ```
 
 ### 单一规则
@@ -211,15 +192,17 @@ err_test_msg                # 蛇形命名, 下划线 _ 区分断点
 在小的作用域内可以使用简短的变量名
 
 ```python
- def get_basic_manager_controller_information():
-    ali_basic_manager_controller_username = 'admin'
-    ali_basic_manager_controller_password = 'admin'
-    ali_basic_manager_controller_information_command = 'ipmitool mc info'
+ def get_central_processing_unit_information():
+    central_processing_unit_id = 1
+    central_processing_unit_model = 'Intel i7-10710U'
+    central_processing_unit_core_count = 4
 
- def get_bmc_info():
-    username = 'admin'
-    password = 'admin'
-    info_cmd = 'ipmitool mc info'
+ # 善用常用缩写, 省略无用的内容, 缩短变量名
+ # 通过作用域信息省略变量名
+ def get_cpu_info():
+    id = 1
+    model = 'Intel i7-10710U'
+    core_count = 4
 ```
 
 [常见单词缩写](#单词缩写)
@@ -234,13 +217,14 @@ def title(string='title', level=3, length=30):
     pass
 
 # 进度条打印, 等待时间, 是否显示进度条, 进度条长度
-def wait(delay=1, show=True, length=50):
+def wait(delay=1, view=True, length=50):
     pass
 
 # ping 命令, 测试次数, 失败间隔等待时间, 是否显示命令打印
-def ping(host, count=3, delay=10, show=True):
+def ping(host, count=3, delay=10, view=True):
     pass
 
+# 类似的参数使用相同参数名称
 ```
 
 ## 注释

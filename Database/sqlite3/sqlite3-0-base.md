@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2025-01-13 21:54:43
 title: Sqlite3
 featured: false
@@ -16,17 +15,17 @@ Sqlite3 是一款开源的关系型数据库管理系统，它是一个轻量级
 
 ## 安装
 
-``` bash
+```bash
  # apt 安装 sqlite3
  $ apt install sqlite3 -y
- 
+
  # python 自带 sqlite3 模块，可以直接用于创建数据库
  $ python -c "import sqlite3; sqlite3.connect('example.db')"
 ```
 
 ## 基本操作
 
-``` bash
+```bash
 # 打开数据库文件, 不存在则创建数据库文件
  $ sqlite3 test.db
 

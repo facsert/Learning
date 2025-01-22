@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-03 15:44:44
 modDatetime:
 title: 01.BASH Basic
@@ -10,13 +9,6 @@ tags:
   - bash
 description: "Bash 基本语法"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-08-09 21:20:45
- * @LastEditTime : 2023-07-28 11:57:23
- * @Description  : edit description
--->
 
 [BASH 教程](https://wangdoc.com/bash/)
 
@@ -51,7 +43,7 @@ BASH 基础语法
 ```bash
  $ command <option> <args>                       # 命令 选项 参数, shell 命令一般格式
 
- $ cat -n log.txt                                # 读取 log.txt 文件, 命令 cat, 选项 -n, 参数 log.txt
+ $ cat -n log.txt                                # 读取 log.txt 文件, 命令 cat, 选项 -n(显示行号), 参数 log.txt
  > 1 1st
  > 2 2nd
  > 3 3rd
@@ -92,7 +84,7 @@ Bash 使用 `#` 作为注释符号, 注释内容不会被执行
  $ printf "%s length is %.3f" "line" "4.53245"   # 字符串格式化
  > line length is 4.523
 
- $ printf "%-6s _ %s" "left" "right"               # 默认右对齐, 带 - 左对齐, 数字表示占位
+ $ printf "%-6s _ %s" "left" "right"             # 默认右对齐, 带 - 左对齐, 数字表示占位
  > left   _ right
 ```
 

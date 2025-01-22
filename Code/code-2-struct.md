@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-10-21 15:28:43
 title: 代码结构
 slug: 代码结构
@@ -9,13 +8,6 @@ tags:
   - code
 description: "简化代码控制流"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-10-21 15:28:43
- * @LastEditTime : 2023-07-28 11:46:04
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -44,13 +36,13 @@ def is_leap(year: int) -> bool:
 
 # 提前退出, 最少条件判断
 def is_leap(year: int) -> bool:
-    if year % 400 == 0:                        
+    if year % 400 == 0:
         return True
 
-    if year % 100 == 0:                        
+    if year % 100 == 0:
         return False
 
-    if year % 4 == 0:                        
+    if year % 4 == 0:
         return True
 
     return False
@@ -87,7 +79,7 @@ else:
 
 ## 边界
 
-简化边界问题, 忽略或合并不关注的内容  
+简化边界问题, 忽略或合并不关注的内容
 
 ```python
 
@@ -119,7 +111,7 @@ except IndexError as e:
 ### 少创建无效变量
 
 变量越多负担越重  
-消除无效的中间变量  
+消除无效的中间变量
 
 ```python
 

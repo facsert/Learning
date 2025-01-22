@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-12-06 22:05:18
 title: Postgresql configuration
 slug: Postgresql configuration
@@ -9,14 +8,6 @@ tags:
   - Postgresql
 description: "Postgresql 配置"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-12-06 22:05:18
- * @LastEditTime: 2023-12-06 22:19:33
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 
@@ -28,7 +19,7 @@ description: "Postgresql 配置"
  $ docker images
  > REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
  > postgres     latest    75b7bff7c3ad   6 weeks ago   425MB
- 
+
  # 使用镜像创建容器, 端口映射, 容器名称, 环境变量(密码), 容器时区, 路径映射
  # postgres 默认时区是 UTC, 需要设置容器时区为 UTC+8:00
  $ docker run \
@@ -39,13 +30,13 @@ description: "Postgresql 配置"
      -e TZ=Asia/Shanghai \
      -v /root/Desktop/Postgres:/var/lib/postgresql/data \
      -d postgres
- 
+
  # 进入容器
  $ docker exec -it postgres bash
- 
+
  # 使用 postgres 用户连接数据库
  $ psql -U postgres
- 
+
  # 查看数据库列表
  \l
                                                       List of databases
@@ -62,7 +53,6 @@ description: "Postgresql 配置"
 ```yml
 # 使用 docker-compose.yml 拉起
 services:
-
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -86,14 +76,14 @@ services:
  $ docker exec -it postgres bash
 
  # pg_dump 备份数据
- $ pg_dump -U <username> -d <databas name> -f <sql file path>
- $ pg_dump -U <username> -d <databas name> -t <table name> -f <sql file path>
- 
+ $ pg_dump -U <username> -d <database name> -f <sql file path>
+ $ pg_dump -U <username> -d <database name> -t <table name> -f <sql file path>
+
  $ pg_dump -U postgres -d postgres -t node -f /root/backup_node.sql
 ```
 
 PostgreSQL 命令行在处理 SQL 语句时, 不区分大小写, 结尾以分号(;)结尾  
-`psql -h host -p port -U username -d databasename -W password`
+`psql -h host -p port -U username -d db_name -W password`
 
 ```sql
 \?                                               /* 所有命令帮助 */
@@ -112,7 +102,7 @@ PostgreSQL 命令行在处理 SQL 语句时, 不区分大小写, 结尾以分号
 \dn                                              /* 显示数据库中的schema */
 \encoding                                        /* 显示字符集 */
 select version();                                /* 显示版本信息 */
-\i testdb.sql                                    /* 执行sql文件 */
+\i test.sql                                      /* 执行sql文件 */
 \x                                               /* 扩展展示结果信息，相当于MySQL的\G */
 \o /tmp/test.txt                                 /* 将下一条sql执行结果导入文件中 */
 ```
@@ -125,16 +115,16 @@ select version();                                /* 显示版本信息 */
  # 查看容器内时区
  $ date -R
  > Thu, 18 Apr 2024 21:13:38 +0800
- 
+
  # 查看 postgres 数据库时区
  postgres=# SHOW TIMEZONE;
-    TimeZone    
+    TimeZone
  ---------------
   Asia/Shanghai
- 
+
  # 查看 postgres 数据库当前时间
  postgres=# SELECT current_timestamp;
-  current_timestamp       
+  current_timestamp
  -------------------------------
   2024-04-18 21:17:02.490132+08
 ```
@@ -148,7 +138,7 @@ select version();                                /* 显示版本信息 */
 
  $ psql -U postgres
  postgres=# SHOW config_file;
-               config_file                
+               config_file
 ------------------------------------------
  /var/lib/postgresql/data/postgresql.conf
 

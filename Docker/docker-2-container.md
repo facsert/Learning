@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-10-10 15:28:43
 title: Docker Container
 slug: Docker Container
@@ -9,13 +8,6 @@ tags:
   - docker
 description: "Docker 容器"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-10-10 15:28:43
- * @LastEditTime : 2023-11-03 15:26:09
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -97,7 +89,7 @@ Options:
  CONTAINER ID  IMAGE  COMMAND                 CREATED         STATUS         PORTS                     NAMES
  ee0c15a3a0ee  mongo  "docker-entrypoint.s…"  13 seconds ago  Up 11 seconds  0.0.0.0:8589->27017/tcp   demo
 
- $ docker run -d \                                                                   
+ $ docker run -d \
   -p 5432:5432 \                                                               # 端口映射  server port:docker port
   --name postgres \                                                            # 容器名称
   -e POSTGRES_PASSWORD=root \                                                  # 设置容器内环境变量(数据库密码)
@@ -117,10 +109,9 @@ Options:
 
 ```yaml
 # docker compose v1.27 后 无需 version 关键字
-version: '3'
+version: "3"
 
 services:
-  
   # service 名称, docker compose 以 service 名称做唯一标识
   mongo:
     image: mongo:latest
@@ -143,15 +134,15 @@ services:
 
 ```bash
  # 在当前路径下寻找 docker-compose.yml 文件创建容器并后台执行
- $ dockrer compose up -d
+ $ docker compose up -d
  > [+] Running 1/2
- > ⠴ Network docker_default    Created                                                                       
+ > ⠴ Network docker_default    Created
  > ✔ Container docker-redis-1  Started
 
  # 指定 docker compose 文件创建容器
  $ docker compose -f docker-compose.yml up -d
- 
- # 默认前台执行, 加 -d 后台. 创建容器服务(容器不存在), 启动服务(容器服务未运行), 重启服务(容器服务运行中) 
+
+ # 默认前台执行, 加 -d 后台. 创建容器服务(容器不存在), 启动服务(容器服务未运行), 重启服务(容器服务运行中)
  $ docker compose up
 
  # 启动已存在且停止的容器服务(默认后台执行), 添加 service 名称启动指定 service

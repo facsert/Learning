@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-09 20:03:44
 modDatetime: 
 title: 04.Bash Function
@@ -10,14 +9,6 @@ tags:
   - bash
 description: "Bash 函数"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-10-09 20:03:44
- * @LastEditTime: 2023-10-09 20:42:30
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 
@@ -41,7 +32,7 @@ function functionName {
 
 ```bash
 function hello() {                               # 定义函数
-    local name=$1                                # 获取第一个参数的值
+    local name=$1                                # 获取第一个参数的值赋值给 name(使用 local 声明局部变量, 避免污染全局变量)
     echo "Function hello $name"
 }
 

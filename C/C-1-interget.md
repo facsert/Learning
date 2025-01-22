@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-10 20:17:12
 title: C Number
 slug: C Number
@@ -9,13 +8,6 @@ tags:
   - C
 description: "C 数字类型"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-25 20:17:12
- * @LastEditTime : 2023-07-28 11:46:29
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -27,9 +19,9 @@ int main(void) {
     int normal_int = 2;
     long int long_int = 3;
 
-    printf("size of short int : %zu\n", sizeof(short_int));
+    printf("size of short  int: %zu\n", sizeof(short_int));
     printf("size of normal int: %zu\n", sizeof(normal_int));
-    printf("size of long int  : %zu\n", sizeof(long_int));
+    printf("size of long   int: %zu\n", sizeof(long_int));
 }
 
 size of short int : 2
@@ -162,7 +154,7 @@ printf("hex %2o  %2d  %2x \n", hex, hex, hex);   // %x 十六进制形式打印
 | double | 1 位(63) | 11 位(52-62) | 52 位(0-52) |
 
 指数(8 位): 2 的指数(-128 ~ 127), 决定范围
-尾数(23位): 小数点后的数值(0 ~ 1), 决定精度
+尾数(23 位): 小数点后的数值(0 ~ 1), 决定精度
 
 最大值(符号取正, 尾数接近 1, 指数 127): (+1)(1+1) 2^127 = 2^128
 精度: 8388608(2^23), 共 7 位, 第 7 位未能覆盖, 所以仅能保证 6 位

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-04-14 15:28:43
 title: Mongo Configuration
 slug: Mongo Configuration
@@ -9,13 +8,6 @@ tags:
   - Mongo
 description: "Mongo 基本配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-04-14 15:28:43
- * @LastEditTime : 2023-07-28 11:46:45
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -46,29 +38,29 @@ description: "Mongo 基本配置"
  >
 ```
 
-[Mongo Shell](https://mongodb.net.cn/manual/reference/method/)  
+[Mongo Shell](https://mongodb.net.cn/manual/reference/method/)
 
 ## 数据库
 
-Mongo 中可以创建多个数据库, 数据库可以创建多个集合(类似于表), 集合用于存储数据  
+Mongo 中可以创建多个数据库, 数据库可以创建多个集合(类似于表), 集合用于存储数据
 
 ```js
 // 显示所有数据库
-show dbs                                        
+show dbs
 admin    40.00 KiB
 config  108.00 KiB
 local    40.00 KiB
 
 // 创建或切换数据库(数据库有数据才会创建, show 命令不显示)
-use person          
-switched to db redis                            
+use person
+switched to db redis
 
 // 显示当前数据库名称
-db                                              
+db
 person
 
 // 数据库 test 的信息
-db.stats()                                      
+db.stats()
 {
   db: 'person',
   collections: Long('0'),
@@ -87,7 +79,7 @@ db.stats()
 }
 
 // 删除数据库 person
-db.dropDatabase()                               
+db.dropDatabase()
 { ok: 1, dropped: 'person' }
 ```
 
@@ -95,21 +87,21 @@ db.dropDatabase()
 
 ```js
 // 查看数据库内的所有集合
-show collections                                
+show collections
 { ok: 1 }
 
 // 创建集合, 并配置(集合有数据才会创建)
-db.createCollection(name, option)               
-db.createCollection("studens", { capped : true, size : 5242880, max : 5000 })
+db.createCollection(name, option)
+db.createCollection("students", { capped : true, size : 5242880, max : 5000 })
 
-// 查看 studens 集合状态
-db.studens.stats()     
- 
-// 删除 studens 集合
-db.studens.drop()                               
+// 查看 students 集合状态
+db.students.stats()
+
+// 删除 students 集合
+db.students.drop()
 
 // 集合的数据数量
-db.students.countDocuments()                    
+db.students.countDocuments()
 ```
 
 ```js
@@ -128,11 +120,11 @@ db.students.getIndexes()
 ]
 ```
 
-|  option  |  type   | description                                                                                     |
-| :------: | :-----: | :---------------------------------------------------------------------------------------------- |
-| `capped` | Boolean | true: 集合启用 size 限制, 超过部分自动覆盖最早的条目。启动该选项同时也需指定 size 数值                |
-|  `size`  | number  | 设定集合最大可使用字节数。capped 为 true 时设置                                                    |
-|  `max`   | number  | 设置集合能容纳的最大文档数量。Size限制优先于数量限制。文档数量未到 max, size 到达限制时也会触发文档覆盖 |
+|  option  |  type   | description                                                                                              |
+| :------: | :-----: | :------------------------------------------------------------------------------------------------------- |
+| `capped` | Boolean | true: 集合启用 size 限制, 超过部分自动覆盖最早的条目。启动该选项同时也需指定 size 数值                   |
+|  `size`  | number  | 设定集合最大可使用字节数。capped 为 true 时设置                                                          |
+|  `max`   | number  | 设置集合能容纳的最大文档数量。Size 限制优先于数量限制。文档数量未到 max, size 到达限制时也会触发文档覆盖 |
 
 ## 插入数据
 
@@ -141,16 +133,16 @@ db.students.getIndexes()
 
 ```js
 // 插入单个数据
-db.student.insertOne({name: "John", age: 19})   
+db.student.insertOne({name: "John", age: 19})
 {
   acknowledged: true,
   insertedId: ObjectId('65d1fe9776bc4fe476eabd1a')
 }
 
 // 插入多个数据
-db.coll.insertMany([                             
-  { name: "lily"}, 
-  { name: "Alen", hobby: "swim"}
+db.coll.insertMany([
+  { name: "lily"},
+  { name: "Alice", hobby: "swim"}
 ])
 ```
 
@@ -161,49 +153,49 @@ db.coll.insertMany([
 
 ```js
 // 查询匹配的第一个数据(返回匹配的第一个数据)
-db.students.findOne({name: 'lily'})              
+db.students.findOne({name: 'lily'})
 { _id: ObjectId('65d200a776bc4fe476eabd1e'), name: 'lily' }
 
 // 查询所有匹配的数据
-db.students.find({})                         
+db.students.find({})
 [
   { _id: ObjectId('65d1ff0e76bc4fe476eabd1b'), name: 'John', age: 19 },
   { _id: ObjectId('65d200a776bc4fe476eabd1e'), name: 'lily' },
   {
     _id: ObjectId('65d200a776bc4fe476eabd1f'),
-    name: 'Alen',
+    name: 'Alice',
     hobby: 'swim'
   }
 ]
 
 // 数据范围查询($gt $gte $lt $lte $ne $in)
-db.students.find({age: {$gt: 15}})               
+db.students.find({age: {$gt: 15}})
 [
   { _id: ObjectId('65d1ff0e76bc4fe476eabd1b'), name: 'John', age: 19 }
 ]
 
 // 属性存在查询
-db.students.findOne({hobby: {$exists: true}})    
+db.students.findOne({hobby: {$exists: true}})
 {
   _id: ObjectId('65d200a776bc4fe476eabd1f'),
-  name: 'Alen',
+  name: 'Alice',
   hobby: 'swim'
 }
 
 // 值的正则匹配查询
-db.students.find({name: {$regex:'lily|John'}})   
+db.students.find({name: {$regex:'lily|John'}})
 [
   { _id: ObjectId('65d1ff0e76bc4fe476eabd1b'), name: 'John', age: 19 },
   { _id: ObjectId('65d200a776bc4fe476eabd1e'), name: 'lily' }
 ]
 
 // 逻辑或查询
-db.students.find({$or: [{name: 'lily'}, {name: 'Alen'}]})
+db.students.find({$or: [{name: 'lily'}, {name: 'Alice'}]})
 [
   { _id: ObjectId('65d200a776bc4fe476eabd1e'), name: 'lily' },
   {
     _id: ObjectId('65d200a776bc4fe476eabd1f'),
-    name: 'Alen',
+    name: 'Alice',
     hobby: 'swim'
   }
 ]
@@ -214,7 +206,7 @@ db.students.find({$or: [{name: 'lily'}, {name: 'Alen'}]})
 - updateOne
 - updateMany
 
-`db.coll.updateMany(filter, set)`  
+`db.coll.updateMany(filter, set)`
 
 ```js
 // 更新单个数据
@@ -240,7 +232,7 @@ db.students.find({})
   },
   {
     _id: ObjectId('65d200a776bc4fe476eabd1f'),
-    name: 'Alen',
+    name: 'Alice',
     hobby: 'swim',
     description: 'school student'
   }
@@ -257,12 +249,12 @@ db.students.findOne({name: 'lily'})
 }
 
 // 删除字段
-db.students.updateOne({name: 'Alen'}, {$unset: {"hobby": ""} })
-db.students.findOne({name: 'Alen'})
+db.students.updateOne({name: 'Alice'}, {$unset: {"hobby": ""} })
+db.students.findOne({name: 'Alice'})
 {
   _id: ObjectId('65d200a776bc4fe476eabd1f'),
-  name: 'Alen',
-  description: 'school student Alen'
+  name: 'Alice',
+  description: 'school student Alice'
 }
 ```
 
@@ -275,7 +267,7 @@ db.students.findOne({name: 'Alen'})
 
 ```js
 // 删除单个数据
-db.students.deleteOne({name: "Alen"})
+db.students.deleteOne({name: "Alice"})
 db.students.find({})
 [
   {

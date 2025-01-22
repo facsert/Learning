@@ -1,7 +1,6 @@
 ---
-author: facsert
 pubDatetime: 2023-10-08 21:52:12
-modDatetime: 
+modDatetime:
 title: 06.Bash List
 slug: 06.Bash List
 featured: false
@@ -10,14 +9,6 @@ tags:
   - bash
 description: "Bash 列表"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-10-08 21:52:12
- * @LastEditTime: 2023-10-08 22:36:51
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 

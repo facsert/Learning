@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-30 11:14:56
 title: Docker Cluster
 slug: Docker Cluster
@@ -9,13 +8,6 @@ tags:
   - docker
 description: "Docker 集群"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-10-30 11:14:56
- * @LastEditTime : 2023-11-06 09:49:51
- * @Description  : edit description
--->
 
 ## Table of Contents
 

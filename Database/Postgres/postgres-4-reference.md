@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-08-01 20:03:38
 title: Postgresql reference
 slug: Postgresql reference
@@ -24,7 +23,7 @@ description: "Postgresql 参考"
 -- replace 替换字符串 replace(s text, sub text, new text)
 -- reverse 反转字符串 reverse(s text)
 
--- trim 去除字符串前后的空格 trim(s text) 
+-- trim 去除字符串前后的空格 trim(s text)
 -- trim(BOTH '*' FROM s) 去除字符串 s 左右两边的 * 符号
 
 -- lower 字符串转小写 lower(s text)
@@ -34,7 +33,7 @@ description: "Postgresql 参考"
 -- position 获取字符串的位置 position(sub text in s text)
 
 postgres=# SELECT length('abc') AS "LENGTH";
- LENGTH 
+ LENGTH
 --------
       3
 (1 row)
@@ -63,7 +62,7 @@ postgres=# SELECT length('abc') AS "LENGTH";
 - postgres 聚合函数
 
 ```sql
--- count 统计行的数量 count(column) 
+-- count 统计行的数量 count(column)
 -- sum 列求和 sum(column)
 -- avg 列平均值 avg(column)
 -- max 列最大值 max(column)

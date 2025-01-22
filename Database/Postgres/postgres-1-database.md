@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-02-22 20:31:18
 title: Postgresql database
 slug: Postgresql database
@@ -38,7 +37,7 @@ CREATE DATABASE db WITH
 /* 创建数据库 */
  CREATE DATABASE person;
  > CREATE DATABASE
- 
+
  \l
                                                   List of databases
  Name   |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules | Access privileges
@@ -50,11 +49,11 @@ CREATE DATABASE db WITH
  /* 连接指定数据库 */
  \c people
  > You are now connected to database "people" as user "postgres".
- 
+
  /* 修改数据库名称(不能修改当前连接的数据库名) */
  ALTER DATABASE person RENAME TO people;
  > ALTER DATABASE
- 
+
  \l
                                                   List of databases
  Name   |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules | Access privileges

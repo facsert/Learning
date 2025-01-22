@@ -1,7 +1,6 @@
 ---
-author: facsert
 pubDatetime: 2023-06-12 10:03:49
-modDatetime: 
+modDatetime:
 title: 05.Bash String
 slug: 05.Bash String
 featured: false
@@ -10,13 +9,6 @@ tags:
   - bash
 description: "Bash 字符串"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-06-12 10:03:49
- * @LastEditTime : 2023-10-08 21:47:44
- * @Description  : edit description
--->
 
 ## Table of Contents
 
