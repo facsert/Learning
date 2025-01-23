@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-28 09:31:54
 title: Go SSH
 slug: Go SSH
@@ -10,13 +9,6 @@ tags:
   - ssh
 description: "Go SSH 连接"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-28 09:31:54
- * @LastEditTime : 2023-07-28 11:35:22
- * @Description  : edit description
--->
 
 ## Table of Contents
 

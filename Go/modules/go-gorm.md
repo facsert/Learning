@@ -119,7 +119,7 @@ type Article struct {
 
 // 自定义的表名, gorm 可通过 Article 实例方法定位表
 func (Article) TableName() string {
-    return "article" 
+    return "article"
 }
 
 // Table 自定义表名
@@ -134,7 +134,7 @@ database.DB.Table("article").Find(&articles)
 - GORM 默认使用字段 CreatedAt 和 UpdatedAt 来自动跟踪记录的创建和更新时间
 
 定义结构体用于确定表信息及使用字段映射, 钩子, 自动迁移功能等  
-另外可以使用 `Table()` 自定义表名, `map[string]any` 接收数据  
+另外可以使用 `Table()` 自定义表名, `map[string]any` 接收数据
 
 ## 查询
 
@@ -275,7 +275,7 @@ database.DB.Table("article").Where("id IN (?)", []int{1,2,3}).Updates(map[string
 查询使用 `Raw` 可以返回查询数据, 使用 `Exec` 不返回数据
 
 ```go
-// 使用原生 sql 语句 
+// 使用原生 sql 语句
 var articles []map[string]any
 database.DB.Raw("SELECT * FROM article WHERE id < ? AND title = ?", 4, "gorm",).Scan(&articles)
 

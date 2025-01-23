@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-19 19:21:13
 title: 01.Go Variable
 slug: 01.Go Variable
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 变量"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-19 19:21:13
- * @LastEditTime : 2023-07-31 17:13:17
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -28,13 +20,13 @@ description: "Go 变量"
 ### 变量声明
 
 ```go
-var <variable name> <type> = <value>             // 使用 var 进行变量定义, 最完整的变量定义
+var <variable name> <variable type> = <value>    // 使用 var 进行变量定义, 最完整的变量定义
 var age int = 18                                 // 声明变量类型并赋值
 
 var <variable name> <type>                       // 变量定义, 只定义变量名和类型, 变量默认为对应类型的初始值
 var str string                                   // 声明变量和类型, 未赋值使用默认值(string 默认值 "")
 
-var <type> = <value>                             // 变量定义, 通过值自动推导变量类型
+var <name> = <value>                             // 变量定义, 通过值自动推导变量类型
 var age = 18                                     // 声明变量, 赋值, 并使用类型推导
 
 <variable name> := <value>                       // 变量定义, 通过值自动推导类型, 仅能在函数内部使用
@@ -49,7 +41,7 @@ var (
 var (
    str string = "hello"                          // 批量声明并赋值
    num int    = 4
-   boolean     = true
+   boolean    = true
 )
 
 str, num := "hello", 3                           // 多个变量声明并赋值

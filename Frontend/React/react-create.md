@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-11-20 09:20:27
 title: React Configuration
 slug: React Configuration
@@ -9,13 +8,6 @@ tags:
   - React
 description: "React 基本配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-11-20 09:20:27
- * @LastEditTime : 2023-11-20 10:44:50
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -84,20 +76,20 @@ next-app/
 
 ```bash
 # app 文件下, 只解析 page 文件作为路由, 其余文件不作为路由
-├── app/                                         
-│   ├── page.js             
-│   └── layout.js                                # "/" 主页 
-│   └── login/                                   
+├── app/
+│   ├── page.js
+│   └── layout.js                                # "/" 主页
+│   └── login/
 │   │   └── page.js                              # "/login" 登录页面主页
 │   │   └── nav.js                               # 不解析
 │   └── (content)/                               # 分组文件, 不作为路由
-│       └── tag                                  
+│       └── tag
 │           └── page.js                          # "/tag"
-│           └── layout.js   
+│           └── layout.js
 │   └── articles/                                # 分组文件, 不作为路由
-│       └── [slug]                               # slug 可以为任意值   
+│       └── [slug]                               # slug 可以为任意值
 │           └── page.js                          # "/articles/3" 使用钩子获取路径参数取值渲染
-│           └── layout.js   
+│           └── layout.js
 ```
 
 使用 vite 构建 React 项目
@@ -158,7 +150,7 @@ export default function RootLayout({ children }) {
 ```js
 // 使用 next Link 组件跳转页面
 import Link from 'next/link'
- 
+
 export default function PageLink({ posts }) {
   return (
     <Link href='/index'>Index Page</Link>
@@ -167,9 +159,9 @@ export default function PageLink({ posts }) {
 
 // 使用 next useRouter 跳转页面
 'use client'
- 
+
 import { useRouter } from 'next/navigation'
- 
+
 export default function Page() {
   const router = useRouter()
   return (

@@ -87,10 +87,14 @@ const formSchema = z.object({
 
 function Form() {
   // 设置表单的初始值
-  const form = useForm <z.infer <typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { title: "", content: "" },
-  });
+  const form =
+    useForm <
+    z.infer <
+    typeof formSchema >>
+      {
+        resolver: zodResolver(formSchema),
+        defaultValues: { title: "", content: "" },
+      };
 
   // 提交表单操作
   const onSubmit = (data: z.infer<typeof formSchema>) => {
@@ -101,6 +105,7 @@ function Form() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+
         <FormField
           control={form.control}
           name="title"
@@ -114,6 +119,7 @@ function Form() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="content"
@@ -127,7 +133,8 @@ function Form() {
             </FormItem>
           )}
         />
-        <DialogClose type="submit">ADD</DialogClose>
+
+        <Button type="submit">ADD</Button>
       </form>
     </Form>
   );

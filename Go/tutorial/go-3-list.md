@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-13 15:28:43
 title: 03.Go List And Slice
 slug: 03.Go List And Slice
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 数组和切片"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-03-13 15:28:43
- * @LastEditTime : 2023-07-31 18:04:29
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -67,7 +59,6 @@ for index, value := range anyList {
 函数若想修改源数组, 传参时需要传入数组地址
 
 ```go
-
 func three(list [3]int) {                        // 参数是数组值传递, 外部数组不变
     list[0] = 6
 }

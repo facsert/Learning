@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-04-08 16:11:43
 title: CSS layout
 slug: CSS layout
@@ -21,7 +20,7 @@ Flex 布局模型提供了一种更加简单, 高效的方式来布局, 对齐, 
 
 浮动布局
 
-[FreeCodeCamp CSS Flexbox](https://www.freecodecamp.org/chinese/news/the-css-flexbox-handbook/#the-align-content-property)
+[FreeCodeCamp CSS FlexBox](https://www.freecodecamp.org/chinese/news/the-css-flexbox-handbook/#the-align-content-property)
 
 主轴方向为 flex-direction 的值, 值为 row, 水平方向为主轴
 

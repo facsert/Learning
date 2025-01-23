@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-23 15:28:43
 title: 04.Go Map
 slug: 04.Go Map
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go Map 类型数据"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-03-23 15:28:43
- * @LastEditTime : 2023-09-07 22:22:44
- * @Description  : edit description
--->
 
 ## Table of Contents
 

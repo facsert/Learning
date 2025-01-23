@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-04-06 19:15:19
 title: Go grpc
 slug: Go grpc
@@ -18,12 +17,12 @@ description: "Go Web 框架 grpc"
 ```bash
  $ go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
  $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
- 
- # 添加环境变量 GOPATH 
+
+ # 添加环境变量 GOPATH
  $ export PATH="$PATH:$(go env GOPATH)/bin"
  $ echo $PATH | xargs -d ':' -n1 |grep go
  > /usr/local/go/bin
- 
+
  # 确认已安装
  $ protoc --version
  > libprotoc 3.20.3
@@ -38,7 +37,7 @@ description: "Go Web 框架 grpc"
 ## 介绍
 
 grpc 是一个高性能、开源和通用的 RPC 框架，由 Google 团队开发，用于在分布式系统中进行 RPC 调用
-使用 hello.proto 生成服务端和客户端代码  
+使用 hello.proto 生成服务端和客户端代码
 
 ```go
 syntax = "proto3";
@@ -88,7 +87,7 @@ protoc --go_out=. --go_opt=paths=source_relative \
 
 服务端代码 `server/main.go`  
 服务端安装 grpc 库 `go get google.golang.org/grpc@latest`  
-初始化服务端代码 `go mod init server`  
+初始化服务端代码 `go mod init server`
 
 ```go
 package main
@@ -98,7 +97,7 @@ import (
     "context"
     "net"
     "google.golang.org/grpc"
-    
+
     // 引入 pb(protoc 生成的源码)
     "server/pb"
 )
@@ -175,7 +174,7 @@ func main() {
 
 ```bash
 # 编译服务端和客户端代码
-go build 
+go build
 
 ./server
 

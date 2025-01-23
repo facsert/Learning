@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-08 10:17:53
 title: Git Local Repository
 slug: Git Local Repository
@@ -10,12 +9,6 @@ tags:
 description: "Git 本地仓库"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-08 10:17:53
- * @LastEditTime : 2022-12-15 23:00:54
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -46,20 +39,20 @@ description: "Git 本地仓库"
 git 用以下 3 种方式描述表示**文件状态**, 3 种状态可划分为**未追踪**和**已追踪**
 工作区 --> `git add` --> 暂存区 -- `git commit` --> 本地仓库
 
-| 区域                            |      描述      |              状态              |
-| :------------------------------ | :------------: | :----------------------------: |
-| `Untracked files`               |  新增文件, 未 add 修改 |    文件处于工作区, 未被追踪    |
-| `Changes to be committed`       |  已 add 修改, 未 commit  |   文件处于暂存区, 修改已追踪   |
-| `Changes not staged for commit` | 已 commit 过, 但新的修改为 commit | 处于工作区, 暂存区保存了commit 的内容 |
+| 区域                            |               描述                |                  状态                  |
+| :------------------------------ | :-------------------------------: | :------------------------------------: |
+| `Untracked files`               |       新增文件, 未 add 修改       |        文件处于工作区, 未被追踪        |
+| `Changes to be committed`       |      已 add 修改, 未 commit       |       文件处于暂存区, 修改已追踪       |
+| `Changes not staged for commit` | 已 commit 过, 但新的修改为 commit | 处于工作区, 暂存区保存了 commit 的内容 |
 
 ```bash
  $ git status                                    # 查看本地仓库状态, 有新增文件未被记录
  > Untracked files:                              # 新增文件 first_file.txt
  >      first_file.txt
- 
+
  > Changes to be committed:                      # git add 文件 first_file.txt 后, 状态变为待 commit
  >      new file:   first_file.txt
- 
+
  > Changes not staged for commit:                # commit 文件 first_file.txt 后, 修改该文件, 状态变为待 commit
  >      modified:   first_file.txt
 ```
@@ -108,7 +101,7 @@ git 用以下 3 种方式描述表示**文件状态**, 3 种状态可划分为**
 
  $ git log                                       # 查看 commit 版本信息
  > commit 38c1df5cf2bed00f5b7365ee4913916e25238009 (HEAD -> master)
- > Author: facser <root@facser>
+ > Author: John <root@John>
  > Date:   Mon Feb 13 20:42:18 2023 +0800
 
     first commit                                 # 本次版本描述
@@ -159,6 +152,6 @@ git 用以下 3 种方式描述表示**文件状态**, 3 种状态可划分为**
  $ git push -u origin master                     # 将 origin 仓库 master 分支作为拉取和推送的默认值
 
  $ git push <repo> <branch>                      # 使用过 -u 后可以省略仓库和分支
- > To github.com:facser/Learning.git
+ > To github.com:John/Learning.git
    309ae9f..74beac3  main -> main
 ```

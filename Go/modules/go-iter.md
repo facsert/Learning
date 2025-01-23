@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-11-25 20:12:54
 title: Go iter
 slug: Go iter
@@ -9,7 +8,6 @@ tags:
   - Go
 description: "Go 迭代器"
 ---
-
 
 ## 介绍
 

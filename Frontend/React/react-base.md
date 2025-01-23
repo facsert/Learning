@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-04-29 22:39:27
 title: React base
 slug: React base
@@ -58,13 +57,13 @@ function Parent() {
 }
 
 // 使用解构参数
-function Card({name, value}: {name: string, value: number}) {
+function Card({ name, value }: { name: string, value: number }) {
   return (
     <div>
       <p>name: {name}</p>
       <p>value: {value}</p>
     </div>
-  )
+  );
 }
 
 function Page() {
@@ -74,7 +73,7 @@ function Page() {
       <Card name="card2" value={2} />
       <Card name="card3" value={3} />
     </div>
-  )
+  );
 }
 ```
 

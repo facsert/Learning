@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-25 15:28:43
 title: Go Branch
 slug: Go Branch
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 条件分支"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-23 15:28:43
- * @LastEditTime : 2023-07-28 11:39:34
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -66,7 +58,6 @@ description: "Go 条件分支"
 遍历数组, 切片, map
 
 ```go
-
  intSlice := []int{0, 1}
  for index, elem := range intSlice {             // 数组和切片会返回索引和值
      Printf("%d: %d\n", index, elem)

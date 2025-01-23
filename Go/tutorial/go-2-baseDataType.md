@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-05-23 15:28:43
 title: 02.Go Base Data Type
 slug: 02.Go Base Data Type
@@ -10,14 +9,15 @@ tags:
 description: "Go 基本数据类型"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-23 15:28:43
- * @LastEditTime : 2023-07-31 17:26:11
- * @Description  : edit description
--->
+Golang 基本类型有以下几种：
 
-Golang 基本类型有
+- 布尔型：`bool`
+- 整型：`int`、`int8`、`int16`、`int32`、`int64`、`uint`、`uint8`、`uint16`、`uint32`、`uint64`
+- 浮点型：`float32`、`float64`
+- 复数型：`complex64`、`complex128`
+- 字符串型：`string`
+- 字节型：`byte`
+- rune 型：`rune`
 
 ## Table of Contents
 
@@ -47,12 +47,12 @@ var num16 int16 = 16
 
 Printf("type: %T\n", 3)
 Printf("num8 add: %d \n",num8 + 3)               // 数字可直接与 int8 类型数据运算
-Println("num16 add: %d \n",num16 + 3)
+Printf("num16 add: %d \n", num16 + 3)
 > type: int
 > num8 add:11 type:int8                          // 结果任然为 int8
 > num8 add:19 type:int16
 
-Println("num16 add num8: %d \n",num16 + num16)   // int8 与 int16 不能直接运算
+Println("num16 add num8: %d \n",num16 + num8)    // int8 与 int16 不能直接运算
 > ./main.go:42:34: invalid operation: num16 + num8 (mismatched types int16 and int8)
 ```
 
@@ -75,18 +75,18 @@ numFloat64 := float64(num)                       // float64 numFloat64 = 8
 二进制 八进制 十六进制可以通过不同占位符打印
 
 ```go
-binary := 0b11                                   // int binary      = 3   2 进制赋值
-octal := 0o11                                    // int octal       = 9   8 进制赋值
-hexadecimal := 0x11                              // int hexadecimal = 17  16 进制赋值
+binary := 0b11                                   // binary(二进制) = 3(十进制)
+octal := 0o11                                    // octal(八进制) = 9(十进制)
+hexadecimal := 0x11                              // hexadecimal(十六进制) = 17(十进制)
 
 var ten int = 10
 fmt.Printf("%d \n", ten)                         // 10
-fmt.Printf("%b \n", ten)                         // 1010 占位符%b表示二进制
+fmt.Printf("%b \n", ten)                         // 1010 占位符 %b 表示二进制打印
 
-var eight int = 077                              // 八进制  以0开头
+var eight int = 0o77                             // 八进制 0o77 = 十进制 63
 fmt.Printf("%o \n", eight)                       // 77 占位符%o表示八进制
 
-var sixteen int = 0xff                           // 十六进制  以0x开头
+var sixteen int = 0xff                           // 十六进制 0xff = 十进制 255  以0x开头
 fmt.Printf("%x \n", sixteen)                     // ff 占位符%x表示十六进制
 fmt.Printf("%X \n", sixteen)                     // FF 占位符%X表示十六进制
 ```
@@ -96,6 +96,7 @@ fmt.Printf("%X \n", sixteen)                     // FF 占位符%X表示十六�
 数字类型最大值和最小值, 值在 math 包定义
 
 ```go
+// math 包定义
 package math
 
 intSize = 32 << (^uint(0) >> 63) // 32 or 64
@@ -126,7 +127,7 @@ var float32 = 2.17
 var pi float64 = 3.1415926535
 
 Printf("e: %f \n", e)                            // e: 2.170000
-Printf("pi: %f \n", pi)                          // pi: 3.141593
+Printf("pi: %.3f \n", pi)                        // pi: 3.142 保留 3 位小数
 ```
 
 ## 布尔类型
@@ -153,12 +154,12 @@ happy || love                                    // true   love or happy is true
 
 ### 字符
 
-byte(uint8) ACSII 表中的一个字符, 底层是一个 0-255 数字(数字与 ACSII 表字符绑定)  
-rune(int32) Unicode 编码中的一个字符(包含世界大部分语言字符), Unicode 表包含 ACSII 表
+byte(uint8) ASCII 表中的一个字符, 底层是一个 0-255 数字(数字与 ASCII 表字符绑定)  
+rune(int32) Unicode 编码中的一个字符(包含世界大部分语言字符), Unicode 表包含 ASCII 表
 
 ```go
-var a byte = 'D'                                  // 'D' 在 ACSII 中第 68 位
-var c byte = 68                                   // ACSII 中 68 为 'D', 两种赋值等价
+var a byte = 'D'                                  // 'D' 在 ASCII 中第 68 位
+var c byte = 68                                   // ASCII 中 68 为 'D', 两种赋值等价
 
 var a rune = '中'                                 // '中' 在 Unicode 中第 20013 位
 var c rune = 20013                                // Unicode 中 20013 为 '中', 两种赋值等价
@@ -166,21 +167,21 @@ var c rune = 20013                                // Unicode 中 20013 为 '中'
 Printf("a equal c: %v\n", a == c)
 > a equal c: true
 
-Printf("acsii length: %d\n", len("str"))
+Printf("ascii length: %d\n", len("str"))
 Printf("unicode length: %d\n", len("中文"))
-> acsii length: 3                                // 单个 acsii 字符长度为 1
+> ascii length: 3                                // 单个 ascii 字符长度为 1
 > unicode length: 6                              // 单个 unicode 字符长度为 3, 遍历 unicode 不能用索引
 ```
 
 ### 字符串
 
-Golang 字符串本质是单个字符的集合, 单个字符的本质是数字, 通过不同规范和字符对应(ACSII 和 Unicode)  
-单个 acsii 和 unicode 字符长度不同, 使用 range 遍历
+Golang 字符串本质是单个字符的集合, 单个字符的本质是数字, 通过不同规范和字符对应(ASCII 和 Unicode)  
+单个 ascii 和 unicode 字符长度不同, 使用 range 遍历
 
 ```go
-var acsii, unicode string = "str", "中文"
-for index, char := range acsii {
-   Printf("Type: %T %T, value: %v, value: %c\n", char, acsii[index], char, char)
+var ascii, unicode string = "str", "中文"
+for index, char := range ascii {
+   Printf("Type: %T %T, value: %v, value: %c\n", char, ascii[index], char, char)
 }
 
 > Type: int32, value: 115, value: s              // range 取出的单个字符是 rune 类型
@@ -273,7 +274,7 @@ strings.Count(s, sub) int                        // 返回 sub 在 s 中出现�
 任意类型数据都可以转换为字符串
 
 ```go
-s := fmt.Sprinf("%v", <variable>)                // 万能转换, any -> string
+s := fmt.Sprintf("%v", <variable>)                // 万能转换, any -> string
 
 s := strconv.Itoa(32)                            // 32    int -> string
 s := strconv.FormatBool(true)                    // true  bool -> string

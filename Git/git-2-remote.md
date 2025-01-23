@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-08 10:17:53
 title: Git Remote Repository
 slug: Git Remote Repository
@@ -9,13 +8,6 @@ tags:
   - git
 description: "Git 远端仓库"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-08 10:17:53
- * @LastEditTime : 2022-12-15 23:01:55
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -33,8 +25,8 @@ description: "Git 远端仓库"
  $ git clone <Repository url>                    # 克隆远端仓库到本地, 自动绑定链接对应的仓库
 
  $ git remote -v                                 # 查看本地仓库关联的所有远端仓库
- > origin  git@github.com:facser/Learning.git (fetch)
- > origin  git@github.com:facser/Learning.git (push)
+ > origin  git@github.com:John/Learning.git (fetch)
+ > origin  git@github.com:John/Learning.git (push)
 
  $ git remote add origin <Repository url>        # 将远程仓库命名为 origin 并关联本地仓库
 ```

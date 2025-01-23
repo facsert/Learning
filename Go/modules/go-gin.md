@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-10 09:29:19
 title: Go Gin
 slug: Go Gin
@@ -11,14 +10,7 @@ tags:
 description: "Go Web 框架 Gin"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-10 09:29:19
- * @LastEditTime : 2023-07-28 11:38:12
- * @Description  : edit description
--->
-
-[Gin官网](https://gin-gonic.com/zh-cn/)
+[Gin 官网](https://gin-gonic.com/zh-cn/)
 
 Gin 是一个用 Go (Golang) 编写的 HTTP Web 框架
 
@@ -208,7 +200,7 @@ func rawData(c *gin.Context) {                             // curl -X 'POST' htt
 
 ### 参数绑定
 
-基于请求类型开发接口比较麻烦, 且多种参数都是 `key-valuse` 形式, 于是有了自适应解析
+基于请求类型开发接口比较麻烦, 且多种参数都是 `key-value` 形式, 于是有了自适应解析
 定义一个结构体, 将请求体字段与结构体属性绑定, 通过 `ShouldBind` 赋值给结构体属性
 
 ```go

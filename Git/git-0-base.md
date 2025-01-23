@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-08 10:17:53
 title: Git Base
 slug: Git Base
@@ -9,13 +8,6 @@ tags:
   - git
 description: "Git 基本使用"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-08 10:17:53
- * @LastEditTime : 2022-12-15 22:57:12
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -49,7 +41,7 @@ Git 是一个开源的文件版本控制器
 
 将文件或代码上传云端时, 需要设置用户名和邮箱, Git 用户和邮箱有 3 个等级
 
-|   leve   |       file       | introduce                                    |
+|  level   |       file       | introduce                                    |
 | :------: | :--------------: | :------------------------------------------- |
 | `system` | `/etc/gitconfig` | 系统上每一个用户及他们仓库的通用配置(不常用) |
 | `global` |  `~/.gitconfig`  | 当前系统用户, 这会对你系统上所有的仓库生效   |
@@ -64,7 +56,7 @@ Git 是一个开源的文件版本控制器
  $ git config --global --list                    # 查看系统当前用户的 git 配置
  $ git config --local --list                     # 查看当前库的 git 配置
  $ git config --list                             # 列出上述所有配置, 可能出现重复项
- > user.name=facser
+ > user.name=John
  > core.editor=vim
 ```
 
@@ -76,14 +68,14 @@ Git 是一个开源的文件版本控制器
  $ git config --global color.ui true             # 系统当前用户的 git 输出显示颜色
  $ git config --global commit.template <file>    # 设置 commit 签名模板
 
- $ git config --global user.name facser          # 设置系统当前的 git 用户名为 facser
+ $ git config --global user.name John          # 设置系统当前的 git 用户名为 John
  $ git config user.name                          # 查看当前使用的 git 用户名
 
  $ git config --global user.email abc@email      # 设置系统当前的 git 邮箱为 abc@email
  $ git config user.email                         # 查看当前使用的 git 用户名
 
  $ git config --list                             # 列出上述所有配置, 可能出现重复项
- > user.name=facser
+ > user.name=John
  > user.email=abc@email
  > core.editor=vim
 ```
@@ -109,7 +101,7 @@ Git 是一个开源的文件版本控制器
 
  $ git log                                       # 查看记录的版本
  > commit d2716b6e88567c3fdfe390580d48ca82b581c04f (HEAD -> master)
- > Author: facser <root@facser>
+ > Author: John <root@John>
  > Date:   Mon Jan 30 22:09:15 2023 +0800
  >
  >  version message
@@ -126,8 +118,8 @@ Git 是一个开源的文件版本控制器
  $ git push <repository name> <branch name>      # 将本地仓库分支所有版本推送到远程仓库对应分支
 
  $ git remote -v                                 # 查看远程仓库
- > origin  git@github.com:facser/Learning.git (fetch)
- > origin  git@github.com:facser/Learning.git (push)
+ > origin  git@github.com:John/Learning.git (fetch)
+ > origin  git@github.com:John/Learning.git (push)
 
  # Github 创建空白仓库, gitignore README LICENSE 均设空
  $ git remote add origin <Repository url>        # 将远程仓库命名为 origin 并关联本地仓库

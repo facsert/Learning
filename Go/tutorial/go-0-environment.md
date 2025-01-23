@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-12 09:29:19
 title: 00.Go Environment
 slug: 00.Go Environment
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 环境配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-12 09:29:19
- * @LastEditTime : 2023-11-27 23:30:00
- * @Description  : edit description
--->
 
 ## Table of Contents
 
