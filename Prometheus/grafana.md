@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-01-30 21:12:43
 title: Grafana
 slug: Grafana
@@ -27,11 +26,11 @@ Grafana 用于展示 Prometheus 采集的监控数据, 通过 promQL 语句绘�
 ```
 
 配置文件 `conf/default.ini`, 示例 `conf/sample.ini`  
-修改 `default_language` 选项为 `detect`(使用浏览器语言)  
+修改 `default_language` 选项为 `detect`(使用浏览器语言)
 
 默认端口是 3000  
 初始用户 admin  
-初始密码 admin  
+初始密码 admin
 
 ## 界面
 
@@ -72,26 +71,30 @@ Grafana 使用 promql, sql 从数据源中获取数据, 在 web 上使用图表,
 
 创建一个面板, 在面板上自定义多个图表, 每个图表自定义数据源, 图表类型, 显示样式  
 [官方创建面板教程](https://grafana.com/docs/grafana/latest/dashboards/)  
-[官方创建图表教程](https://grafana.com/docs/grafana/latest/panels-visualizations/)  
+[官方创建图表教程](https://grafana.com/docs/grafana/latest/panels-visualizations/)
 
-1. 进入仪表盘页面, 点击 **新建**, 选择 **新建仪表板**, 选择面板 **添加可视化**  
+1. 进入仪表盘页面, 点击 **新建**, 选择 **新建仪表板**, 选择面板 **添加可视化**
 2. 选择数据源, 配置仪表盘, 右上角 **apply** 完成单个图表
 3. 右上角 **保存图标**, 填写 commit 保存面板
 
 ### 配置
 
-面板配置: 面板名称, 时间等基本设置, 面板全局变量, JSON 配置  
+面板配置: 面板名称, 时间等基本设置, 面板全局变量, JSON 配置
+
 <!-- ![设置](./assets/setting.png) -->
 
-图表配置: 图表类型, 数据内容, 显示样式  
+图表配置: 图表类型, 数据内容, 显示样式
+
 <!-- ![图表](./assets/table.png) -->
 
 ### 全局变量
 
 面板全局变量使用
+
 <!-- ![变量](./assets/varibale.png) -->
 
 设置全局变量
+
 <!-- ![变量配置](./assets/var_tag.png) -->
 
 ```bash
@@ -107,9 +110,9 @@ label_values(node_uname_info{tag="$tag"},host)
 node_time_seconds{host="$host",tag="$tag"} - node_boot_time_seconds{host="$host",tag="$tag"}
 
 # 特殊变量
-$__timeFrom Grafana 选择的时间起始值  $__timeFrom -> timestamp  
-$__timeTo Grafana 选择的时间结束值  $__timeTo -> timestamp  
-$__timeFilter 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool  
+$__timeFrom Grafana 选择的时间起始值  $__timeFrom -> timestamp
+$__timeTo Grafana 选择的时间结束值  $__timeTo -> timestamp
+$__timeFilter 判断时间点是否在 Grafana 时间段内容 $__timeFilter(timestamp) -> bool
 ```
 
 ## 脚本
@@ -124,15 +127,15 @@ START_COMMAND="./bin/grafana-server"
 function kill_process() {
     cd $SCRIPT_DIR
     if [[ ! -f pid ]]; then
-        echo -e "\033[31mpid not exists \033[0m"
+        echo -e "\033[31m pid not exists \033[0m"
         return 1
     fi
     local pid=$(cat pid)
     if [[ -z $pid ]]; then
-        echo -e "\033[31mpid is empty \033[0m"
+        echo -e "\033[31m pid is empty \033[0m"
         return 1
     fi
-    
+
     kill -15 $pid >/dev/null 2>&1
     rm pid
     return 0
@@ -150,21 +153,21 @@ function start_process() {
 function check_process() {
     cd $SCRIPT_DIR
     if [[ ! -f pid ]]; then
-        echo -e "\033[31mpid not exists \033[0m"
+        echo -e "\033[31m pid not exists \033[0m"
         return 1
     fi
     local pid=$(cat pid)
     if [[ -z $pid ]]; then
-        echo -e "\033[31mpid is empty \033[0m"
+        echo -e "\033[31m pid is empty \033[0m"
         return 1
     fi
 
     ps -aux | grep -v grep | grep $pid
-    if [[ $? -ne 0 ]]; then 
+    if [[ $? -ne 0 ]]; then
         echo -e "\033[31mProcess is not running\033[0m"
         return 1
     fi
-    echo -e "\033[32mProcess is running\033[0m" 
+    echo -e "\033[32mProcess is running\033[0m"
     return 0
 }
 

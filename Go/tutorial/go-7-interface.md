@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-29 15:28:43
 title: 07.Go Interface
 slug: 07.Go Interface
@@ -10,19 +9,14 @@ tags:
 description: "Go 接口"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-03-29 15:28:43
- * @LastEditTime : 2023-07-28 11:40:03
- * @Description  : edit description
--->
-
 ## Table of Contents
 
 ## 引申
 
+接口是一种抽象类型, 接口定义了该类型必须实现的方法, 任何实现了这些方法的类型都可以作为该接口类型使用
+
 举办一个活动, 参加的人必须是能唱歌和玩游戏, 所以不管男女老幼, 只要能唱歌和玩游戏就应该都能参加  
-对于这个活动, 强调的是能唱歌能玩游戏这两种行为, 不关心其余特质和行为  
+对于这个活动, 强调的是能唱歌能玩游戏这两种行为, 不关心其余特质和行为
 
 用 Go 实现的效果
 
@@ -61,7 +55,7 @@ activate(human, human)                           // 第一个 human 作为 singe
 
 接口类型是一个自定义的抽象类型
 接口用于定义拥有同样行为的类型
-任意其它类型只要包含接口定义的方法， 都可以作为接口类型使用
+任意其它类型只要包含接口定义的方法，都可以作为接口类型使用
 
 ```go
 type <interface name> interface {

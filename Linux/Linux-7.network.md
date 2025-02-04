@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-09-23  14:20:43
 title: Linux network
 slug: Linux network

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-06-06 21:51:27
 title: Mermaid basic
 slug: Mermaid basic

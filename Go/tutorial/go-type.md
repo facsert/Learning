@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-10 14:24:30
 title: Go Generics
 slug: Go Generics
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 泛型"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-10 14:24:30
- * @LastEditTime : 2023-11-27 22:16:03
- * @Description  : edit description
--->
 
 ## Table of Contents
 

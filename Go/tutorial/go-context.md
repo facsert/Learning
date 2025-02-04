@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-08-12 11:24:43
 title: Go Context
 slug: Go Context
@@ -30,8 +29,8 @@ type Context interface {
 var wg sync.WaitGroup
 
 // 创建上下文和取消函数, 设置 3s 超时时间
-ctx, cancle := context.WithTimeout(context.Background(), 3*time.Second)
-defer cancle()
+ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+defer cancel()
 
 work := func(ctx context.Context, t time.Duration) {
     wait := 1 * time.Second
@@ -61,7 +60,7 @@ go work(ctx, 2*time.Second)
 time.Sleep(3*time.Second)
 
 // 主动取消
-cancle()
+cancel()
 wg.Wait()
 
 > timeout with 2s <nil>       // 到达 work 设置时间退出

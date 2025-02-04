@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-18 15:02:16
 title: Linux File
 slug: Linux File
@@ -9,13 +8,6 @@ tags:
   - Linux
 description: "Linux 文件操作"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-18 15:02:16
- * @LastEditTime : 2023-10-08 21:22:48
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -118,7 +110,7 @@ list files 显示当前路径下的文件及目录
 change directory 切换工作路径
 
 ```bash
- $ cd <path>                                     # 切换到 <paht> 目录
+ $ cd <path>                                     # 切换到 <path> 目录
 
  $ cd ..                                         # 返回上级目录
  $ cd -                                          # 回到上次所有在目录
@@ -198,8 +190,8 @@ copy 复制文件
  $ cp -l                                         # --link 创建源文件的硬链接
  $ cp -s                                         # --symbolic-link 创建源文件的符号链接
 
- $ cp -v mian.sh main.sh
- > 'mian.sh' -> 'main.sh'
+ $ cp -v main.sh main.sh
+ > 'main.sh' -> 'main.sh'
 
  $ ln <source> <target>                          # 创建文件的硬链接 (使用绝对路径)
  $ ln -s <source> <target>                       # --symbolic 创建文件的符号链接 (使用绝对路径)

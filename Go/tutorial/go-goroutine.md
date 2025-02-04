@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-05-23 15:28:43
 title: Go Goroutine
 slug: Go Goroutine
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 协程"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-23 15:28:43
- * @LastEditTime : 2023-10-11 22:01:43
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -42,12 +34,12 @@ func main() {
         cook()
         wg.Done()                                // 标记协程执行完毕
     }
-    
-    go func() {                                 
+
+    go func() {
         wash()
         wg.Done()
     }
-                                  
+
     wg.Wait()                                    // 等待所有的协程执行完成
     Println(time.Now())                          // 所有协程执行完后打印时间
 }
@@ -59,11 +51,11 @@ func cook() {
 
 func wash() {
     time.Sleep(time.Second * 2)
-    Println("wash colse by machine use 2s")
+    Println("wash close by machine use 2s")
 }
 
 > 2023-04-01 21:51:20.692681383 +0800 CST m=+0.000016384
-> wash colse by machine use 2s
+> wash close by machine use 2s
 > cook by machine use 3s
 > 2023-04-01 21:51:23.693482859 +0800 CST m=+3.000817861
 ```

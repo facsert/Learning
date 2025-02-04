@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-27 15:28:43
 title: 06.Go Struct
 slug: 06.Go Struct
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 结构体"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-03-27 15:28:43
- * @LastEditTime : 2023-07-28 11:39:56
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -102,12 +94,12 @@ description: "Go 结构体"
     city: "shanghai",
  }
 
- John.rename1("Lily")
  John.rename2("Jack")
+ John.rename1("Lily")
  Printf("name: %s\n", John.name)
 
- > rename1 to Lily                               // 重命名结果只在函数内生效
  > rename2 to Jack                               // 重命名结果对结构体生效
+ > rename1 to Lily                               // 重命名结果只在函数内生效
  > name: Jack
 ```
 

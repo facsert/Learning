@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-04-07 15:02:16
 title: Linux System
 slug: Linux System
@@ -9,13 +8,6 @@ tags:
   - Linux
 description: "Linux 系统"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-04-07 15:02:16
- * @LastEditTime : 2023-07-28 12:00:50
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -115,7 +107,7 @@ systemctl control
  $ systemctl restart <service>                   # 重新启动某服务
  $ systemctl list-units --type=service           # 查看所有已启动的服务
 
- $ systemctl statuc docker
+ $ systemctl status docker
  > ● docker.service - Docker Application Container Engine
  >   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
  >   Active: active (running) since Sun 2023-04-02 20:24:38 EDT; 4 days ago

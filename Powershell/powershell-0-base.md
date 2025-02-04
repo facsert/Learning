@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-01-20 11:33:44
 title: 01.Powershell Basic
 slug: 01.Powershell Basic
@@ -30,7 +29,7 @@ Get-Command -Name *Process
 
 # 查看命令如何使用, 参数, 别名(使用 -detailed 或 -Full 参数显示详细, 推荐 Update-Help 更新 Help 文档)
 Get-Help Get-Process
-help Get-Process 
+help Get-Process
 ```
 
 powershell 使用 `# commit` `<# commit #>` 作为单行和多行注释
@@ -45,20 +44,20 @@ powershell 使用 `# commit` `<# commit #>` 作为单行和多行注释
 
 powershell 使用反引号作为转义符号
 
-|符号|\`n|\`r|\`t|
-|:-:|:-:|:-:|:-:|
-|含义|换行|||
+| 符号 | \`n  | \`r | \`t |
+| :--: | :--: | :-: | :-: |
+| 含义 | 换行 |     |     |
 
 输出重定向
 
-|符号|`>`|`>>`|`>&1`|`>null`|
-|:-:|:-:|:-:|:-:|:-:|
-|含义|覆盖写入|追加写入|输出到标准输出|输出置空|
+| 符号 |   `>`    |   `>>`   |     `>&1`      | `>null`  |
+| :--: | :------: | :------: | :------------: | :------: |
+| 含义 | 覆盖写入 | 追加写入 | 输出到标准输出 | 输出置空 |
 
 - 1: 成功流
 - 2: 错误流
 - 3: 警告流
-- *: 所有流
+- \*: 所有流
 
 ```powershell
 command n>file
@@ -71,7 +70,7 @@ Get-Process -Name python 2>&1
 powershell 不区分大小写, 使用 tab 可以补全命令
 
 ```powershell
-# 
+#
 
 # 显示路径下的文件和文件夹, 类似 ls
 Get-ChildItem 别名: ls, dir, gci
@@ -117,7 +116,7 @@ ls | where name -match "txt"
 Get-Process -Name "*python*"
 Get-Process -Name "*python*"
 
-# 显示进程对象的所有属性 
+# 显示进程对象的所有属性
 Get-Process -Name "*python*" | Get-Member
 
 # 根据属性名称获取进程对象属性值
@@ -137,7 +136,7 @@ Get-CimInstance Win32_Process | where Name -match "python" | select Path
 
 ## 变量
 
-powershell 以 `$` 开头定义变量, 变量是强类型, 对大小写不敏感  
+powershell 以 `$` 开头定义变量, 变量是强类型, 对大小写不敏感
 
 ```powershell
 $str = "a string variable"                       # 定义字符串
@@ -196,7 +195,7 @@ $hash = @{name="John"; age=18}
 
 ## 控制语句
 
-``` powershell
+```powershell
 if ($a -gt $b) {
     # code
 } else {

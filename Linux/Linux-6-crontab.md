@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-04-07  15:28:43
 title: Linux crontab
 slug: Linux crontab

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-11-01 21:22:09
 title: Linux Configuration
 slug: Linux Configuration
@@ -9,13 +8,6 @@ tags:
   - Linux
 description: "Linux 配置"
 ---
-
-<!--
- * @Author       : facsert
- * @LastEditTime : 2023-12-10 22:05:34
- * @LastEditTime : 2023-11-01 21:22:09
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -92,7 +84,7 @@ ubuntu 22.04 默认未安装 ssh 服务, 需要手动安装
 
 ```bash
  $ vi /etc/ssh/sshd_config                       # 编辑 ssh 系统配置文件(安装 openssh 后才有该文件)
- 
+
  #PermitRootLogin prohibit-password
  PermitRootLogin yes                             # 允许远程 root 用户登录
 

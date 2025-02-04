@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-07-31 17:02:03
 title: Go Module
 slug: Go Module
@@ -9,13 +8,6 @@ tags:
   - Go
 description: "Go 模块"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-07-31 17:02:03
- * @LastEditTime : 2023-07-31 17:02:40
- * @Description  : edit description
--->
 
 ## Table of Contents
 

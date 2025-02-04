@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-23 15:28:43
 title: NodeJS variable
 slug: NodeJS variable
@@ -72,15 +71,15 @@ MAX = 200;
 ## 特殊全局变量
 
 ```js
-// 代码所在文件的绝对路径 
-console.log(__dirname)
-console.log(__filename)
+// 代码所在文件的绝对路径
+console.log(__dirname);
+console.log(__filename);
 
 // process 对象, 进程信息
-console.log(process.argv)                        // Array 执行脚本命令及参数
-console.log(process.pid)                         // number 进程 pid
-console.log(process.platform);                   // string 执行平台
-console.log(process.uptime());                   // number 执行时长
-console.log(process.cwd());                      // string 入口文件路径
-console.log(process.env);                        // Object shell 下的环境变量(linux env 命令)
+console.log(process.argv); // Array 执行脚本命令及参数
+console.log(process.pid); // number 进程 pid
+console.log(process.platform); // string 执行平台
+console.log(process.uptime()); // number 执行时长
+console.log(process.cwd()); // string 入口文件路径
+console.log(process.env); // Object shell 下的环境变量(linux env 命令)
 ```

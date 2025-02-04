@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-03-23 15:28:43
 title: NodeJS config
 slug: NodeJS config
@@ -9,13 +8,6 @@ tags:
   - NodeJS
 description: "NodeJS 基本配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-23 15:28:43
- * @LastEditTime : 2023-12-15 23:02:39
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -27,7 +19,7 @@ description: "NodeJS 基本配置"
  # 使用版本管理器 nvm 安装 node, 任选一种方式下载
  $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
  $ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
- 
+
  $ nvm install 20
  $ nvm ls
  $ nvm use 20
@@ -99,7 +91,7 @@ npm 可更换下载源为国内源
 
  $ npm config set cache <path>                   # 更换 npm 缓存位置
  $ npm get cache                                 # 查看 npm 缓存存放的位置
- > /Users/facsert/.npm
+ > /Users/john/.npm
 
  $ npm install nrm -g                            # 使用资源切换工具 nrm 切换下载源
  $ nrm ls                                        # 列出可用的下载源

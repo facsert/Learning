@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-19 15:28:43
 title: Linux Basic
 slug: Linux Basic
@@ -9,13 +8,6 @@ tags:
   - Linux
 description: "Linux 基础使用"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-19 15:28:43
- * @LastEditTime : 2023-07-29 16:29:55
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -116,9 +108,9 @@ description: "Linux 基础使用"
 
 ```bash
 export <variable name>=<value>                   # 使用 export 临时修改环境变量, 执行的命令窗口关闭即失效
-export PATH=$PATH:/home/facsert                  # 将 /home/facsert 临时加入环境目录
+export PATH=$PATH:/home/john                     # 将 /home/john 临时加入环境目录
 export LEARN=TRUE                                # 自定义新的环境变量, 脚本间可以通过自定义环境变量通信
-export PATH=$PATH:/home/facsert                  # 将命令写入 shell 启动文件(每次启动 shell 均会执行文件上命令)
+export PATH=$PATH:/home/john                     # 将命令写入 shell 启动文件(每次启动 shell 均会执行文件上命令)
 source ~/.bashrc                                 # 重新加载 shell 启动文件(~/.bashrc, ~/.zshrc )
 ```
 
@@ -146,7 +138,7 @@ source 执行脚本: 脚本中的 export 变量加载入当前终端, 脚本结�
  > Sat Feb 25 20:34:10 CST 2023
 
  $ unmae -a                                      # 查看系统内核信息
- > inux facser 5.15.79.1-microsoft-standard-WSL2 #1 SMP Wed Nov 23 01:01:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+ > linux john 5.15.79.1-microsoft-standard-WSL2 #1 SMP Wed Nov 23 01:01:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
  $ ps -ef                                        # 查看当前正在运行的所有进程
  > UID        PID  PPID  C STIME TTY          TIME CMD
@@ -168,7 +160,7 @@ source 执行脚本: 脚本中的 export 变量加载入当前终端, 脚本结�
  > Retype new UNIX password:                     # 重复输入 root 密码
  > passwd: password updated successfully         # 设置成功
 
- facser@master:~/Desktop$ su root                # 切换 root 用户 (用户名@hostname:当前路径)
+ john@master:~/Desktop$ su root                # 切换 root 用户 (用户名@hostname:当前路径)
  root@master:~/Desktop# exit                     # 退出 root, 普通用户 $ 开头, root 用户 # 开头
 
  $ su <user>                                     # 切换用户
@@ -185,7 +177,7 @@ source 执行脚本: 脚本中的 export 变量加载入当前终端, 脚本结�
  > Retype new password:                          # 重复输入密码, 密码不显示
 
  $ userdel -r <username>                         # 删除用户
- > no crontab for facsert
+ > no crontab for john
 ```
 
 sudo 免密码
@@ -280,8 +272,8 @@ sudo 免密码
 `/dev/null`: 空, 指代垃圾桶或回收站
 
 ```bash
- $ mian                                          # 错误命令,显示错误输出
- > Command 'mian' not found
+ $ main                                          # 错误命令,显示错误输出
+ > Command 'main' not found
 
  $ data 2>/dev/null                              # 错误命令, 错误输出重定向至回收站, 不显示错误
  $ date 2>/dev/null                              # 正确命令, 标准输出重定向至回收站, 不显示返回值

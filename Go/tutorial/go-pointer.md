@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-09-27 15:28:43
 title: Go Pointer
 slug: Go Pointer
@@ -10,13 +9,6 @@ tags:
 description: "Go 指针"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2022-09-27 15:28:43
- * @LastEditTime : 2023-10-11 22:11:14
- * @Description  : edit description
--->
-
 ## Table of Contents
 
 ## 指针
@@ -24,33 +16,33 @@ description: "Go 指针"
 - 变量
 - 指针变量
 
-|   类型   |  变量名   |  变量值  | 变量存储地址 |
-| :------: | :-------: | :------: | :----------: |
-|   变量   |   name    |   100    |   0x100001   |
-| 指针变量 | name_addr | 0x100111 |   0x100002   |
+|   类型   |  变量名  |  变量值  | 变量存储地址 |
+| :------: | :------: | :------: | :----------: |
+|   变量   |   name   |   100    |   0x100001   |
+| 指针变量 | nameAddr | 0x100111 |   0x100002   |
 
 ```Go
- strVar := "initial"                             // 初始化变量赋值, 绑定一个固定地址, 值可以变, 地址不变
+ strVar := "initial"                             // 初始化变量赋值, 绑定一个固定地址, 值可以变, 地址不变, 类型不变
  Printf("initial strVar value:%v, addr: %p\n", strVar, &strVar)
 
- straddr := &strVar                              // 初始化地址类型变量并赋值, 变量绑定地址, 变量值是一个地址
- Printf("initial straddr value: %v, addr: %p\n", straddr, &straddr)
+ strAddr := &strVar                              // 初始化地址类型变量并赋值, 变量绑定地址, 变量值是一个地址
+ Printf("initial strAddr value: %v, addr: %p\n", strAddr, &strAddr)
 
- addrVal := *straddr                             // 初始化并赋值, 变量绑定地址, 地址类型才能取值
+ addrVal := *strAddr                             // 初始化并赋值, 变量绑定地址, 地址类型才能取值
  Printf("initial strVar value:%v, addr: %p\n", addrVal, &addrVal)
 
  strVar = "modify"
 
  Printf("modify strVar value:%v, addr: %p\n", strVar, &strVar)
- Printf("modify straddr value: %v, addr: %p\n", straddr, &straddr)
+ Printf("modify strAddr value: %v, addr: %p\n", strAddr, &strAddr)
  Printf("modify strVar value:%v, addr: %p\n", addrVal, &addrVal)
 
  > strVar value:initial, addr: 0xc0000142b0
- > straddr value: 0xc0000142b0, addr: 0xc000012038
+ > strAddr value: 0xc0000142b0, addr: 0xc000012038
  > addrVal value:initial, addr: 0xc0000142d0
 
  > strVar value:modify, addr: 0xc0000142b0       // strVar 重新赋值(地址对应的值变化), 地址不变
- > straddr value: 0xc0000142b0, addr: 0xc000012038
+ > strAddr value: 0xc0000142b0, addr: 0xc000012038
  > addrVal value:initial, addr: 0xc0000142d0     // 地址对应的值没有变化
 
 ```

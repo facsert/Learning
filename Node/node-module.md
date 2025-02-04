@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-11-18 18:30:59
 title: NodeJS export
 slug: NodeJS export
@@ -9,14 +8,6 @@ tags:
   - NodeJS
 description: "NodeJS 模块引入和导出"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-11-18 18:30:59
- * @LastEditTime: 2023-12-15 23:03:36
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 
@@ -35,9 +26,9 @@ NodeJS 默认使用 CommonJS 模块
 
 ```js
 // module.js 定义变量
-var s = "commonjs varoable";
+var s = "commonjs variable";
 var num = 3;
-var add = n => n + 1;
+var add = (n) => n + 1;
 
 // 设置可被外部使用的变量, 可重命名
 module.exports = {
@@ -67,9 +58,9 @@ NodeJS 执行的 ES6 模块文件名必须以 .mjs 结尾, 否则会报错
 // (node:47557) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
 
 // 文件 module.mjs 声明可引用内容
-var s = "ES6 varoable";
+var s = "ES6 variable";
 var num = 3;
-var add = n => n + 1;
+var add = (n) => n + 1;
 
 export { s, num, add };
 ```

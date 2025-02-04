@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-30 09:59:08
 title: Kbernetes Configuration
 slug: Kbernetes Configuration
@@ -9,13 +8,6 @@ tags:
   - kbernetes
 description: "Kbernetes 配置"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-10-30 09:59:08
- * @LastEditTime : 2023-11-06 21:10:34
- * @Description  : edit description
--->
 
 ## Table of Contents
 
