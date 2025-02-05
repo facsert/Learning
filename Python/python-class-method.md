@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-24 12:08:37
 title: Python Class
 slug: Python Class
@@ -9,13 +8,6 @@ tags:
   - Python
 description: "Python 类方法"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-24 12:08:37
- * @LastEditTime : 2023-07-28 17:05:27
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -57,10 +49,10 @@ class People:
         print('static function')
 
 if __name__ == '__main':
-    facser = People()
-    facser.obj_func()
-    facser.class_func()
-    facser.static_func()
+    john = People()
+    john.obj_func()
+    john.class_func()
+    john.static_func()
 ```
 
 ```python
@@ -79,7 +71,7 @@ if __name__ == '__main':
 ```python
 class People:
 
-    name = 'kertory'                             # 定义类属性 name
+    name = 'lily'                             # 定义类属性 name
 
     def obj_func(self):
         print(f'obj func: {self.name}')          # 打印对象属性 name
@@ -93,14 +85,14 @@ class People:
         print('static function')
 
 if __name__ == '__main':
-    facser = People()                            # 类实例化成对象 facser
-    facser.obj_func()                            # facser 对象调用实例化方法
-    facser.class_func()                          # facser 对象调用类方法
+    john = People()                            # 类实例化成对象 john
+    john.obj_func()                            # john 对象调用实例化方法
+    john.class_func()                          # john 对象调用类方法
 ```
 
 ```python
- > obj func: kertory                             # 实例方法打印
- > class func: kertory                           # 类方法打印
+ > obj func: lily                             # 实例方法打印
+ > class func: lily                           # 类方法打印
  > static function                               # 静态方法打印
 ```
 
@@ -116,7 +108,7 @@ if __name__ == '__main':
 
 class People:
 
-    name = 'kertory'                             # 定义类属性 name
+    name = 'lily'                             # 定义类属性 name
 
     def obj_func(self):
         print(f'obj func: {self.name}')          # 打印对象属性 name
@@ -136,7 +128,7 @@ if __name__ == '__main':
 ```
 
 ```python
- > class func: kertory                           # 成功执行类方法
+ > class func: lily                           # 成功执行类方法
  >
  > static function                               # 成功执行静态方法
  > Traceback (most recent call last):

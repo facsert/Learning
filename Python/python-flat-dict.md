@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-07-25 20:08:15
 title: Python flat dictionary
 slug: Python flat dictionary
@@ -10,12 +9,7 @@ tags:
 description: "Python 扁平化字典"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2022-07-25 20:08:15
- * @LastEditTime: 2023-09-27 21:05:42
- * @Description  : edit description
--->
+
 ## Table of Contents
 
 ## 引申

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-28 14:52:02
 title: Python fastapi
 slug: Python fastapi
@@ -10,14 +9,6 @@ tags:
   - fastapi
 description: "Python Web 框架 fastapi"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-10-28 14:52:02
- * @LastEditTime: 2023-11-22 20:36:48
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 

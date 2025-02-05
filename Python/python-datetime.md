@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-03-12 17:32:16
 title: Python datetime
 slug: Python datetime
@@ -122,4 +121,3 @@ datetime1 <= datetime2
 timedelta1 > timedelta2
 datetime1 >= datetime2
 ```
-

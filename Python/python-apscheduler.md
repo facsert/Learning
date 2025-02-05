@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-12-13 21:51:08
 title: Python APScheduler
 slug: Python APScheduler
@@ -10,14 +9,6 @@ tags:
   - APScheduler
 description: "Python 定时任务框架 APScheduler"
 ---
-
-<!--
- * @Author: facsert
- * @Date: 2023-12-13 21:51:08
- * @LastEditTime: 2023-12-13 22:10:40
- * @LastEditors: facsert
- * @Description:
--->
 
 ## Table of Contents
 
