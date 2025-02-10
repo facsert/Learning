@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-05-23 15:28:43
 title: Hexo
 slug: Hexo
@@ -10,13 +9,6 @@ tags:
   - Tool
 description: "博客框架 Hexo"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-05-23 15:28:43
- * @LastEditTime : 2023-07-28 11:50:44
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -36,7 +28,7 @@ Github Page 为账户下的仓库提供免费的域名, 显示仓库的静态网
 |       [Github](https://github.com/)       | 注册账户, 并添加 sshkey                |
 |         [node](http://nodejs.cn/)         | node 的包管理工具 npm 安装 Hexo 及主题 |
 |        [Git](https://git-scm.com/)        | 本地代码上传到 github 的工具           |
-| [VS Code](https://code.visualstudio.com/) | 编辑 Hexo 配置或markdown文件           |
+| [VS Code](https://code.visualstudio.com/) | 编辑 Hexo 配置或 markdown 文件         |
 
 ## Github 仓库
 
@@ -45,6 +37,7 @@ Github Page 为账户下的仓库提供免费的域名, 显示仓库的静态网
 
 ```bash
  $ https://<user>.github.io/          # 使用该 url 确认是否创建成功
+ >
 ```
 
 ## Hexo 安装
@@ -66,6 +59,7 @@ Github Page 为账户下的仓库提供免费的域名, 显示仓库的静态网
 ```bash
  $ npm install -g hexo-cli        # 下载安装 hexo 所有的包
  $ npm i hexo-deployer-git        # 下载安装 hexo 的 git 专用包
+ >
 ```
 
 注: 若无法下载 hexo 或速度较慢可修改 npm 源为国内镜像, 命令如下:  
@@ -79,6 +73,7 @@ vscode 打开 blog 文件夹
  $ hexo init                      # 生成初始化文件
  $ hexo g                         # 生成静态网页
  $ hexo s                         # 部署静态网页到本地预览
+ >
 ```
 
 注: `INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.`
@@ -102,11 +97,11 @@ vscode 打开 blog 文件夹
 |  timezone   | 网站时区       |
 
 ```yaml
-title: facser
+title: john
 subtitle: ""
-description: "facser blog"
+description: "john blog"
 keywords:
-author: facser
+author: john
 language: zh-CN
 timezone: ""
 ```
@@ -122,7 +117,7 @@ timezone: ""
 ```yaml
 deploy:
   type: git
-  repo: git@github.com:facser/facser.http-github.io.git # 仓库 url
+  repo: git@github.com:john/john.http-github.io.git # 仓库 url
   branch: master # 代码分支
   message: modify git.md another time # commit 内容
 ```
@@ -147,6 +142,7 @@ Vscode 打开 blog 文件夹, 命令行输入:
 
 ```bash
  $ hexo new post <title>       # 创建文章, title 表示文章标题
+ >
 ```
 
 Hexo 会在 source/\_posts 创建 `<title>.md` 文件
@@ -180,6 +176,7 @@ excerpt: git 配置及使用
  $ hexo clean                  # 清除原有的静态网页
  $ hexo g                      # generate  生成静态网页
  $ hexo d                      # 上传网页到 github 仓库
+ >
 ```
 
 注: 可使用 `hexo s` 命令进行本地预览

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-01-19 21:51:23
 title: caddy
 slug: caddy
@@ -12,7 +11,7 @@ description: "web 服务器和代理工具 caddy"
 
 ## 介绍
 
-Caddy 是一款开源的 Web 服务器，它是一个快速、可靠、安全的 HTTP/2 服务器，具有自动 HTTPS、模块化的配置、插件化的架构等特性  
+Caddy 是一款开源的 Web 服务器，它是一个快速、可靠、安全的 HTTP/2 服务器，具有自动 HTTPS、模块化的配置、插件化的架构等特性
 
 [caddy 官方文档](https://caddyserver.com/docs/)
 
@@ -40,7 +39,7 @@ sudo apt install caddy
  # 查看 caddy 配置信息 (json 格式, 无配置返回 null)
  $ curl localhost:2019/config/
  > null
- 
+
  # 后台启动 caddy
  $ caddy start
 
@@ -54,10 +53,9 @@ sudo apt install caddy
 ## 全局配置
 
 全局配置用于设置一些全局的配置项，比如监听的端口、日志级别、默认网站根目录等  
-全局配置必须在文件顶部, 且必须是第一个代码快  
+全局配置必须在文件顶部, 且必须是第一个代码快
 
 ```bash
-
 {
     debug
     log {
@@ -72,16 +70,15 @@ sudo apt install caddy
 
         # 日志格式, 可选: console, json, 自定义格式
         format console {
-			time_format wall
-			level_format upper
-			time_local
-		}
+            time_format wall
+            level_format upper
+            time_local  true
+        }
 
         # 日志级别, 仅有 ERROR 和 INFO 两种日志, 可选: ERROR, INFO
         level  INFO
     }
 }
-
 ```
 
 ## 代理配置
@@ -109,14 +106,14 @@ sudo apt install caddy
 ```bash
 # 静态文件服务器(配置文件路径列表)
 :2023 {
-    file_server browse 
+    file_server browse
 }
 
-# 指定路径为 caddy 文件列表 
+# 指定路径为 caddy 文件列表
 # http://localhost:2023  => /root/temp
 :2023 {
     root * /root/temp
-    file_server browse 
+    file_server browse
 }
 ```
 

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-10-25 11:56:31
 title: Python Magic Method
 slug: Python Magic Method
@@ -10,12 +9,6 @@ tags:
 description: "Python 魔术方法"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2023-10-25 11:56:31
- * @LastEditTime : 2023-10-25 15:16:58
- * @Description  : edit description
--->
 ## Table of Contents
 
 ## 魔术方法

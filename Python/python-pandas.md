@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-02-21 20:34:43
 title: Python pandas
 slug: Python pandas
@@ -15,24 +14,24 @@ description: "Python pandas 模块"
 
 ## 介绍
 
-pandas 是一个用于处理表格型数据的 Python 库, 可以轻松地处理各种结构化数据  
+pandas 是一个用于处理表格型数据的 Python 库, 可以轻松地处理各种结构化数据
 
-|类型|示例|含义|
-|:--:|:--:|:--:|
-|Series|`s = pd.Series([1, 2, 3])`|一维数组|
-|DataFrame|`df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})`|二维数组|
+|   类型    |                         示例                          |   含义   |
+| :-------: | :---------------------------------------------------: | :------: |
+|  Series   |              `s = pd.Series([1, 2, 3])`               | 一维数组 |
+| DataFrame | `df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})` | 二维数组 |
 
 ```py
 import pandas as pd
 
-# 按列创建 
+# 按列创建
 pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
-   A   B     
-0  1   4  
-1  2   5 
+   A   B
+0  1   4
+1  2   5
 2  3   6
 
-# 按行创建 
+# 按行创建
 pd.DataFrame([{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}])
    a   b     c
 0  1   2   NaN
@@ -41,7 +40,7 @@ pd.DataFrame([{'a': 1, 'b': 2}, {'a': 5, 'b': 10, 'c': 20}])
 
 ## Series
 
-Series 是一维数组, 可以理解为二维数组的一列或 DataFrame 取的一行  
+Series 是一维数组, 可以理解为二维数组的一列或 DataFrame 取的一行
 
 ```py
 # 创建 Series 数据, 不设置 index, 默认索引从 0 开始
@@ -88,13 +87,13 @@ s * 2
 DataFrame 表示一个大小可变的二维数据, 类似于一张表  
 DataFrame 有行索引和列索引  
 DataFrame 可容纳多种数据类型  
-DataFrame 允许缺失值, 提供方法处理缺失值  
+DataFrame 允许缺失值, 提供方法处理缺失值
 
 ```py
 data = [
-  {'name': 'A', 'age': 16, 'height': '1.75'}, 
-  {'name': 'B', 'age': 17, 'height': '1.80'}, 
-  {'name': 'C', 'age': 18, 'height': '1.85'}, 
+  {'name': 'A', 'age': 16, 'height': '1.75'},
+  {'name': 'B', 'age': 17, 'height': '1.80'},
+  {'name': 'C', 'age': 18, 'height': '1.85'},
   {'name': 'D', 'age': 19, 'height': '1.90'}
 ]
 
@@ -132,7 +131,7 @@ df[df['age'] > 18]
   name  age height
 d    D   19   1.90
 
-# DataFrame 开头和结尾切片 
+# DataFrame 开头和结尾切片
 df.head(3) / df.tail(3)
 
 # df.fillna(value) 缺失值赋值

@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-01-19 21:51:23
 title: rabbitmq
 slug: rabbitmq

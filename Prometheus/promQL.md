@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-01-30 21:12:43
 title: PromQl
 slug: PromQl

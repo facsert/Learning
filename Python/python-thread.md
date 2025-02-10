@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-09-24 08:52:15
 title: Python thread
 slug: Python thread
@@ -13,15 +12,15 @@ description: "Python 多线程"
 ## 介绍
 
 单线程表示程序中只有一个执行流, 程序任一时间只执行一个任务  
-多线程表示有多个执行流, 单个程序在同一时间执行多个任务  
+多线程表示有多个执行流, 单个程序在同一时间执行多个任务
 
-多线程本质是 CPU 多核心, 如 CPU 8核 12线程, 表示 8 个物理核心, 4 个核心支持超线程, 1 个核心支持双线程  
+多线程本质是 CPU 多核心, 如 CPU 8 核 12 线程, 表示 8 个物理核心, 4 个核心支持超线程, 1 个核心支持双线程  
 其余 4 个核心对应 1 个核心, 若硬件仅有 1 个核心且无超线程, 代码层面使用多线程结果依然是单线程(线程切换)
 
 ## 多线程
 
 `python` 语言内置 GIL 锁(互斥锁), 同一时间只有 1 个线程能执行, 实际是在多个线程间来回来回切换  
-GIL 锁使得多线程在执行 CPU 计算密集任务不能节省时间, 多线程执行 IO 密集任务可以节约时间  
+GIL 锁使得多线程在执行 CPU 计算密集任务不能节省时间, 多线程执行 IO 密集任务可以节约时间
 
 ```py
 import timeit
@@ -176,7 +175,7 @@ class Chan:
         self.alive = self.thread.is_alive()
         return self.alive is False
 
-def chaner(chans: list[Chan], size: int=5, interval: float=0.1) -> list[Chan]:
+def pool(chans: list[Chan], size: int=5, interval: float=0.1) -> list[Chan]:
     """ 线程池执行池
         chans list[Chan]: 线程列表
         size int: 线程池最大数量
@@ -187,26 +186,26 @@ def chaner(chans: list[Chan], size: int=5, interval: float=0.1) -> list[Chan]:
 
     group: list[Chan] = []
     pool: list[Chan] = []
-    chans = chans[::-1]
-    
-    while len(pool) < size and chans:
-        chan = chans.pop()
+    chan_list = chan_list[::-1]
+
+    while len(pool) < size and chan_list:
+        chan = chan_list.pop()
         chan.run()
         pool.append(chan)
-    
+
     while pool:
         for index, chan in enumerate(pool):
             if chan.alive:
                 continue
 
             group.append(pool.pop(index))
-            if chans:
-                ch = chans.pop()
+            if chan_list:
+                ch = chan_list.pop()
                 ch.run()
                 pool.append(ch)
-        
+
         sleep(interval)
-    
+
     return group
 
 if __name__ == '__main__':
@@ -218,7 +217,7 @@ if __name__ == '__main__':
     c1 = Chan(func=wait, params={'second': 3}, count=2, timeout=6, interval=1)
     c2 = Chan(func=wait, params={'second': 2}, count=2, interval=1)
 
-    chaner([c1, c2], 2, 0.1)
+    pool([c1, c2], 2, 0.1)
     logger.info(f"{c1.output=}, {c1.alive=}, {c1.pid=}")
     logger.info(f"{c2.output=}, {c2.alive=}, {c2.pid=}")
     logger.info("finish")

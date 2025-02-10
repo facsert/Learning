@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-06-03 17:44:44
 title: Ansible
 slug: Ansible
@@ -10,13 +9,6 @@ tags:
   - Tool
 description: "自动化运维工具 Ansible"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-06-03 17:44:44
- * @LastEditTime : 2023-10-11 21:51:31
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -55,7 +47,8 @@ localhost
  $ ansible-console
 
  $ ansible <host pattern> -m <module> -a <args>
- $ ansilbe all -m shell -a "ifconfig"
+ $ ansible all -m shell -a "ifconfig"
+ >
 ```
 
 ### 查询
@@ -63,8 +56,7 @@ localhost
 ```bash
  $ ansible --version
  $ ansible all --list-host
- $
-
+ >
 ```
 
 ## 执行命令
@@ -72,6 +64,7 @@ localhost
 ```bash
  $ ansible <host pattern> -m command -a <command>
  $ ansible <host pattern> -m shell -a <shell command>
+ >
 ```
 
 ### 文件
@@ -79,6 +72,7 @@ localhost
 ```bash
  $ ansible node -m copy -a "src=/root/local dst=/root/remote"
  $ ansible node -m fetch -a "src=/root/remote dst=/root/local"
+ >
 ```
 
 ## Playbook

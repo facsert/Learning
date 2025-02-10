@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-11-23 08:58:24
 title: Python loguru
 slug: Python loguru
@@ -9,13 +8,6 @@ tags:
   - Python
 description: "Python 日志模块 loguru"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-11-23 08:58:24
- * @LastEditTime : 2023-12-13 22:33:52
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -57,7 +49,7 @@ format:  '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</le
 |   Tag    |  TRACE  |  DEBUG  |  INFO  |  SUCCESS  |  WARNING  |  ERROR  |  CRITICAL  |
 | :------: | :-----: | :-----: | :----: | :-------: | :-------: | :-----: | :--------: |
 | Severity |    5    |   10    |   20   |    25     |    30     |   40    |     50     |
-|  methon  | `trace` | `debug` | `info` | `success` | `warning` | `error` | `critical` |
+|  method  | `trace` | `debug` | `info` | `success` | `warning` | `error` | `critical` |
 
 默认输出内容比较冗余, 可以通过 `logger.remove()` 删除默认输出, 然后通过 `logger.add()` 重新配置输出.
 
@@ -115,9 +107,9 @@ logger.level("PUT", no=22, color="<white>")
 logger.level("POST", no=23, color="<white>")
 logger.add('requests.log', level='GET', filter=lambda r: 20 < r['level'].no < 24, rotation="1 days", retention="1 months")
 
-logger.log("GET", "reques get")
-logger.log("PUT", "reques PUT")
-logger.log("POST", "reques POST")
+logger.log("GET", "request get")
+logger.log("PUT", "request PUT")
+logger.log("POST", "request POST")
 
 [GET     ][2023-12-13 21:42:21]: request get
 [PUT     ][2023-12-13 21:47:51]: request put

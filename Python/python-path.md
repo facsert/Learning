@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2024-02-21 20:34:43
 title: Python path
 slug: Python path
@@ -80,7 +79,7 @@ shutil.copy('temp.txt', 'file.txt')              # 复制文件, 参数是路径
 shutil.copytree('temp', 'folder')                # 递归复制目录, 目录存在则报错
 
 ignores = lambda dir, files: [f for f in files if f.endswith('.txt')]
-shutil.copytree('temp', 'folder', ignore=ignores)# 递归复制目录, 并忽略符合 ignores 函数的文件 
+shutil.copytree('temp', 'folder', ignore=ignores)# 递归复制目录, 并忽略符合 ignores 函数的文件
 
 for root, dirs, files in os.walk(path)           # 遍历目录, 返回目录路径, 目录列表, 文件列表
     [print(join(root, f)) for f in files]

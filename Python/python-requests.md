@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-12-13 20:57:56
 title: Python requests
 slug: Python requests
@@ -11,15 +10,7 @@ tags:
 description: "Python HTTP 模块 requests"
 ---
 
-<!--
- * @Author: facsert
- * @Date: 2023-12-13 20:57:56
- * @LastEditTime: 2023-12-13 20:58:57
- * @LastEditors: facsert
- * @Description:
--->
-
-requests 是一个简单强大的 http请求库，支持同步和异步
+requests 是一个简单强大的 http 请求库，支持同步和异步
 
 ## Table of Contents
 
@@ -36,11 +27,11 @@ requests 是一个简单强大的 http请求库，支持同步和异步
 `requests` 是一个 python 的 http 库, 它可以用来发送 http 请求, 并接收 http 响应  
 HTTP 的全称是 HyperText Transfer Protocol (超文本传输协议)的缩写，是一种建立在 TCP 上的无状态连接  
 HTTP 是互联网的基础协议，用于客户端与服务器之间的通信，它规定了客户端和服务器之间的通信格式，包括请求与响应的格式  
-客户端通过地址链接生成 HTTP 报文, 并发送给服务器, 服务器根据请求方法，向客户端返回响应  
+客户端通过地址链接生成 HTTP 报文, 并发送给服务器, 服务器根据请求方法，向客户端返回响应
 
 ```bash
 # 请求 URL
-http://localhost:8001/node/get?id=1              
+http://localhost:8001/node/get?id=1
 
 # HTTP 报文主要信息
 Request URL: http://localhost:8001/node/get?id=1 # 请求 URL
@@ -52,8 +43,8 @@ Referrer Policy: strict-origin-when-cross-origin
 # chrome General 请求报文所有信息
 accept: application/json                         # 客户端接收的数据格式
 Accept-Encoding: gzip, deflate, br               # 客户端接收的数据压缩格式
-Accept-Language: zh-CN,zh;q=0.9                  # 客户端接收的语言                         
-Cache-Control: no-cache  
+Accept-Language: zh-CN,zh;q=0.9                  # 客户端接收的语言
+Cache-Control: no-cache
 Connection: keep-alive                           # 连接类型
 Host: localhost:8001                             # 服务器地址
 Pragma: no-cache
@@ -86,7 +77,7 @@ request 支持多种种基本请求方法, 常用有 4 种(RESTFUL API):
 import requests
 
 # 根据源码, 所有请求方法都是对 `request(method, url, **kwargs)` 的封装
-requests.get(url, params=None, **kwargs) 
+requests.get(url, params=None, **kwargs)
 => requests.request("get", url, params=params, **kwargs)
 
 requests.post(url, data=None, json=None, **kwargs)

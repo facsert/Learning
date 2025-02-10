@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2023-09-25 15:28:43
 title: Python Type
 slug: Python Type
@@ -9,13 +8,6 @@ tags:
   - Python
 description: "Python 类型注解"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2023-09-25 15:28:43
- * @LastEditTime : 2023-07-28 11:50:12
- * @Description  : edit description
--->
 
 ## Table of Contents
 
@@ -37,7 +29,7 @@ description: "Python 类型注解"
 静态语言变量有类型, 且变量类型和值的类型必须一致
 
 ```go
- var name string = "facser"                      // Go 是静态语言
+ var name string = "john"                        // Go 是静态语言
  var age int = 18                                // 变量声明需要确定变量类型
  age = 20                                        // 变量重新赋值时, 变量和值的类型必须一致
 ```
@@ -77,7 +69,7 @@ python 类型注解:
 ```
 
 注: 上述除元组与字典外, 容器元素只能指定一个类型. 元组需要数量和类型一致, 字典只能使用一组 key value 类型
-(python3.9版本前容器类型需要导入 typing 模块的 List Tuple Set Dict)
+(python3.9 版本前容器类型需要导入 typing 模块的 List Tuple Set Dict)
 
 ### 联合类型
 

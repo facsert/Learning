@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-08-28 15:28:43
 title: zsh
 slug: zsh
@@ -11,18 +10,11 @@ tags:
 description: "zsh 是一个高效美观的 shell"
 ---
 
-<!--
- * @Author       : facsert
- * @Date         : 2022-08-28 15:28:43
- * @LastEditTime : 2023-07-28 11:50:52
- * @Description  : edit description
--->
-
 ## Table of Contents
 
 ## zsh 介绍
 
-zsh能基本完美兼容bash的命令，并且使用起来更加优雅,
+zsh 能基本完美兼容 bash 的命令，并且使用起来更加优雅,
 zsh 可以通过 oh-my-zsh 添加主题和插件实现美观高效的命令行体验
 
 ## 安装与配置
@@ -30,7 +22,7 @@ zsh 可以通过 oh-my-zsh 添加主题和插件实现美观高效的命令行�
 ```zsh
  $ sudo apt install zsh                          # Ubuntu 直接下载安装
  $ yum install zsh                               # Centos Redhat yum 安装版本低无法添加 oh-my-zsh
- 
+
  $ zsh && echo $SHELL                            # mac 默认是 zsh
  > /bin/zsh
 
@@ -59,7 +51,7 @@ zsh 可以通过 oh-my-zsh 添加主题和插件实现美观高效的命令行�
 
 ## 主题
 
-oh-my-zsh 是 zsh 主题控制工具, 安装后可更换主题, 安装插件  
+oh-my-zsh 是 zsh 主题控制工具, 安装后可更换主题, 安装插件
 
 ```zsh
  # GitHub 源码安装
@@ -187,7 +179,7 @@ oh-my-zsh 可以安装许多高效插件, 安装后可使用插件功能
 
 ### z
 
-仅输入文件即可跳转到曾经进入的文件目录(oh-my-zsh自带,无需下载)
+仅输入文件即可跳转到曾经进入的文件目录(oh-my-zsh 自带,无需下载)
 
 ```bash
  $ vi ~/.bashrc                                  # 编辑 zsh 配置文件, plugins 添加插件
@@ -206,7 +198,7 @@ oh-my-zsh 可以安装许多高效插件, 安装后可使用插件功能
 
 ### extract
 
-一键解压 tar, gz, zip, rar 包(oh-my-zsh自带,无需下载)
+一键解压 tar, gz, zip, rar 包(oh-my-zsh 自带,无需下载)
 
 ```bash
  $ vi ~/.bashrc                                  # 编辑 zsh 配置文件, plugins 添加插件

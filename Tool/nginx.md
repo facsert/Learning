@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-01-19 21:51:23
 title: nginx
 slug: nginx
@@ -33,6 +32,7 @@ nginx 是由 C 编写, 需要使用相关依赖编译器编译
  $ cd nginx-1.25.3
  $ ./configure
  $ make && make install
+ >
 ```
 
 包管理工具安装
@@ -40,6 +40,7 @@ nginx 是由 C 编写, 需要使用相关依赖编译器编译
 ```bash
  $ apt install nginx
  $ systemctl start nginx
+ >
 ```
 
 docker 镜像安装
@@ -47,6 +48,7 @@ docker 镜像安装
 ```bash
  $ docker pull nginx
  $ docker run -d -p 80:80 -p 443:443 --name nginx nginx
+ >
 ```
 
 ## nginx 配置

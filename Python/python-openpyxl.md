@@ -1,5 +1,4 @@
 ---
-author: facsert
 pubDatetime: 2022-09-07 15:28:43
 title: Python openpyxl
 slug: Python openpyxl
@@ -10,13 +9,6 @@ tags:
   - openpyxl
 description: "Python Excel 表格模块 openpyxl"
 ---
-
-<!--
- * @Author       : facsert
- * @Date         : 2022-09-07 15:28:43
- * @LastEditTime: 2023-09-27 21:27:36
- * @Description  : edit description
--->
 
 ## Table of Contents
 
