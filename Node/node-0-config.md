@@ -172,8 +172,11 @@ yarn 的使用与 npm 类似
 fnm 是 node 版本管理工具, 支持 window(n 不支持 windows)
 
 ```powershell
-# 安装 fnm
+# windows 安装 fnm
 winget install Schniz.fnm
+
+# linux macos 安装 fnm(需要先安装 curl 和 unzip)
+curl -o- https://fnm.vercel.app/install | bash
 
 # 获取本例 node 版本(本地已安装版本显示 system)
 fnm list
@@ -184,9 +187,12 @@ fnm list-remote
 # 下载指定版本
 fnm install 20
 
-# 使用指定版本
 # 设置环境变量 fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+# 使用临时使用版本
 fnm use 20
+
+# 设置命令行开启默认版本
+fnm default 20
 ```
 
 注: 要使 fnm 环境变量持续生效需修改 powershell 配置文件
