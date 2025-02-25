@@ -163,3 +163,58 @@ network interfaces configuring
  $ kill -9 23287                                 # 根据 pip 杀死指定进程
  > [1]  + 23287 killed     sleep 300
 ```
+
+## 硬盘挂载
+
+设置硬盘临时挂载
+
+```bash
+ # 查看所有块设备 (sdb 未挂载)
+ $ lsblk
+  NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+  loop0    7:0    0   62M  1 loop /snap/core20/1587
+  loop1    7:1    0 79.9M  1 loop /snap/lxd/22923
+  loop2    7:2    0   47M  1 loop /snap/snapd/16292
+  sda    252:0    0   40G  0 disk
+  └─sda1 252:1    0   40G  0 part /
+  sdb    252:16   0  200G  0 disk
+
+ $ df -h
+  Filesystem      Size  Used Avail Use% Mounted on
+  tmpfs           1.6G  1.1M  1.6G   1% /run
+  /dev/sda1        40G  6.4G   31G  18% /
+  tmpfs           7.7G     0  7.7G   0% /dev/shm
+  tmpfs           5.0M     0  5.0M   0% /run/lock
+  tmpfs           1.6G  4.0K  1.6G   1% /run/user/0
+
+ # 挂载磁盘到 /root/disk 路径(路径必须存在, 重启则挂载失效)
+ $ mount /dev/sdb /root/disk
+```
+
+设置硬盘永久挂载
+
+```bash
+ # 查看机器硬盘 (sdb 未挂载)
+ $ lsblk
+
+ $ df -h
+
+ # 获取设备 UUID(返回为空, 则先格式化再获取 UUID)
+ $ blkid /dev/sdb1
+ /dev/sdb: UUID="3b6c12s6-67e5-5bcs-a15a-ecb6c7dc68ab" BLOCK_SIZE="4096" TYPE="ext4"
+
+ # 格式化磁盘(能获取 UUID 则跳过格式化)
+ $ mkfs.ext4 /dev/sdb
+  
+ # 将挂载信息写入 /etc/fstab, 每次重启都自动挂载
+ # <file system> <mount point> <type>  <options> <dump>    <pass>
+ # UUID作为设备id  挂载路径     文件类型  挂载选项  dump 备份  根文件系统 1
+ $ vi /etc/fstab
+ UUID=3b6c12s6-67e5-5bcs-a15a-ecb6c7dc68ab /root/disk ext4 defaults 0 1
+
+ # 根据 /etc/fstab 配置自动挂载
+ $ mount -a
+
+ # 卸载已挂载的盘(无进程访问挂载路径)
+ $ umount /root/disk
+```
