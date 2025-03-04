@@ -116,13 +116,23 @@ description: "Docker 镜像"
 ```bash
  $ docker save [OPTIONS] IMAGE [IMAGE...]
  $ docker save 0850fead9327 > mongo.tar.gz
- $ docker save -o mysql.tar mysql:lates
+ $ docker save -o postgres.tar postgres:lates
 
  $ ll
  > -rw-r--r-- 1 root  root   23K Mar  7 21:10 mongo.tar.gz
 
- # 导入镜像
- $ docker load -i mysql.tar
+ # 导入镜像(导入镜像没有名字和tag)
+ $ docker load -i postgres.tar
+  REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+  <none>       <none>    69092dbdec0d   6 months ago   432MB
+ 
+ # 根据 id 查看镜像信息
+ $ docker inspect 69092dbdec0d
+
+ # 重新命名
+ $ docker tag 69092dbdec0d postgres:latest
+ REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+ postgres     latest    69092dbdec0d   6 months ago   432MB
 ```
 
 - 镜像历史
@@ -196,7 +206,7 @@ RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm &&\                   #
     make install &&\
     echo "daemon off;" >> /etc/nginx.conf
 
-CMD /usr/sbin/nginx                                                            # 生成容器后执行的命令, 会被 docker run 生成容器时初始命令覆盖
+CMD /usr/sbin/nginx                                                            # build 时不执行, docker run 时执行, 必须前台执行
 ```
 
 ```bash
@@ -210,8 +220,8 @@ FROM centos
 ARG <name>[=<default value>]                                                   # 设置构建镜像的外部参数, 修改参数需要使用 --build-arg
 ENV <key> <value>                                                              # 设置 Dockerfile 内全局变量
 
-ARG USERNAME="facser"                                                          # Dockerfile 设置默认参数 "facser"
-$ docker build --build-arg USERNAME="kertory" -t demo:v1                       # build 镜像时通过 --build-arg 修改 USERNAME 的值
+ARG USERNAME="root"                                                            # Dockerfile 设置默认参数 "root"
+$ docker build --build-arg USERNAME="admin" -t demo:v1                         # build 镜像时通过 --build-arg 修改 USERNAME 的值
 
 ENV FILENAME "record.log"                                                      # 设置 Dockerfile 内全局变量, 一般全大写, 用法与 shell 一致
 ENV TITLE="title in $FILENAME"                                                 # "title in record.log", 使用 = 可以设置多个变量
@@ -258,6 +268,7 @@ CMD ["executable", "param1", "param2"]                                         #
 CMD /bin/bash                                                                  # 会被 docker run 创建容器时指定的命令覆盖
 
  $ docker run -it --name nginx-demo nginx-base echo "create mongo container"   # echo 命令覆盖 /bin/bash 指令
+ $ docker logs nginx-demo                                                      # 查看容器执行日志
 ```
 
 注: 创建容器时, 若执行的命令在一定时间内能完成, 则容器在执行完命令就会关闭
