@@ -167,16 +167,36 @@ mongo-person  1.0.0  43761bd5b76d  41 hours ago  700MB
 
 ### docker build
 
+Docker 原有 build 命令支持构建镜像, 另外推出了 docker buildx 用于交叉编译及更强大功能
+[Docker buildx](https://github.com/docker/buildx/releases/)
+
+```bash
+ # 下载离线插件, 改名，添加权限，放入 docker 插件路径
+ $ mv buildx-v0.21.2.linux-amd64 docker-buildx
+ $ chmod +x docker-buildx
+ $ mkdir -p /usr/lib/docker/cli-plugins
+ $ cp docker-buildx /usr/lib/docker/cli-plugins/
+ 
+ $ docker buildx version
+ > github.com/docker/buildx v0.21.2 1360a9e8d25a2c3d03c2776d53ae62e6ff0a843d
+```
+
 ```bash
  docker build [OPTIONS] PATH | URL | -
 
  Options:
    --file, -f                                                                  # 指定要使用的Dockerfile路径；
    --tag, -t                                                                   # 镜像的名字及标签(name:tag 或 name, 允许多个)
-   --no-cache                                                                  # 不使用缓存
+   --no-cache                                                                  # 不使用缓存(默认使用缓存, 即复用成功的步骤)
+   --build-arg                                                                 # 指定 Dockerfile 文件中的参数
 
- $ docker build -t nginx-base:v1 .                                             # "." 查找当前目录下的 Dockerfile 构建镜像
- $ docker build -t nginx-base:v1 -f /root/Dockerfile                           # 指定 Dockerfile 构建镜像
+ $ docker build -t nginx-base:v1 -f /root/Dockerfile .                         # 指定 Dockerfile 文件构建镜像(文件名可任意)
+ $ docker build -t nginx-base:v1 .                                             # 不指定文件, 则在当前路径查找 Dockerfile 文件构建
+ $ docker build --build-arg PORT=8080 -t app:v1 .                              # 指定 Dockerfile 中变量 PORT 为 8080
+
+# docker build 都以结尾都有 "." 表示在当前路径构建镜像
+# Dockerfile 支持 COPY ADD 命令将文件复制到镜像中, 如 COPY ./app /app
+# 使用 . 确定构建路径, COPY ADD 便在构建路径查找对应文件操作
 
 REPOSITORY  TAG  IMAGE ID      CREATED       SIZE
 nginx-base  v1   43761bd5b76d  41 hours ago  700MB
@@ -184,11 +204,16 @@ nginx-base  v1   43761bd5b76d  41 hours ago  700MB
 
 ### Dockerfile
 
+[Dockerfile 关键字清单](https://docs.docker.com/reference/dockerfile/#arg)
+
 ```bash
 FROM ubuntu                                                                    # 以 ubuntu 镜像为基础, 可添加 tag, ubuntu:20.04
 
 ENV path=/usr/local/                                                           # 设置全局变量, 可添加多个，或 ENV 多次设置, 可以使用已设置的变量
-ARG USERNAME="facser"                                                          # 设置 build 执行参数, 通过 --build-arg <key>=value 来修改
+ENV TZ=Asia/Shanghai                                                           # 设置镜像时区, 可以添加多个环境变量
+
+ARG USERNAME                                                                   # 设置 build 执行参数, 通过 --build-arg <key>=value 来修改
+ARG VERSION="1.0.0"                                                            # 参数可以设置默认值
 
 LABEL version="1.0.0" description="ubuntu image by $USERNAME"                  # 添加镜像元数据
 
@@ -197,16 +222,95 @@ ADD epel-release-latest-7.noarch.rpm $path
 
 WORKDIR $path                                                                  # 设定镜像中工作目录, 并转到改目录, 类似 cd 命令, 可以多次设置
 
-RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm &&\                   # 执行 shell 命令
-    yum install -y wget lftp gcc gcc-c++ make openssl-devel pcre-devel pcre &&\
-    yum clean all &&\
-    cd $path/nginx-1.8.0 &&\
-    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-pcre &&\
-    make &&\
-    make install &&\
+RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm && \                  # 执行 shell 命令
+    yum install -y wget lftp gcc gcc-c++ make openssl-devel pcre-devel pcre && \
+    yum clean all && \
+    cd $path/nginx-1.8.0 && \
+    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-pcre && \
+    make && \
+    make install && \
     echo "daemon off;" >> /etc/nginx.conf
 
 CMD /usr/sbin/nginx                                                            # build 时不执行, docker run 时执行, 必须前台执行
+```
+
+Fastapi 后端项目镜像示例
+
+```Dockerfile
+FROM python:3.13
+
+# 设置 build 参数, build 时
+ARG USERNAME="username" PASSWORD
+
+# 设置镜像时区
+ENV TZ=Asia/Shanghai
+
+WORKDIR /root
+
+LABEL description="python backend server port:8000"
+
+# 若代码下载需要使用密码, 可使用参数
+# RUN git clone https://$USERNAME:$PASSWORD@github.com/xxx/backend.git && \
+
+# 下载代码, 进入根目录安装依赖
+RUN git clone git@github.com:xxxx/backend.git && \
+    cd /root/backend && \
+    python -m pip install requirements.txt
+
+# 设置项目根目录, 容器拉起时起始路径
+WORKDIR /root/backend
+
+# 拉起服务命令
+# CMD ["python", "main.py"]
+CMD ["fastapi", "run", "main.py"]
+
+EXPOSE 8000
+```
+
+```bash
+ $ docker build --build-arg PASSWORD="password" -t backend:v1 .
+ $ docker build -t backend:v1 .
+
+Sending build context to Docker daemon  3.072kB
+Step 1/8 : FROM python:3.13
+ ---> 7398721493a3
+Step 2/8 : ARG USERNAME="xxxx" PASSWORD
+ ---> Running in f45ef3011922
+ ---> Removed intermediate container f45ef3011922
+ ---> 5a5aa269c386
+Step 3/8 : WORKDIR /root
+ ---> Running in 2aa267ebc9d5
+ ---> Removed intermediate container 2aa267ebc9d5
+ ---> 9f42bfe09e1d
+Step 4/8 : LABEL description="python board fastapi backend port:8000"
+ ---> Running in c4fcc49cdc7c
+ ---> Removed intermediate container c4fcc49cdc7c
+ ---> 8b44d19e5354
+Step 5/8 : RUN git clone git@github.com:xxxx/backend.git &&     cd /root/backend &&     python -m pip install requirements.txt
+---> Running in ac2af879cff4
+... ...
+... ...
+... ...
+ ---> Removed intermediate container ac2af879cff4
+ ---> 3c22f31619ca
+Step 6/8 : WORKDIR /root/backend
+ ---> Running in 7b97816041ce
+ ---> Removed intermediate container 7b97816041ce
+ ---> 69c298e421df
+Step 7/8 : CMD ["fastapi", "run", "main.py"]
+ ---> Running in db8875e5bb4f
+ ---> Removed intermediate container db8875e5bb4f
+ ---> 3981dc24b2bc
+Step 8/8 : EXPOSE 8000
+ ---> Running in e1efa6331bbc
+ ---> Removed intermediate container e1efa6331bbc
+ ---> 9f74c3f6bd8c
+Successfully built 9f74c3f6bd8c
+Successfully tagged backend:v1
+
+ $ docker images
+ REPOSITORY          TAG       IMAGE ID       CREATED        SIZE
+ backend             v1        9f74c3f6bd8c   5 hours ago    1.33GB
 ```
 
 ```bash

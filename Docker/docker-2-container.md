@@ -107,6 +107,17 @@ Options:
 创建 `docker-compose.yml` 定义容器, 然后一键拉起多个复杂容器, 且可以重复使用  
 [Docker Compose 离线安装包](https://github.com/docker/compose/releases)
 
+```bash
+ # 下载离线工具后, 改名添加权限, 放到 docker 插件路径下
+ $ mv docker-compose-linux-x86_62 docker-compose
+ $ chmod +x docker-compose
+ $ mkdir -p /usr/lib/docker/cli-plugins
+ $ cp docker-compose /usr/lib/docker/cli-plugins/
+
+ $ docker compose version
+ > Docker Compose version v2.33.1
+```
+
 ```yaml
 # docker compose v1.27 后 无需 version 关键字
 version: "3"
@@ -165,6 +176,8 @@ services:
 services:
   backend:
     image: example/database
+    environment:
+      - TZ=Asia/Shanghai  # 设置时区
     volumes:
       - db-data:/etc/data
     networks:
