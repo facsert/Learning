@@ -82,7 +82,8 @@ Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
 # exists and systemd currently does not support the cgroup feature set required
 # for containers run by docker
-#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+# ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+# ExecStart=/usr/bin/dockerd --data-root=/home/docker  # set docker root dir(default: /var/lib/docker)
 ExecStart=/usr/bin/dockerd
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutStartSec=0
@@ -184,6 +185,36 @@ TriggeredBy: ● docker.socket
  > ...
 
  $ $ systemctl enable docker                                                     # 设置为开机启动
+```
+
+## docker 切换路径
+
+```bash
+ # 关闭 docker 服务
+ $ systemctl stop docker
+ 
+ # 查看 docker 默认根目录
+ $ docker info | grep "Docker Root Dir"
+ Docker Root Dir: /var/lib/docker
+ 
+ # docker 文件由 /var/lib/docker 复制到 /home/docker
+ $ rsync -avxP /var/lib/docker/ /home/docker/
+ 
+ # 修改 docker 根目录, 有两种方法
+
+ # 方法 1, 启动参数配置根目录
+ $ vi /etc/systemd/system/docker.service
+ ExecStart=/usr/bin/dockerd --data-root=/home/docker  
+
+ # 方法 2 编辑 daemon.json 文件
+ $ vi /etc/docker/daemon.json
+ "data-root": "/home/docker"
+ 
+ $ systemctl daemon-reload
+ $ systemctl restart docker
+
+ $ docker info | grep "Docker Root Dir"
+ Docker Root Dir: /home/docker/
 ```
 
 ## Docker 基本参数

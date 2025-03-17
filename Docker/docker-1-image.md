@@ -234,7 +234,7 @@ RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm && \                  #
 CMD /usr/sbin/nginx                                                            # build 时不执行, docker run 时执行, 必须前台执行
 ```
 
-Fastapi 后端项目镜像示例
+后端项目镜像示例
 
 ```Dockerfile
 FROM python:3.13

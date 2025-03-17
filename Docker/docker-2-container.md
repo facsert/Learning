@@ -118,6 +118,8 @@ Options:
  > Docker Compose version v2.33.1
 ```
 
+[docker-compose 配置关键字](https://docs.docker.com/reference/compose-file/)
+
 ```yaml
 # docker compose v1.27 后 无需 version 关键字
 version: "3"
@@ -195,4 +197,52 @@ volumes:
   db-data:
 networks:
   db-network:
+```
+
+指定 dockerfile 文件 build 并拉起服务
+
+```bash
+ # 配置环境变量
+ echo GIT_USERNAME="xxxx" > .env
+ echo GIT_PASSWORD="xxxx" >> .env
+ echo TAG=$(date +"%Y%m%d") >> .env
+```
+
+docker-compose 配置文件
+
+```yml
+services:
+
+  backend1:
+    build: 
+      dockerfile: ./backend/Dockerfile
+      context: .
+      no_cache: true
+      args:
+        USERNAME: $GIT_USERNAME
+        PASSWORD: $GIT_PASSWORD
+    image: backend:${TAG}
+    container_name: backend1
+    restart: always
+    volumes:
+      - /home/desktop/log/backend/8091:/root/backend/log
+    ports:
+      - 8091:8000
+
+  backend2:
+    depends_on:
+      - backend1
+    image: backend:${TAG}
+    container_name: backend2
+    restart: always
+    volumes:
+      - /home/desktop/log/backend/8092:/root/backend/log
+    ports:
+      - 8092:8000
+```
+
+```bash
+ # build 镜像和拉起容器
+ $ docker compose build
+ $ docker compose up -d
 ```
