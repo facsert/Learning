@@ -12,7 +12,8 @@ description: "代码仓库 gitlab"
 ## 介绍
 
 GitLab 是一个开源的的 Git 仓库管理软件, 支持多种版本控制系统  
-[Gitlab 官方文档](https://gitlab.cn/docs/)
+[Gitlab 官方文档](https://docs.gitlab.com/)
+[Gitlab 官方中文文档](https://gitlab.cn/docs/)
 
 ## 安装
 
@@ -25,6 +26,9 @@ GitLab 是一个开源的的 Git 仓库管理软件, 支持多种版本控制系
 
  # 通过 docker-compose.yml 启动 gitlab
  $ docker compose up -d
+ 
+ # 查看 gitlab 日志
+ $ docker logs gitlab
 ```
 
 ```yml
@@ -71,14 +75,118 @@ services:
 
 注: 登录后点击头像(顶部) -> Preference -> Password 修改密码
 
-## 配置
-
 ```bash
 # 修改 gitlab 默认语言(root用户无效)
 gitlab图标(左上) -> Projects -> Configure Gitlab -> Settings -> Preferences -> Localization -> Default language 设置语言
 
 # 用户管理(root用户创建, 其他用户通过注册申请, root用户通过申请)
 gitlab图标(左上) -> Projects -> Configure Gitlab -> Overview -> Users
+```
+
+## gitlab runner
+
+gitlab runner 是 gitlab 的一个组件, 用于执行 gitlab 中的任务, 如构建, 测试, 部署等
+[gitlab runner 官方文档](URL_ADDRESS[gitlab runner 官方文档](https://docs.gitlab.com/runner/)
+
+```bash
+ # 下载 gitlab runner 镜像
+ $ docker pull gitlab/gitlab-runner:latest
+ $ docker images
+ > REPOSITORY           TAG      IMAGEID       CREATED        SIZE
+ > gitlab/gitlab-runner latest   09c48aa4008e   2 weeks ago    798MB
+```
+
+```yml
+# 通过 runner 定义 4 种 runner 类型, 用于不同类型项目
+services:
+  runner-shell:
+    image: gitlab/gitlab-runner:latest
+    container_name: runner-shell
+    restart: always
+    volumes:
+      - '/home/Gitlab/runner/shell:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  runner-python:
+    image: gitlab/gitlab-runner:latest
+    container_name: runner-python
+    restart: always
+    volumes:
+      - '/home/Gitlab/runner/python:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  runner-golang:
+    image: gitlab/gitlab-runner:latest
+    container_name: runner-golang
+    restart: always
+    volumes:
+      - '/home/Gitlab/runner/golang:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+
+  runner-node:
+    image: gitlab/gitlab-runner:latest
+    container_name: runner-node
+    restart: always
+    volumes:
+      - '/home/Gitlab/runner/node:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+```
+
+`Admin(左下角) -> CI/CD -> Runners -> Register a new runner`, 填写 runner tag(使用, 分隔), 点击创建 runner  
+自动跳转的注册页面(页面带有注册步骤和命令, 复制命令到 gitlab-runner 容器内执行)
+
+```bash
+  # runner 配置
+  URL: https://your.gitlab.domain
+  Token: [Python项目的令牌]
+  Description: python-runner
+  Tags: python, docker
+  Executor: docker
+  Default image: python:3.11
+
+ # 进入 gitlab-runner 容器内
+ $ docker exec -it gitlab-runner bash
+ 
+ # 使用 gitlab runner 注册页面命令注册 runner
+ $ gitlab-runner register  --url http://192.168.31.30  --token glrt-t1_xTWX5umEYfdXNfwxb6n2
+  Runtime platform                                    arch=amd64 os=linux pid=30 revision=b92ee590 version=17.4.0
+  Running in system-mode.
+
+  # 使用 gitlab 地址
+  Enter the GitLab instance URL (for example, https://gitlab.com/):
+  [http://192.168.31.30]:
+  Verifying runner... is valid                        runner=t1_xTWX5u
+  
+  # runner 命名
+  Enter a name for the runner. This is stored only in the local config.toml file:
+  [9bead2d53b48]: runner-node
+
+  # 选择触发器类型
+  Enter an executor: shell, ssh, virtualbox, docker-autoscaler, custom, docker, docker-windows, docker+machine, kubernetes, instance, parallels:
+  docker
+
+  # 选择 docker 镜像
+  Enter the default Docker image (for example, ruby:2.7):
+  node:latest
+  Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+
+  Configuration (with the authentication token) was saved in "/etc/gitlab-runner/config.toml"
+```
+
+executor 选择为 docker, 需要使用 docker 镜像, 配置使用本地镜像
+
+```bash
+ # runner 容器配置映射到主机路径
+ $ vi /home/Gitlab/runner/python/config.toml
+
+[[runners]]
+  ... ...
+  ... ...
+  [runners.docker]
+    # 可选值: always(始终拉取最新镜像), if-not-present(本地不存在则拉取), never(始终使用本地镜像)
+    pull_policy = "if-not-present"
+    ... ...
+    ... ...
 ```
 
 ## gitlab CI/CD
@@ -127,10 +235,13 @@ when: 何时运行作业
 gitlab-ci.yml 简单示例
 
 ```yml
-workflow: test
+# 所有 job 默认使用 python:latest 镜像
+# 定义 build, test, deploy 三种 job 类型和执行顺序
+# test_job1, test_job2 都是 test 类型, 并行执行
+# 使用 tags 选择带有 python 标签的 runner 执行
 
 default:
-  images: ubuntu:lates
+  image: python:latest
 
 stages:
   - build
@@ -139,26 +250,31 @@ stages:
 
 build_job:
   stage: build
+  tags:
+    - python
   script:
     - echo "run build job"
 
 test_job1:
   stage: test
+  tags:
+    - python
   script:
     - echo "run test job1"
 
 test_job2:
   stage: test
+  tags:
+    - python
   script:
     - echo "run test job2"
 
 deploy_job:
   stage: deploy
+  tags:
+    - python
   script:
     - echo "run deploy job"
-# 所有 job 默认使用 ubuntu 镜像
-# 定义 build, test, deploy 三种 job 类型和执行顺序
-# test_job1, test_job2 都是 test 类型, 并行执行
 ```
 
 ```yml
@@ -177,53 +293,4 @@ stage:
   - step1
   - step2
   - step3
-```
-
-## gitlab runner
-
-```bash
- # 下载 gitlab runner 镜像
- $ docker pull gitlab/gitlab-runner:latest
- $ docker images
- > REPOSITORY           TAG      IMAGEID       CREATED        SIZE
- > gitlab/gitlab-runner latest   09c48aa4008e   2 weeks ago    798MB
-```
-
-```yml
-services:
-  gitlab-runner:
-    image: gitlab/gitlab-runner:latest
-    container_name: gitlab-runner
-    restart: always
-    volumes:
-      - "/home/gitlab/gitlab-runner/config:/etc/gitlab-runner"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-```
-
-`Admin -> CI/CD -> Runners -> Register a new runner`, 填写 runner tag(runner 名称), 点击创建 runner  
-自动跳转的注册页面(页面带有注册步骤和命令, 复制命令到 gitlab-runner 容器内执行)
-
-```bash
- $ docker exec -it gitlab-runner bash
-
- # 复制注册界面上的命令
- $ gitlab-runner register  --url http://192.168.1.100  --token glrt-GsYgtN8bpu7MpLWzNyap
-
- $ sudo docker exec -it gitlab-runner bash
-root@3339c5f4cca9:/# gitlab-runner register  --url http://192.168.1.100  --token glrt-GsYgtN8bpu7MpLWzNyap
-Runtime platform                                    arch=amd64 os=linux pid=32 revision=b92ee590 version=17.4.0
-Running in system-mode.
-# gitlab 地址
-Enter the GitLab instance URL (for example, https://gitlab.com/):
-[http://192.168.1.100]:
-Verifying runner... is valid                        runner=GsYgtN8bp
-# runner命名
-Enter a name for the runner. This is stored only in the local config.toml file:
-[3339c5f4cca9]: shell
-# 选择执行器类型, 这里选择 shell 执行器(使用系统 shell 环境)
-Enter an executor: custom, shell, ssh, parallels, virtualbox, instance, docker, docker-windows, docker+machine, kubernetes, docker-autoscaler:
-shell
-Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
-
-Configuration (with the authentication token) was saved in "/etc/gitlab-runner/config.toml"
 ```
