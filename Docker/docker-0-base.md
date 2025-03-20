@@ -25,6 +25,12 @@ description: "Docker 基本配置"
  umount /var/lib/docker
  rm -rf /var/lib/docker
 
+ # windows 完全卸载 docker
+ C:\Program Files\Docker
+ C:\Users\<user>\.docker
+ C:\Users\<user>\AppData\Local\Docker
+ C:\Users\<user>\AppData\Roaming\Docker
+
  # 添加 docker 下载源
  sudo apt-get update
  sudo apt-get install ca-certificates curl gnupg
