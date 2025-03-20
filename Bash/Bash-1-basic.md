@@ -159,6 +159,8 @@ BASH 变量默认为字符串, 想要操作字符串或者引用变量需要使�
 ```
 
 注: 更多环境变量浏览 [环境变量](#常用环境变量)
+使用 `export` 设置的环境变量只在**当前命令行**生效, 其它命令行不生效, 要设置永久生效需将命令写入到命令行启动文件  
+如 `$HOME/.bashrc` 是 bash 命令启动文件, 将 `export` 命令写入文件, 每次启动 bash 命令行都会自动设置
 
 ### 特殊变量
 
@@ -181,7 +183,7 @@ BASH 变量默认为字符串, 想要操作字符串或者引用变量需要使�
  $ ${variable:-value}                            # 变量为空或不存在返回 value
  $ ${variable:+value}                            # 变量存在且不为空返回 value
 
- $ ${variable:=value}                            # 变量为空或不存在设置变量为 value, 返回 values
+ $ ${variable:=value}                            # 变量为空或不存在设置变量为 value, 返回 value
  $ ${variable:?message}                          # 变量为空或不存在打印 message, 并退出
 
  $ echo "hello ${name:-petter}"

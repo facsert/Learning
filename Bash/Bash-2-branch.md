@@ -76,6 +76,14 @@ else
     echo "not root user"
 fi
 
+if [[ $num -gt 6 ]] && [[ $num -lt 9 ]]; then    # 使用 && 或 || 串联多个表达式
+    echo "num bigger than 6 and smaller than 9"
+fi
+
+if [[ $USER == "root" ]] || [[ $USER == "admin" ]]; then
+    echo "root or admin"
+fi
+
 [[ $USER == "root" ]] && echo "user is root"     # &&(且) 表达式为 true 才会执行后半段
 [[ $USER == "root" ]] || echo "not user root"    # ||(或) 表达式为 false 才会执行后半段
 [[ $? -eq 0 ]] && echo "succ" || echo "fail"     # 同时使用 && 和 ||
@@ -87,7 +95,7 @@ fi
 ```
 
 注: 单括号需要注意变量引用为空导致命令报错或逻辑错误  
-`[ $name == "bash" ]` 当 `$name` 为空执行会报错
+`[ $name == "bash" ]` 当 `$name` 为空执行会报错, 推荐使用 `[[ $name == "bash" ]]`
 
 ### 数值比较
 
@@ -131,8 +139,8 @@ fi
 ### 文件比较
 
 ```bash
- $ [ -e file ]                                   # 文件存在为 true
- $ [ -d file ]                                   # 路径存在为 true
+ $ [ -e $file ]                                  # 文件存在为 true
+ $ [ -d $dir ]                                   # 路径存在为 true
 
  $ [[ ! -e file ]] && touch file                 # 如果 file 不存在则创建 file
  $ [[ ! -d /root/path ]] && mkdir -p /root/path  # 如果路径不存在测创建路径
