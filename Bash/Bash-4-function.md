@@ -66,8 +66,8 @@ func 1st 2nd 3rd                                 # 函数调用
 
 ## 函数返回
 
-使用 `return` 返回函数值, 返回值只能是数字  
-一般使用 `0` 表示执行成功, `1` 获取其他数字表示执行失败
+使用 `return` 返回函数值, 返回值只能是数字(0-255)  
+一般使用 `0` 表示执行成功, `1` 或其它非 0 数字表示执行失败
 
 ```bash
 function bigger() {                              # 定义函数
@@ -77,6 +77,22 @@ function bigger() {                              # 定义函数
 $ num1=7; num2=3; bigger num1 num2               # 变量定义, 函数调用
 $ [[ $? -eq 0 ]] && echo "$num1 bigger" || echo "$num2 bigger"
 > 7 bigger
+```
+
+获取函数打印作为返回值
+
+```bash
+function add() {
+    echo $(($1 + $2))
+}
+
+echo "100 + 200 = $(add 100 200)" 
+
+function last_user() {
+    who | awk '{print $1}' | tail -n 1
+}
+
+echo "last user: $(last_user)"
 ```
 
 ## 变量作用域

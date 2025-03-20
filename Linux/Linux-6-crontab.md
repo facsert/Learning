@@ -28,8 +28,13 @@ description: "Linux 定时任务"
 ```bash
  # 列出所有定时任务
  $ crontab -l
- > 0 9 * * * echo hello >> /root/temp.log  # test
- 
+ # 定时任务 hello 在每日 09:00 执行命令 echo hello >> /root/temp.log
+ > 0 9 * * * echo hello >> /root/temp.log  # hello
+
+ $ crontab -l
+ # 定时任务 world 在每日 09:00, 09:10, 12:00, 12:10 执行命令 echo world >> /root/temp.log
+ > 0,10 9,12 * * * echo world >> /root/temp.log  # world
+
  # 编辑定时任务
  $ crontab -e
 ```

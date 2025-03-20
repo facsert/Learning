@@ -35,13 +35,13 @@ $ echo $("date")                                 # 执行 "date", 返回值作�
 ```bash
  $ name="petter"                                 # 定义变量 name, 值为 petter
  $ key="name"                                    # 定义变量 key, 值为 name
- $ echo ${!key}                                  # 获取变量 key 对应的变量名, 并对该变量取值
+ $ echo ${!key}                                  # 使用 key 的值作为变量名, 并对该变量取值
  > petter                                        # 打印变量 petter
 
  $ cmd="date"
  $ var="cmd"
  $ ${!var}                                       # 获取变量 var 对应的变量名, 并对该变量取值
- > 2023年12月24日 星期日 12时50分38秒 CST           # 变量值 date 作为命令执行, 打印日期
+ > 2023年12月24日 星期日 12时50分38秒 CST          # 变量值 date 作为命令执行, 打印日期
 ```
 
 Bash 默认第一个字符为指令, 后续值为字符串作为指令的参数  
