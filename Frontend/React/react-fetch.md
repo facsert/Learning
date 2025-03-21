@@ -15,18 +15,16 @@ description: "React fetch"
 
 ```ts
 type Server = {
-    base: string
-    backup: string
-    cdn: string
+    default: string
+    devops: string
 }
 
 const servers: Server = {
-    base: 'http://192.168.1.100:8080',
-    backup: 'http://192.168.1.100:8090',
-    cdn: 'http://192.168.1.100:8060',
+    default: 'http://192.168.1.100:8000',
+    devops: 'http://192.168.1.100:8010',
 }
 
-class Response<T> {
+class Resp<T> {
     constructor(
         public result: boolean = false,
         public msg: string = '',
@@ -34,62 +32,97 @@ class Response<T> {
     ) {};
 }
 
-async function FetchGet<T>(api: string, server: keyof Server='base'): Promise<Response<T>> {
+async function FetchGet<T>(api: string, server: keyof Server='default'): Promise<Resp<T>> {
     try {
         const response = await fetch(servers[server] + api)
         if (!response.ok) {
             throw new Error(`GET ${api} ${response.status}`)
         }
-        return await response.json() as Response<T>
+        return await response.json() as Resp<T>
     } catch(err) {
-        return new Response<T>(false, String(err), null as T)
+        return new Resp<T>(false, String(err), null as T)
     }
 };
 
-async function FetchPost<T>(api: string, body: unknown, server: keyof Server='base'): Promise<Response<T>> {
+async function FetchPost<T>(api: string, body: unknown, server: keyof Server='default'): Promise<Resp<T>> {
     try {
         const response = await fetch(servers[server] + api, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Cache-Control': 'no-cache'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body),
         })
         if (!response.ok) {
             throw new Error(`GET ${api} ${response.status}`)
         }
-        return await response.json() as Response<T>
+        if (await DownloadFile(response)) {
+          return new Resp<T>(true, `download file success`, null as T)
+        } else {
+          return await response.json() as Resp<T>
+        }
     } catch(err) {
-        return new Response(false, String(err), null as T)
+        return new Resp<T>(false, String(err), null as T)
     }
 };
 
-async function FetchFile<T>(api: string, server: keyof Server='base'): Promise<Response<T>> {
-    try {
-    const response = await fetch(servers[server] + api);
+async function UploadFile<T>(api: string, body: FormData, server: keyof Server='default'): Promise<Resp<T>> {
+  try {
+    const response = await fetch(servers[server] + api, {
+      method: 'POST',
+      body: body,
+  })
     if (!response.ok) {
         throw new Error(`GET ${api} ${response.status}`)
     } 
 
-    const disposition = response.headers.get('Content-Disposition');
-    let fileName = 'downloaded_file';
-    if (disposition && disposition.includes('filename=')) {
-        fileName = disposition.split('filename=')[1]
+    if (await DownloadFile(response)) {
+      return new Resp<T>(true, `download file success`, null as T)
+    } else {
+      return await response.json() as Resp<T>
     }
+  } catch (error) {
+    return new Resp<T>(false, String(error), null as T)
+  };
+};
 
-    const blob = await response.blob()
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
+async function FetchFile<T>(api: string, server: keyof Server='default'): Promise<Resp<T>> {
+    try {
+      const response = await fetch(servers[server] + api);
+      if (!response.ok) {
+          throw new Error(`GET ${api} ${response.status}`)
+      } 
+      
+      if (await DownloadFile(response)) {
+        return new Resp<T>(true, `download file success`, null as T)
+      } else {
+        return await response.json() as Resp<T>
+      }
 
-    return new Response(true, `download ${fileName} success`, null as T)
     } catch (error) {
-    return new Response(false, String(error), null as T)
+      return new Resp<T>(false, String(error), null as T)
     };
 };
 
-export { servers, FetchGet, FetchPost, FetchFile, Response}
+async function DownloadFile(response: Response): Promise<boolean> {
+  const disposition = response.headers.get('Content-Disposition');
+  let fileName = 'downloaded_file';
+  if (disposition && disposition.includes('filename=')) {
+      fileName = disposition.split('filename=')[1]
+  } else {
+    return false
+  }
+
+  const blob = await response.blob()
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+  return true
+};
+
+export { servers, FetchGet, FetchPost, FetchFile, UploadFile, DownloadFile, Resp}
 ```
