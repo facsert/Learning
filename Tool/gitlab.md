@@ -86,7 +86,7 @@ gitlab图标(左上) -> Projects -> Configure Gitlab -> Overview -> Users
 ## gitlab runner
 
 gitlab runner 是 gitlab 的一个组件, 用于执行 gitlab 中的任务, 如构建, 测试, 部署等
-[gitlab runner 官方文档](URL_ADDRESS[gitlab runner 官方文档](https://docs.gitlab.com/runner/)
+[gitlab runner 官方文档](https://docs.gitlab.com/runner/)
 
 ```bash
  # 下载 gitlab runner 镜像

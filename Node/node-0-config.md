@@ -20,6 +20,9 @@ description: "NodeJS 基本配置"
  $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
  $ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 
+ # 设置 nvm 镜像源
+ $ export NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/
+
  $ nvm install 20
  $ nvm ls
  $ nvm use 20

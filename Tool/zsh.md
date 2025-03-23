@@ -79,8 +79,14 @@ oh-my-zsh 是 zsh 主题控制工具, 安装后可更换主题, 安装插件
 .oh-my-zsh 有很多主题可更换, powerlevel10k 是一款爆火的主题
 
 ```zsh
- $ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
+ # GitHub 源码安装
+ $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+ $ echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+ 
+ # 国内镜像
+ $ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
+ $ echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+ 
  $ vi ~/.zshrc                                   # 修改 zsh 主题
  > ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -111,9 +117,9 @@ powerlevel10k 推荐使用 mesloLGS 字体(`https://github.com/romkatv/powerleve
 
 ```zsh
  $ cd /h/f/D <Tab>                               # 路径缩写补全
- > cd /home/facser/Desktop/
+ > cd /home/ubuntu/Desktop/
 
- $ cd /home/facser/ <Tab> <Tab>                  # 连续两次 Tab 进入选择模式
+ $ cd /home/ubuntu/ <Tab> <Tab>                  # 连续两次 Tab 进入选择模式
 ```
 
 ### 快速跳转
