@@ -189,6 +189,19 @@ executor 选择为 docker, 需要使用 docker 镜像, 配置使用本地镜像
     ... ...
 ```
 
+注册机器 shell executor(使用机器的 shell 环境, 可以使用 shell 环境安装的 docker python node 等环境)
+
+```bash
+ # ubuntu/debian 添加 apt 源
+ $ curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+ 
+ # 安装 gitlab-runner
+ $ sudo apt install gitlab-runner
+
+ # gitlab 新增 runner 复制注册命令到机器上执行
+ $ sudo gitlab-runner register  --url http://xxxx --token xxxx
+```
+
 ## gitlab CI/CD
 
 ```yml

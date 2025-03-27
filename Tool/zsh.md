@@ -80,12 +80,11 @@ oh-my-zsh 是 zsh 主题控制工具, 安装后可更换主题, 安装插件
 
 ```zsh
  # GitHub 源码安装
- $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
- $ echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+ $ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
  
  # 国内镜像
- $ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ~/powerlevel10k
- $ echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+ $ git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+
  
  $ vi ~/.zshrc                                   # 修改 zsh 主题
  > ZSH_THEME="powerlevel10k/powerlevel10k"

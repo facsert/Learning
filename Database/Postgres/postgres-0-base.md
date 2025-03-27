@@ -63,7 +63,10 @@ services:
       - /root/postgres:/var/lib/postgresql/data
     environment:
       TZ: Asia/Shanghai
-      POSTGRES_PASSWORD: root
+      TZ: Asia/Shanghai
+      POSTGRES_DB: db_name
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
 ```
 
 [数据库可视化 Win](https://www.navicat.com.cn/download/direct-download?product=navicat170_premium_lite_cs_x64.exe&location=1)

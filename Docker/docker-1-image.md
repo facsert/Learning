@@ -379,3 +379,49 @@ CMD /bin/bash                                                                  #
 
 - echo "hello docker", 创建容器在执行完 echo 命令后便关闭改容器
 - /bin/bash, 该命令未收到 exit 退出前会一直执行, 该容器会保持运行状态
+
+## 前端镜像示例
+
+```Dockerfile
+FROM node:latest AS builder
+
+# 设置镜像时区
+ENV TZ=Asia/Shanghai
+ENV ROOT_PATH=/root/pilot
+
+WORKDIR /root
+
+
+# 下载代码, 进入根目录安装依赖
+RUN git clone http://xxx/xxxt/pilot.git && \
+    cd $ROOT_PATH && \
+    npm config set registry https://registry.npmmirror.com && \
+    corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR $ROOT_PATH
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile
+
+RUN pnpm run build
+
+FROM node:latest AS runner
+
+ENV TZ=Asia/Shanghai
+ENV ROOT_PATH=/root/pilot
+
+WORKDIR /root
+
+# 从构建阶段复制产物
+COPY --from=builder $ROOT_PATH/.next/standalone ./
+COPY --from=builder $ROOT_PATH/.next/static ./.next/static
+COPY --from=builder $ROOT_PATH/public ./public
+
+
+WORKDIR /root
+
+# 运行命令
+CMD ["node", "server.js"]
+
+EXPOSE 3000
+```

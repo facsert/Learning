@@ -25,6 +25,24 @@ description: "Mysql 基本配置"
 
 ```
 
+docker-compose.yml 配置文件
+
+```yml
+# 使用 docker-compose.yml 拉起
+services:
+  mysql:
+    image: mysql:latest # 或 mariadb:latest
+    environment:
+      MYSQL_DATABASE: default_db # 默认数据库名称
+      MYSQL_USER: user # 可选：默认用户
+      MYSQL_PASSWORD: password # 可选：用户密码
+      MYSQL_ROOT_PASSWORD: root_password # Root 密码（必须设置）
+    volumes:
+      - root/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+```
+
 ```bash
 > mysql -u root -p
 > SHOW DATABASES;
