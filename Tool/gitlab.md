@@ -40,16 +40,22 @@ services:
     restart: always
     # 设置主机名(使用本机 IP 避免域名解析问题)
     hostname: "192.168.1.100"
-    # 设置 gitlab 环境变量
+    # 设置 gitlab 环境变量和 contain registry
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://192.168.1.100:80'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
+
+        registry_external_url 'http://192.168.1.100:80:5005'
+        gitlab_rails['registry_enabled'] = true
+        gitlab_rails['registry_port'] = "5005"
+        gitlab_rails['registry_api_url'] = "http://192.168.1.100:80:5005"
     # 映射端口
     ports:
       - "80:80"
       - "8443:443"
       - "2424:22"
+      - "5005:5005"
     # 挂载数据卷
     volumes:
       - "/home/gitlab/etc:/etc/gitlab"
