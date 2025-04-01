@@ -313,3 +313,56 @@ stage:
   - step2
   - step3
 ```
+
+示例
+注: 配置中 `CI_IMAGE_NAME` `CI_DEPLOY_PASSWORD` `CI_REGISTRY` `CI_DEPLOY_USER` 等变量需要在 gitlab 项目设置中设置
+
+```yml
+default:
+  tags:
+    - shell
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  TAG: $CI_COMMIT_SHORT_SHA
+  DOCKER_BUILDKIT: 1
+
+cache:
+  key:
+    files:
+      - pnpm-lock.yaml
+  paths:
+    - .pnpm-store/
+  policy: pull-push
+
+build_job:
+  stage: build
+  script:
+    - echo "start build $CI_IMAGE_NAME:$TAG"
+    - docker build -t $CI_IMAGE_NAME:$TAG .
+    - echo $CI_DEPLOY_PASSWORD | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin 
+    - docker push ${CI_IMAGE_NAME}:$TAG
+    - echo "build ${CI_IMAGE_NAME}:${TAG} success"
+
+test_job1:
+  stage: test
+  script:
+    - echo "run test job1"
+    - echo "test job1 success"
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "deploy $CI_IMAGE_NAME:$TAG"
+    - echo "TAG=$TAG" > .env
+    - echo "IMAGE_NAME=$CI_IMAGE_NAME" >> .env
+    - echo $CI_DEPLOY_PASSWORD | docker login $CI_REGISTRY -u $CI_DEPLOY_USER --password-stdin 
+    - docker pull ${CI_IMAGE_NAME}:$TAG
+    - docker compose up -d
+    - docker ps -a | grep $CI_IMAGE_NAME
+    - echo "deploy success"
+```
