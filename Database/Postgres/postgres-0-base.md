@@ -63,7 +63,6 @@ services:
       - /root/postgres:/var/lib/postgresql/data
     environment:
       TZ: Asia/Shanghai
-      TZ: Asia/Shanghai
       POSTGRES_DB: db_name
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password

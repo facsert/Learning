@@ -46,10 +46,10 @@ services:
         external_url 'http://192.168.1.100:80'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
 
-        registry_external_url 'http://192.168.1.100:80:5005'
+        registry_external_url 'http://192.168.1.100:5005'
         gitlab_rails['registry_enabled'] = true
         gitlab_rails['registry_port'] = "5005"
-        gitlab_rails['registry_api_url'] = "http://192.168.1.100:80:5005"
+        gitlab_rails['registry_api_url'] = "http://192.168.1.100:5005"
     # 映射端口
     ports:
       - "80:80"
@@ -201,11 +201,19 @@ executor 选择为 docker, 需要使用 docker 镜像, 配置使用本地镜像
  # ubuntu/debian 添加 apt 源
  $ curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
  
+ # 使用安装包安装 gitlab-runner
+ $ curl -LJO "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/deb/gitlab-runner-helper-images.deb"
+ $ curl -LJO "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/deb/gitlab-runner_amd64.deb"
+
  # 安装 gitlab-runner
  $ sudo apt install gitlab-runner
 
  # gitlab 新增 runner 复制注册命令到机器上执行
  $ sudo gitlab-runner register  --url http://xxxx --token xxxx
+
+ # gitlab runner 加入 docker 组(CI/CD 无需 root 权限可使用 docker 命令)
+ # sudo groupadd docker 创建 docker 组
+ $ sudo usermod -aG docker gitlab-runner
 ```
 
 ## gitlab CI/CD

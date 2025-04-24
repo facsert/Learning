@@ -104,6 +104,7 @@ npm 可更换下载源为国内源
  > https://registry.npmjs.org/                   # 官方 npm 下载源
 
  $ npm config set registry <source>              # 命令切换 npm 下载源
+ $ npm config set registry http://registry.npmmirror.com
 ```
 
 npm 全局安装, 存放在全局模块位置, 所有项目生效
@@ -178,7 +179,7 @@ fnm 是 node 版本管理工具, 支持 window(n 不支持 windows)
 # windows 安装 fnm
 winget install Schniz.fnm
 
-# linux macos 安装 fnm(需要先安装 curl 和 unzip)
+# linux macos 安装 fnm(需要先安装 curl 和 unzip), 或者直接下载 fnm 文件
 curl -o- https://fnm.vercel.app/install | bash
 
 # 获取本例 node 版本(本地已安装版本显示 system)
@@ -190,7 +191,8 @@ fnm list-remote
 # 下载指定版本
 fnm install 20
 
-# 设置环境变量 fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+# windows 设置环境变量 fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+# linux 将 eval "$(fnm env --use-on-cd --shell bash)" 写入 .bashrc
 # 使用临时使用版本
 fnm use 20
 

@@ -344,8 +344,8 @@ WORKDIR <path>                                                                 #
 
 WORKDIR /root                                                                  # 进入 /root 并设为工作目录
 WORKDIR /home                                                                  # 将工作目录转到 /home
-WORKDIR facser                                                                 # 将工作目录转到 /home/facser
-WORKDIR Desktop                                                                # 将工作目录转到 /home/facser/Desktop
+WORKDIR user                                                                   # 将工作目录转到 /home/user
+WORKDIR Desktop                                                                # 将工作目录转到 /home/user/Desktop
 ```
 
 ```bash

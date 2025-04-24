@@ -37,33 +37,20 @@ description: "Go 环境配置"
 
 ## 版本管理
 
-使用 gvm 管理 go 版本
+使用 g 管理 go 版本
 
 ```bash
- $ apt install bison
- $ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-
- # 重启命令行, 查看可用的 go 版本
- $ gvm listall
- $ gvm install go1.21.4 -B
- > Installing go1.21.4 from binary source
-
- $ gvm list
- > gvm gos (installed)
-
- >    go1.21.4
- >    system
-
- # 切换 go 版本并设置全局默认版本
- $ gvm use go1.21.4 --default
- $ gvm list
- > gvm gos (installed)
-
- > => go1.21.4
- >    system
-
+ $ curl -sSL https://raw.githubusercontent.com/voidint/g/master/install.sh | bash
+ # 重启命令行, 查看可用的 g 版本
+ $ source ~/.bashrc
+ $ g -v
+ 
+ # 查看远程可用的 go 版本, 安装指定版本
+ $ g ls-remote
+ $ g install 1.24.1
+ $ g use 1.24.1
  $ go version
- > go version go1.21.4 linux/amd64
+ > go version go1.24.1 linux/amd64
 ```
 
 ## 开始

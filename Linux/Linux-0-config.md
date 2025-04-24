@@ -159,6 +159,27 @@ computer -------> DNS server -------> computer -------> baidu server
 
 ```
 
+## 时间同步
+
+```bash
+ $ timedatectl show
+ > Timezone=Asia/Shanghai
+ > LocalRTC=no
+ > CanNTP=yes
+ > NTP=yes
+ > NTPSynchronized=yes
+ > TimeUSec=Mon 2025-04-07 21:48:00 CST
+ > RTCTimeUSec=Mon 2025-04-07 21:48:00 CST
+ 
+ # 配置国内 NTP 服务
+ $ sudo vi /etc/systemd/timesyncd.conf
+ > [Time]
+ > NTP=ntp.aliyun.com ntp.tencent.com cn.pool.ntp.org
+
+ # 重启 systemd-timesyncd 服务
+ $ sudo systemctl restart systemd-timesyncd
+```
+
 ## Windows WSL ssh 连接
 
 WSL 下查看 ssh 服务端口
