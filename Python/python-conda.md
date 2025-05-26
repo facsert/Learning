@@ -207,3 +207,44 @@ Anaconda 占用空间较大, 可以使用 miniforge 作为替代, 仅包含 cond
 ```
 
 注: Windows 需设置环境变量 `Miniforge\Scripts`, 使用下载源为用户路径下 `.condarc` 文件修改源
+
+## UV
+
+[uv](https://github.com/astral-sh/uv)是一个使用 RUST 实现的 python 包管理器, 提供全面的项目管理
+
+```bash
+ # 安装
+ $ curl -LsSf https://astral.sh/uv/install.sh | sh
+
+ # 指定 python 版本创建项目(自动创建 git 仓库)
+ $ uv init test -p  3.13 && cd test
+test
+├── .gitignore
+├── main.py
+├── pyproject.toml   # 包管理配置文件, 依赖列表
+├── .python-version  # 指定 python 运行版本
+└── README.md
+
+ # 同步项目依赖(按版本创建虚拟环境 venv，安装项目依赖)
+ $ uv sync
+
+ # 添加/删除依赖(自动添加到 pyproject.toml)
+ $ uv add pandas
+ $ uv remove pandas
+
+ # 使用 requirements.txt 添加依赖
+ $ uv add -r requirements.txt
+
+ # 显示依赖列表
+ $ uv tree
+ test v0.1.0
+├── loguru v0.7.3
+└── toml v0.10.2
+ 
+ # 显示可下载的 python 版本
+ $ uv python list
+cpython-3.14.0a6-linux-x86_64-gnu                 /root/.local/share/uv/python/cpython-3.14.0a6-linux-x86_64-gnu/bin/python3.14
+cpython-3.14.0a6+freethreaded-linux-x86_64-gnu    <download available>
+cpython-3.13.3-linux-x86_64-gnu                   /root/.local/share/uv/python/cpython-3.13.3-linux-x86_64-gnu/bin/python3.13
+cpython-3.13.3+freethreaded-linux-x86_64-gnu      <download available>
+```
