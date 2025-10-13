@@ -34,7 +34,7 @@ SELECT * FROM pg_stat_activity;
 ```
 
 根据 sql 执行结果, 发现有 82 个连接是同一个 IP, 其余 IP 只有零星 1 ~ 2 条, 数据库和多个任务都部署在该 IP 机台  
-有两个连接带有 sql 语句确认是 Grafana 上设置的 sql, 查看 Grafana 数据源设置, `Connecttion limit` 设置默认值 100, 修改为 10, 再次查看连接数没有减少  
+有两个连接带有 sql 语句确认是 Grafana 上设置的 sql, 查看 Grafana 数据源设置, `Connection limit` 设置默认值 100, 修改为 10, 再次查看连接数没有减少  
 分析 Database 类, 将 max_size 从 10 减小到 5, 重启部分后端或直接关闭, 连接数仍然没有减少  
 
 ```py
