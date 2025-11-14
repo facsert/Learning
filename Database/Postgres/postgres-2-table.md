@@ -46,6 +46,16 @@ CREATE TABLE [IF NOT EXISTS] table_name (
 );
 
 /* 创建表示例(create 是关键字不可作为表头) */
+CREATE TABLE IF NOT EXISTS "middle_school_students" ( /* IF NOT EXISTS 表存在则不创建 */ 
+  "id" SERIAL PRIMARY KEY,                            /* id 作为主键且不能为空 id 自增*/
+  "id_number" VARCHAR(20) UNIQUE,                     /* id_number 最长为20字符且唯一*/
+  "name" VARCHAR(20) NOT NULL,                        /* name 最长为20字符且不能为空 */
+  "age" INT DEFAULT 0,                                /* age 整形，默认值为 0 */
+  "created_at" TIMESTAMP DEFAULT NOW(),               /* create_at 时间戳，默认值为当前时间 */
+  "deleted_at" TIMESTAMP DEFAULT NULL                 /* deleted_at 时间戳，默认值为 NULL，记录删除时间 */
+);
+
+/* 创建表示例(create 是关键字不可作为表头) */
 CREATE TABLE IF NOT EXISTS "students" (             /* IF NOT EXISTS 表存在则不创建 */
     "id" SERIAL NOT NULL PRIMARY KEY,               /* id 作为主键且不能为空 id 自增*/
     "name" VARCHAR(20) NOT NULL,                    /* name 最长为20字符且不能为空 */
@@ -60,23 +70,25 @@ CREATE TABLE IF NOT EXISTS "students" (             /* IF NOT EXISTS 表存在�
           List of relations
  Schema |   Name   | Type  |  Owner
 --------+----------+-------+----------
- public | students | table | postgres
+ public | middle_school_students        | table    | postgres
 
 /* 查看指定的表详细信息 */
-\d students
-                         Table "public.students"
-  Column   |            Type             | Collation | Nullable | Default
------------+-----------------------------+-----------+----------+---------
- id        | integer                     |           | not null |
- name      | character varying(20)       |           | not null |
- age       | integer                     |           |          |
- locked    | boolean                     |           | not null | false
- create_at | timestamp without time zone |           | not null |
+\d middle_school_students
+                                        Table "public.middle_school_students"
+   Column   |            Type             | Collation | Nullable |                      Default                       
+------------+-----------------------------+-----------+----------+----------------------------------------------------
+ id         | integer                     |           | not null | nextval('middle_school_students_id_seq'::regclass)
+ id_number  | character varying(20)       |           |          | 
+ name       | character varying(20)       |           | not null | 
+ age        | integer                     |           |          | 0
+ created_at | timestamp without time zone |           |          | now()
+ deleted_at | timestamp without time zone |           |          | 
 Indexes:
-    "students_pkey" PRIMARY KEY, btree (id)
+    "middle_school_students_pkey" PRIMARY KEY, btree (id)
+    "middle_school_students_id_number_key" UNIQUE CONSTRAINT, btree (id_number)
 
 /* 删除表 */
-DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS middle_school_students;
 ```
 
 ## 表约束
@@ -94,6 +106,7 @@ DROP TABLE IF EXISTS students;
 CREATE TABLE users (
   id INTEGER PRIMARY KEY,
   name VARCHAR(45),
+  deleted_at TIMESTAMP
 );
 
 /* 无主键的表, 添加主键 */
@@ -102,10 +115,11 @@ ALTER TABLE users ADD PRIMARY KEY (id);
 /* 查看表结构 */
 \d users
                       Table "public.users"
-Column |         Type          | Collation | Nullable | Default
+Column     |         Type                | Collation | Nullable | Default
 --------+-----------------------+-----------+----------+---------
-id     | integer               |           | not null |
-name   | character varying(45) |           |          |
+id         | integer                     |           | not null |
+name       | character varying(45)       |           |          |
+deleted_at | timestamp without time zone |           |          | 
 Indexes:
     "users_pkey" PRIMARY KEY, btree (id)
 
@@ -246,4 +260,32 @@ ALTER COLUMN "name" TYPE VARCHAR(50);
 /* 重命名表 */
 ALTER TABLE "job"
 RENAME TO "task";
+```
+
+## 索引
+
+索引是数据库中为加速数据查询而创建的数据结构, 通过将不同特性数据按相应数据结构排列, 以达到快速查找
+(如以数字为特征数据, 使用 B-Tree 可以达到二分查找效果)
+
+postgres 支持索引类型
+
+- B-Tree(默认), 适合有序, 范围查询, 等值查询
+- Hash索引, 大量数据等值查询
+- GIN 索引, 全文搜索, 数组查询
+- GIST 索引, 空间数据, 范围查询, 模糊匹配
+- BRIN 索引, 有序大量数据
+
+索引不足
+
+- 添加索引增加存储空间
+- 写入数据可能需要重建索引, 降低写入性能
+
+```sql
+CREATE INDEX <index name> ON <table name>(<columns>) [WHERE ...]
+
+/* 未被删除的数据, (id, name) 组合创建索引, 索引组合允许重复 , 默认使用 B-Tree*/
+CREATE INDEX student_unique ON users(id, name) WHERE deleted_at = NULL;
+
+/* 添加 UNIQUE 关键字, 索引组合唯一 */
+CREATE UNIQUE INDEX student_unique ON users(id, name) WHERE deleted_at = NULL;
 ```
