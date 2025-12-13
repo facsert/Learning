@@ -1,25 +1,34 @@
 ---
 pubDatetime: 2023-09-27 21:03:53
-title: Python Anaconda
-slug: Python Anaconda
+title: Python build
+slug: Python build
 featured: false
 draft: false
 tags:
   - Python
-  - Anaconda
-description: "Python 版本控制工具 Anaconda"
+  - build
+description: "Python 版本控制"
 ---
+
+## 介绍
+
+Python 不同版本都有细微差异, 不同项目有版本需求，第三方包存在兼容性问题  
+由此开发时需要快速创建纯净的 python 环境, 版本之前能快速切换
+
+- Anaconda 创建多个 python 版本, 版本快速切换
+- Miniforge Anaconda 的轻量级替代
+- uv 类似 npm 包管理器, 每个项目创建虚拟环境
+
+## Anaconda
 
 Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 python 版本,安装包等.
 
-## Table of Contents
-
-## 安装
+### 安装
 
 [Anaconda 官网](https://www.anaconda.com/) 下载对应平台安装包
 [国内镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/)
 
-## 常用命令
+### 常用命令
 
 ```bash
  $ conda info                                              # 查看 anaconda 基本信息
@@ -37,7 +46,7 @@ Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 p
  $ conda update -n base conda
 ```
 
-## 创建环境
+### 创建环境
 
 ```bash
  $ conda create -n <name> python=<version>                 # 选择 python 版本创建虚拟环境并命名
@@ -49,7 +58,7 @@ Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 p
  > Retrieving notices: ...working... done
 ```
 
-## 启用退出
+### 启用退出
 
 ```bash
  $ conda activate <name>                                   # 激活指定环境
@@ -68,7 +77,7 @@ Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 p
  > Executing transaction: done
 ```
 
-## 删除环境
+### 删除环境
 
 ```bash
  $ conda env remove -n <name>                               # 删除指定环境
@@ -77,7 +86,7 @@ Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 p
  > Remove all packages in environment /root/anaconda3/envs/py3.7:
 ```
 
-## 包管理
+### 包管理
 
 ```bash
  $ conda list -n <name>
@@ -96,7 +105,7 @@ Anaconda 是一个 python 版本管理器, 能快速创建虚拟环境, 管理 p
  $ conda update --all -n <name>                            # 指定环境更新所有包
 ```
 
-## 更换源
+### 更换源
 
 查看当前 conda 源
 
@@ -225,6 +234,9 @@ test
 ├── .python-version  # 指定 python 运行版本
 └── README.md
 
+ # 已有项目初始化
+ $ uv init
+
  # 同步项目依赖(按版本创建虚拟环境 venv，安装项目依赖)
  $ uv sync
 
@@ -247,4 +259,7 @@ cpython-3.14.0a6-linux-x86_64-gnu                 /root/.local/share/uv/python/c
 cpython-3.14.0a6+freethreaded-linux-x86_64-gnu    <download available>
 cpython-3.13.3-linux-x86_64-gnu                   /root/.local/share/uv/python/cpython-3.13.3-linux-x86_64-gnu/bin/python3.13
 cpython-3.13.3+freethreaded-linux-x86_64-gnu      <download available>
+
+ # 执行项目
+ $ uv run main.py
 ```

@@ -219,3 +219,68 @@ $ go run .\main.go
 ```
 
 使用互斥锁, 保证同一时间资源只被一个协程操作
+
+## 协程池
+
+```go
+type Limiter struct {
+    ch chan struct{}
+}
+
+func NewLimit(cap int) *Limiter {
+    if cap <= 0 {
+        cap = 1
+    }
+    l := &Limiter{ch: make(chan struct{}, cap)}
+    for range cap {
+        l.ch <- struct{}{}
+    }
+    return l
+}
+
+func (l *Limiter) Acq() {
+    <-l.ch
+}
+
+func (l *Limiter) Rel() {
+    l.ch <- struct{}{}
+}
+
+func (l *Limiter) Close() {
+    close(l.ch)
+}
+
+
+func main() {
+    var wg sync.WaitGroup
+    limiter := NewLimit(3)
+
+    for i := range 10 {
+        limiter.Acq()  // 限制器获取锁
+        wg.Add(1)
+        go func(index int) {
+            defer limiter.Rel() // 释放锁
+            defer wg.Done()
+            fmt.Printf("task: %d at %v\n", index, time.Now())
+            time.Sleep(time.Second)
+        }(i)
+    }
+    
+    wg.Wait()
+}
+
+// 创建限制器, 设置最大协程数量为 3
+// 循环创建 10 个任务, 模拟每个任务耗时 1s
+// 创建任务前先获取锁, 获取锁成功后创建任务并执行
+// 锁耗尽后, limiter.Acq() 阻塞, 直到有任务释放锁
+task: 2 at 2025-12-13 21:59:55.863158944 +0800 CST m=+0.000259869
+task: 0 at 2025-12-13 21:59:55.863176467 +0800 CST m=+0.000277422
+task: 1 at 2025-12-13 21:59:55.863190604 +0800 CST m=+0.000291569
+task: 3 at 2025-12-13 21:59:56.863754037 +0800 CST m=+1.000855002
+task: 4 at 2025-12-13 21:59:56.863879653 +0800 CST m=+1.000980618
+task: 5 at 2025-12-13 21:59:56.863891785 +0800 CST m=+1.000992751
+task: 6 at 2025-12-13 21:59:57.864801951 +0800 CST m=+2.001902916
+task: 7 at 2025-12-13 21:59:57.864985696 +0800 CST m=+2.002086661
+task: 8 at 2025-12-13 21:59:57.86501972 +0800 CST m=+2.002120685
+task: 9 at 2025-12-13 21:59:58.865207246 +0800 CST m=+3.002308212
+```

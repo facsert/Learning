@@ -183,7 +183,7 @@ func Run(client *ssh.Client, command string) (string, error) {
 模拟实现终端
 
 ```go
-func Termiunal(client *ssh.Client) {
+func Terminal(client *ssh.Client) {
     session, err := client.NewSession()
     if err != nil {
         panic(fmt.Sprintf("create session failed: %v\n", err))

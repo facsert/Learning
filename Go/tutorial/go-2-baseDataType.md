@@ -285,7 +285,7 @@ s := strconv.FormatUint(255, 16)                 // ff    uint64 -> string(16 �
 字符串转其它类型可能会失败, 转数字时还需考虑进制和转换后的类型
 
 ```go
-i, err := strconv.Atoi("-42")                    // 42   string -> int
+i, err := strconv.Atoi("-42")                    // 42   string -> int, 不推荐
 b, err := strconv.ParseBool("true")              // true string -> bool
 f, err := strconv.ParseFloat("3.14", 64)         // 3.14 string -> float64
 i, err := strconv.ParseInt("-42", 10, 64)        // -42  string -> int64
@@ -295,6 +295,7 @@ u, err := strconv.ParseUint("42", 10, 32)        // 42   string -> uint32
 // ParseInt  ParseUint (str, base, bitSize)
 
 // str string: 待转换的字符串
-// base int: str 的进制( base=16, s 为 16 进制的字符串)
-// bitSize int: {0:int, 8:int8, 16:int16, 32:int32, 64:int64}
+// base int: str 的进制(base=16, s 为 16 进制的字符串)
+// bitSize int: 检查数值范围和对应类型是否匹配 0:int, 8:int8, 16:int16, 32:int32, 64:int64
+// int8 范围(-128 - 127) strconv.ParseInt("128", 10, 8) =>  strconv.ParseInt: parsing "128": value out of range 
 ```

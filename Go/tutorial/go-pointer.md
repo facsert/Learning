@@ -21,7 +21,7 @@ description: "Go 指针"
 |   变量   |   name   |   100    |   0x100001   |
 | 指针变量 | nameAddr | 0x100111 |   0x100002   |
 
-```Go
+```go
  strVar := "initial"                             // 初始化变量赋值, 绑定一个固定地址, 值可以变, 地址不变, 类型不变
  Printf("initial strVar value:%v, addr: %p\n", strVar, &strVar)
 
@@ -54,7 +54,7 @@ description: "Go 指针"
 - 符号: & 获取变量的地址
 - 符号: \* 指针变量的值(地址)取值
 
-```Go
+```go
  var str string = "hello"                        // 定义一个字符串变量 str, 值是 "hello" 地址是 0xc00001a078
 
  addr := &str                                    // addr 类型为 *string(地址类型), addr 的值是 0xc00001a078(str 地址), addr 地址是 0xc00000e018
