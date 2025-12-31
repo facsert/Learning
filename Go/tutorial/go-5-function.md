@@ -57,7 +57,7 @@ Println(sum(1,2,3,4))
 > 10
 
 func calc(x, y int) (sum, sub int) {             // 指定多个返回值
-    sum := x + y
+    sum = x + y                                  // 返回值定义了 sum 和 sub, 可以直接使用
     sub = x - y
     return
 }
@@ -91,13 +91,13 @@ Println(avg)
 
 ## defer
 
-defer 关键字会将之后语句或函数放到函数结尾运行
+defer 关键字会将之后语句或函数放到函数退出时运行
 多个 defer 语句按照先进后出的顺序执行
 
 ```go
 
 func delay() {
-    defer func() {                               // 将函数延迟到最后执行
+    defer func() {                               // 将函数延迟到退出函数前执行
         Println("third print")
     }()
     Println("first print")

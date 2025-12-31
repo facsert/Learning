@@ -14,7 +14,8 @@ description: "Go Map 类型数据"
 ## Map
 
 map 是一组**无序**的键值对的集合  
-map 是引用类型, 赋值时传递的是地址
+map 是引用类型, 赋值时传递的是地址  
+map 不是线程安全的，多个线程同时写入 map, 值会丢失, 需要设置写入锁
 
 ### map 初始化
 
@@ -117,4 +118,17 @@ map 使用 [key] 取值
  }
 
  delete(intMap, "1st")
+```
+
+## Map 操作
+
+go 1.21 标准库引入 maps 包
+
+```go
+maps.All(m) iter                                 // 返回键值对迭代器, 使用 range 遍历
+maps.Equal(m1, m2) bool                          // 判断两个 map 是否一致
+maps.Clone(m) map                                // 复制 map 返回一个新的 map(简单遍历赋值)
+maps.Copy(m1, m2)                                // 复制 m2 键值对到 m1 中, 相同键被覆盖
+maps.Keys(m) iter                                // 返回 map 键列表迭代器
+maps.Values(m) iter                              // 返回 map 值列表迭代器
 ```

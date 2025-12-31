@@ -38,7 +38,7 @@ description: "Go 结构体"
 
  bob := Student{                                 // 可以按顺序只写值，此时必须按顺序，且所有字段都需要填值
   "bob",
-  "xian"
+  "xian",
  }
 
  Printf("%#v\n", John)
@@ -140,7 +140,7 @@ import (
  > {"Name":"John","age":18}                      // city 属性不在, Age 属性名变为 age
 ```
 
-## 结构体
+## 结构体示例
 
 ```go
 type Person struct {
@@ -157,21 +157,21 @@ func NewPerson(name string, age int, Msg) *Person {
   }
 }
 
-func (p *Person)Name(name string) *Person {
+func (p *Person)SetName(name string) *Person {
   p.Name = name
   return p
 }
 
-func (p *Person)Age(age int) *Person {
+func (p *Person)SetAge(age int) *Person {
   p.Age = age
   return p
 }
 
-func (p *Person)Msg(msg string) *Person {
+func (p *Person)SetMsg(msg string) *Person {
   p.Msg = msg
   return p
 }
 
 p1 := NewPerson("John", 18, "boy")               // 一般结构体都会有对应的构建函数, 用于直接生成结构体
-p2 := (&Person{}).Name("lily").Age(18)           // 生成空结构体, 可选择是否添加属性值或重新赋值
+p2 := (&Person{}).SetName("lily").SetAge(18)     // 生成空结构体, 可选择是否添加属性值或重新赋值
 ```

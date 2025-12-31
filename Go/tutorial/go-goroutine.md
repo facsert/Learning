@@ -65,7 +65,7 @@ main 也是一个协程, main 中若不设置 wg.Wait() 等待其余协程完成
 
 ## channel
 
-为了确保协程同步, 或协程之间的数据传递, 通道是队列(先进先出)
+协程往往用于多个类似独立事件, 协程一般不设置返回值, 而是设置一个通道, 多个协程往同一个通道写入数据, 通道是队列(先进先出), 之后从通道取出
 
 ### 无缓冲通道
 
@@ -149,6 +149,103 @@ func receive(ch chan int) {
 > send 1,2 at 2023-04-02 12:20:34.693231007 +0800 CST m=+0.000069413
 > receive [1 2] at 2023-04-02 12:20:35.693311209 +0800 CST m=+1.000149614
 > over at 2023-04-02 12:20:35.693371227 +0800 CST m=+1.000209634
+```
+
+### 示例
+
+设置 Read 函数完成独立事件
+
+```go
+func main()  {
+    var wg sync.WaitGroup
+    books := []string{
+        "math",
+        "physics",
+        "science",
+        "biology",
+    }
+
+    ch := make(chan string, 10)  // 设置缓冲通道存储多个协程传输的数据
+    
+    done := make(chan struct{})  // 设置 done 等待 Learn 完成后才能退出
+    defer close(done)            // 退出前关闭通道
+
+    go func() {                  // 设置协程后台持续从通道取出数据
+        Learn(ch)
+        done <- struct{}{}       // 执行完 Learn 后, 写入空结构体表示 Learn 完成
+    }()
+
+    for _, book := range books { // 创建协程处理多个独立事件
+        wg.Add(1)
+        go func() {              // 若独立事件数量过多, 会导致协程数量过多, 一般会限制协程池数量
+            defer wg.Done()
+            Read(book, ch)
+        }()
+    }
+
+    wg.Wait()                    // 等待所有独立事件完成
+    close(ch)                    // 关闭数据通道, Learn 取出所有数据后结束 range 循环
+    <- done                      // 从 done 取出数据, 无数据则等待, 等待 Learn 结束的 done 信号
+}
+
+func Read(book string, ch chan string) {
+    ch <- fmt.Sprintf("%v read %s", time.Now(), book)
+}
+
+func Learn(ch chan string) {
+    for s := range ch {          // 从通道取出数据, 无数据则等待, 通道关闭且无数据后退出循环
+        fmt.Println(s)
+    }
+    fmt.Println("finish learning")
+}
+
+
+2025-12-31 17:39:52.393453547 +0800 CST m=+0.000049012 read biology
+2025-12-31 17:39:52.393556174 +0800 CST m=+0.000151638 read science
+2025-12-31 17:39:52.393475591 +0800 CST m=+0.000071055 read math
+2025-12-31 17:39:52.393488747 +0800 CST m=+0.000084219 read physics
+finish learning
+```
+
+设置协程池控制协程数量  
+使用缓存通道的机制, 设置一个指定数量的缓存通道, 每创建一个协程则从通道取出一个值, 执行完一个协程则写入一个值  
+通道值取完表示协程数量达到上限, 需要等待有协程完成写入值才能再次取值，如此保证协程数量超过阈值
+
+```go
+func main()  {
+    var wg sync.WaitGroup
+    tokens := make(chan struct{}, 3)  // 设置协程池数量, 同时可存在最大协程数量
+    for range 3 {
+        tokens <- struct{}{}          // 初始化, 创建令牌
+    }
+
+    for index := range 10 {
+        <- tokens                     // 每次取出一个令牌, 创建一个协程, 令牌用完则等待
+        wg.Add(1)
+        go func() {
+            defer wg.Done()
+            Doing(index)
+            tokens <- struct{}{}      // 协程执行完成, 返回令牌
+        }()
+    }
+    wg.Wait()
+}
+
+func Doing(index int) {
+    fmt.Printf("%d %v doing something\n", index, time.Now().Format("15:04:05"))
+    time.Sleep(1 * time.Second)
+}
+
+2 18:00:13 doing something
+0 18:00:13 doing something
+1 18:00:13 doing something
+5 18:00:14 doing something
+3 18:00:14 doing something
+4 18:00:14 doing something
+6 18:00:15 doing something
+8 18:00:15 doing something
+7 18:00:15 doing something
+9 18:00:16 doing something
 ```
 
 ## 锁

@@ -171,31 +171,37 @@ Golang 扩容增速从 2 倍逐渐减少至 1.25 倍
 不同类型切片在扩容时候还有特殊的偏移增长机制
 
 ```go
-slice := make([]int, 80, 80)
-
-for i:=0; i < 2049; i ++ {
-    oldCap := cap(slice)
+slice := make([]int, 0, 1)
+sliceCap := cap(slice)
+fmt.Printf("default len: %d, cap: %d\n", len(slice), cap(slice))
+for range 10000 {
     slice = append(slice, 1)
-    newcap := cap(slice)
-
-    if oldCap != newcap {
-        Printf("int old: %d  new %d \n", oldCap, newcap)
+    newLen, newCap := len(slice), cap(slice)
+    if sliceCap != newCap {
+        fmt.Printf("len: %d, cap: %d\n", newLen, newCap)
+        sliceCap = newCap
     }
 }
 
-> int old: 80  new 160
-> int old: 160  new 336
-> int old: 336  new 672
-> int old: 672  new 1184
-> int old: 1184  new 1696
-> int old: 1696  new 2384
-
-> int8 old: 80  new 160
-> int8 old: 160  new 320
-> int8 old: 320  new 640
-> int8 old: 640  new 1024
-> int8 old: 1024  new 1536
-> int8 old: 1536  new 2304
+default len: 0, cap: 1
+len: 2, cap: 2
+len: 3, cap: 4
+len: 5, cap: 8
+len: 9, cap: 16
+len: 17, cap: 32
+len: 33, cap: 64
+len: 65, cap: 128
+len: 129, cap: 256
+len: 257, cap: 512
+len: 513, cap: 848
+len: 849, cap: 1280
+len: 1281, cap: 1792
+len: 1793, cap: 2560
+len: 2561, cap: 3408
+len: 3409, cap: 5120
+len: 5121, cap: 7168
+len: 7169, cap: 9216
+len: 9217, cap: 12288
 ```
 
 ### 切片操作
@@ -237,4 +243,13 @@ fmt.Println(sort.Ints(slice))                    // 切片排序
 > [1 2 4 6]
 
 copy(destSlice, sourceSlice)                    // 切片复制, dest 容量会影响复制结果
+```
+
+go 1.21 引入 slices 包支持切片复杂操作
+
+```go
+slices.Equal(s1, s2) bool                        // 比较切片
+slices.Index(s1, v) int                          // 查找值在切片中序号
+slices.Sort(s)                                   // 切片原地排序
+slices.Contains(s, v) bool                       // 切片是否包含值
 ```
