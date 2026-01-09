@@ -94,6 +94,15 @@ for v := range IterFunc([]int{1, 2, 3, 4}) {
 }
 ```
 
+Go 1.21 新增切片转迭代器的方法
+
+```go
+iter := slices.All([]int{0,1,2,3})
+for _, v := range iter {
+    fmt.Println(v)
+}
+```
+
 ## 示例
 
 ```go
