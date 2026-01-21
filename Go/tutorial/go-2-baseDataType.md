@@ -123,7 +123,7 @@ MaxUint64 = 1<<64 - 1
 浮点型类型: float32 float64
 
 ```go
-var float32 = 2.17
+var e float32 = 2.17
 var pi float64 = 3.1415926535
 
 Printf("e: %f \n", e)                            // e: 2.170000
@@ -142,12 +142,12 @@ yes == no                                        // false
 yes || no                                        // true 逻辑或
 yes && no                                        // false 逻辑且
 
-love, happy := true, false                       // 布尔运算的哲学
-!love                                            // false  not love is false
-love == happy                                    // false  love equal to happy is false
-love != happy                                    // true   love not equal to happy is true
-happy && love                                    // false  love and happy is not true
-happy || love                                    // true   love or happy is true
+like, happy := true, false                       // 布尔运算的哲学
+!like                                            // false  not like is false
+like == happy                                    // false  like equal to happy is false
+like != happy                                    // true   like not equal to happy is true
+happy && like                                    // false  like and happy is not true
+happy || like                                    // true   like or happy is true
 ```
 
 ## 字符串类型
@@ -261,12 +261,16 @@ fmt.Printf("value: %#v length: %v\n", strRune, len([]rune(strRune)))
 ```
 
 ```go
-strings.Split(s, sep) []string                   // 以 sep 为分隔符, 切割字符串成切片
-strings.Contains(s, sub) bool                    // 判断 s 是否包含 sub
-strings.Index(s, sub) int                        // sub 在 s 的序号
-strings.Join(slice, sep) string                  // 通过 sep 把 slice 连接成一个字符串
-strings.Replace(s, old, new, count) string       // 将 s 中的 old 替换为 new, 替换 count 次
-strings.Count(s, sub) int                        // 返回 sub 在 s 中出现次数
+strings.Split(s, sep string) []string                   // 以 sep 为分隔符, 切割字符串成切片
+strings.Field(s string) []string                        // 按单个或多个空格分隔切割字符串
+strings.Contains(s, sub string) bool                    // 判断 s 是否包含 sub
+strings.Index(s, sub string) int                        // sub 在 s 的序号
+strings.Join(slice []string, sep string) string         // 通过 sep 把 slice 连接成一个字符串
+strings.Replace(s, old, new string, count int) string   // 将 s 中的 old 替换为 new, 替换 count 次
+strings.Count(s, sub string) int                        // 返回 sub 在 s 中出现次数
+strings.ToUpper(s string) string                        // 字符串全转大写
+strings.ToLower(s string) string                        // 字符串全转小写
+strings.Trim(s, cutset string) string                   // 设置黑名单字符, 并移除 s 左右在黑名单的字符
 ```
 
 ## 类型转换

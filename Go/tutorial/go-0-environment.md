@@ -58,7 +58,8 @@ description: "Go 环境配置"
 使用 `go mod` 创建项目
 
 ```bash
- $ go mod init <module name>                     # go mod 初始化项目
+ $ mkdir learn && cd learn                       # 创建项目路径
+ $ go mod init learn                             # go mod <project name> 初始化项目
  $ touch main.go                                 # 创建项目入口
 
  $ ll
@@ -91,4 +92,36 @@ func main() {                                    // 项目入口, 只允许一�
 ```bash
  $ go run main.go                                # 执行 go 文件
  > hello world!
+```
+
+## 常用命令
+
+```bash
+ # 查看 go 环境变量
+ # go env GOPATH 查看指定配置
+ $ go env
+
+ # 执行项目 go run main.go
+ # go run .  自行查找入口执行或main 包有多个文件
+ $ go run <file>
+
+ # 初始化项目 go mod init learn
+ $ go mod init <project name>
+ 
+ # 下载依赖
+ # go get -u golang.org/x/sys/  添加 -u 可更新下载模块及其关联的模块
+ $ go get <dependence>
+
+ # 整理依赖(删除未使用依赖，下载缺失依赖，修正 go.sum)
+ $ go mod tidy
+
+ # 列出所有依赖
+ $ go list -m all
+
+ # 格式化项目代码
+ $ gofmt -w .
+
+ # 编译项目
+ # go build -o tool ./bin  可指定编译后文件名和输出路径
+ $ go build
 ```

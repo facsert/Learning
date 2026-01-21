@@ -25,13 +25,13 @@ type People struct { name string }               // 定义 People 结构体
 func (p people) sing() { ... }                   // 定义结构体方法 sing
 func (p people) play() { ... }                   // 定义结构体方法 play
 
-func activate(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
+func actor(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
     s.sing()
     p.play()
 }
 ```
 
-然而实际上 People 类型不能作为 activate 的参数
+然而实际上 People 类型不能作为 actor 的参数
 People 即使具有 singer 类型和 player 类型的行为, 但由于类型限制, 无法使用
 
 为了解决以上问题产生了接口类型这一概念
@@ -44,13 +44,13 @@ type People struct { name string }               // 定义 People 结构体
 func (p people) sing() { ... }                   // 定义结构体方法 sing
 func (p people) play() { ... }                   // 定义结构体方法 play
 
-func activate(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
+func actor(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
     s.sing()
     p.play()
 }
 
 human := People{ name: "John" }                  // 实例化 People, People 实现了 sing() play()
-activate(human, human)                           // 第一个 human 作为 singer 类型，第二个 human 作为 player 类型
+actor(human, human)                           // 第一个 human 作为 singer 类型，第二个 human 作为 player 类型
 ```
 
 接口类型是一个自定义的抽象类型

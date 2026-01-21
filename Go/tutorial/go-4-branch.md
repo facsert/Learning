@@ -14,43 +14,43 @@ description: "Go 条件分支"
 ## if else 分支
 
 ```go
- if expression {
-     branch
- } else if expression {
-     branch
- } else {
-    branch
- }
+if expression {
+    branch1
+} else if expression {
+    branch2
+} else {
+    branch3
+}
 
- done := false
- if done {
+done := false
+if done {
     Println("done, goodbye")
- } else {
+} else {
     Println("not done, continue")
- }
+}
 
- if done := true; done {
+if done := true; done {
     Println("done, goodbye")
- } else {
+} else {
     Println("not done, continue")
- }
+}
 
 ```
 
 ## for 循环
 
 ```go
- for initial; expression; end {
+for initial; expression; end {
     loop
- }
+}
 
- for i:= 0; i < 3; i++ {
+for i:= 0; i < 3; i++ {
     Printf("index: %d\n", i)
- }
+}
 
- > index: 0
- > index: 1
- > index: 2
+> index: 0
+> index: 1
+> index: 2
 ```
 
 ### for range

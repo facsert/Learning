@@ -75,17 +75,17 @@ import {
 
 ### 自定义模块
 
-使用 go mod 创建项目, 创建多级目录存放自定义模块
+使用 go mod 创建项目, 创建多级目录存放自定义模块, 使用 `package <name>` 声明文件所属包
 
 ```bash
 demo                                             # 创建 demo 文件夹, 存放项目
 ├── go.mod                                       # module learn  使用 go mod 在 demo 文件下创建 learn 项目
-├── main.go                                      # package main  learn 项目的入口
+├── main.go                                      # package main  定义 main 包, learn 项目的入口
 └── lib
     ├── config                                   # 创建 config 文件夹存放 config 模块, 文件夹最好与模块同名, 以便于查找
     |   ├── remote.go                            # remote.go 属于 config 模块, 是 config 模块进一步划分
     |   └── local.go                             # local.go 属于 config 模块, 是 config 模块进一步划分
-    └── summary                                  # 创建 summary 文件夹存放 log 模块, 反面示例. 模块与文件夹不同名
+    └── summary                                  # 创建 summary 文件夹存放 log 模块, 反面示例. 模块与文件夹不同名, 无法直接确认包路径
         └── logger.go                            # logger.go 属于 log 模块
 ```
 
@@ -96,9 +96,10 @@ import (
 )
 ```
 
-- 单个文件夹只允许存放一个包, 包内可以继续划分为多个文件
+- 单个文件夹只允许存放一个包, 包内可以继续划分为多个文件, 所有文件开头 `package <package name>` 声明所属包
 - 引入包时, 只需要引入包的目录即可, 无需指定文件
 - 包名可以与模块名称不一致, 但是在引入后难以通过引入语句路径查找模块位置
+- 同一包内共享函数和变量
 
 `local.go` 添加代码
 
