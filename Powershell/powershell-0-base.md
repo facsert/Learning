@@ -286,4 +286,7 @@ $true                                            # True
 $null                                            # Null
 $PID                                             # 进程ID
 $PWD                                             # 当前目录
+$HOME                                            # 当前用户根目录
+$PSHOME                                          # powershell 根目录
+$profile                                         # 当前用户 powershell 根目录(类似 ~/.bashrc)
 ```
