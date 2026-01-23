@@ -240,12 +240,15 @@ test
  # 同步项目依赖(按版本创建虚拟环境 venv，安装项目依赖)
  $ uv sync
 
- # 添加/删除依赖(自动添加到 pyproject.toml)
+ # 添加/删除/更新依赖(自动添加到 pyproject.toml)
  $ uv add pandas
  $ uv remove pandas
+ $ uv update pandas
 
- # 使用 requirements.txt 添加依赖
+ # 依赖导入/导出
  $ uv add -r requirements.txt
+ $ uv pip compile pyproject.toml -o requirements.txt
+ 
 
  # 显示依赖列表
  $ uv tree

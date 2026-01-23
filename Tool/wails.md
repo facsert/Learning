@@ -53,7 +53,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   // next 设置 build 输出到 dist 路径
-  output: "export",
   distDir: 'dist',
 };
 
@@ -83,6 +82,8 @@ var assets embed.FS
   }
 }
 ```
+
+注: Nextjs 16 添加 lock 文件锁进程, golang embed 报错, embed 输出路径下 build 路径即可
 
 ```bash
  # 开发者模式

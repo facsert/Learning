@@ -109,14 +109,6 @@ sudo apt install caddy
     file_server browse
 }
 
-# 指定路径为 caddy 文件列表
-# http://localhost:2023  => /root/temp
-:2023 {
-    root * /root/temp
-    file_server browse
-}
-```
-
 ```bash
 # localhost:2026 代理 8010 8011 端口服务, 并设置轮询
 :2026 {
@@ -132,6 +124,36 @@ sudo apt install caddy
 # ip_hash 根据 IP 哈希
 # url_hash 根据 URL 哈希
 # first 第一个可用的服务
+```
+
+## 路径代理
+
+caddy 支持将本地路径代理到网页  
+file_server browse 固定代理全路径, 无法屏蔽或隐藏  
+若要隐藏可新建路径, 在新路径创建软链接绑定需显示内容  
+
+```bash
+# 指定路径为 caddy 文件列表
+# http://localhost:2023  => /root/temp
+:2023 {
+    root * /root/temp
+    file_server browse
+}
+
+# 新建 /root/proxy, 在路径下创建 /root/home/log 软链接
+mkdir /root/proxy
+ln -s /root/home/log /root/proxy/log
+:2023 {
+    root * /root/proxy
+    file_server browse
+}
+
+# windows 创建目录链接
+New-Item -ItemType Junction -Path “D:\proxy\log” -Target "D:\project\temp"
+:2023 {
+    root * D:\proxy
+    file_server browse
+}
 ```
 
 ## api 接口
