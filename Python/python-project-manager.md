@@ -1,13 +1,12 @@
 ---
 pubDatetime: 2023-09-27 21:03:53
-title: Python build
-slug: Python build
+title: Python Project Manager
+slug: Python Project Manager
 featured: false
 draft: false
 tags:
   - Python
-  - build
-description: "Python 版本控制"
+description: "Python project manager"
 ---
 
 ## 介绍
@@ -265,4 +264,33 @@ cpython-3.13.3+freethreaded-linux-x86_64-gnu      <download available>
 
  # 执行项目
  $ uv run main.py
+```
+
+uv 下载源配置
+
+- 命令行 `uv sync --index-url https://pypi.org/simple`
+- 项目配置 `uv.toml` 或 `pyproject.toml`, 前者优先
+- 全局用户 `$UV_CONFIG_FILE` 默认 `~/.config/uv/uv.toml`
+- 全局系统 `/etc/uv/uv.toml`
+
+优先级: 命令行 > 项目配置 > 全局用户 > 全局系统
+
+```toml
+# 项目 pip 源, 优先级按配置顺序 pyproject.toml
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+
+[[tool.uv.index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+
+# 全局 pip 源泉 ~/.config/uv/uv.toml
+[[index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+
+[[index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 ```

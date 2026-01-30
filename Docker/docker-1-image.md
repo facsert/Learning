@@ -206,6 +206,19 @@ nginx-base  v1   43761bd5b76d  41 hours ago  700MB
 
 [Dockerfile 关键字清单](https://docs.docker.com/reference/dockerfile/#arg)
 
+|关键字|示例|功能|
+|:-|:-|:-|
+|`FROM`|`FROM ubuntu`|文件开头设置基础镜像|
+|`ENV`|`TZ=Asia/Shanghai`|设置镜像的环境变量|
+|`ARG`|`ARG VERSION="1.0.0"`|设置构建镜像参数|
+|`WORKDIR`|`WORKDIR /root`|切换路径并设置为主路径|
+|`ADD`|`ADD http://proxy/file /root/`|复制当前路径文件或下载链接到容器|
+|`COPY`|`COPY f1.py f2.go /root/`|复制当前路径文件到镜像|
+|`RUN`|`RUN echo $PATH`|在镜像种执行shell命令|
+|`CMD`|`CMD python main.py`|容器启动命令, 构建时不执行, 命令执行退出则容器退出|
+
+注: 文件复制一般限定 Dockerfile 文件根目录, 使用绝对路径无效(`COPY /home/file /root/` 会找不到文件)
+
 ```bash
 FROM ubuntu                                                                    # 以 ubuntu 镜像为基础, 可添加 tag, ubuntu:20.04
 
@@ -218,7 +231,8 @@ ARG VERSION="1.0.0"                                                            #
 LABEL version="1.0.0" description="ubuntu image by $USERNAME"                  # 添加镜像元数据
 
 ADD nginx-1.8.0.tar.gz $path                                                   # 将系统下文件复制到镜像中目录下
-ADD epel-release-latest-7.noarch.rpm $path
+ADD f1.txt f2.log f3.csv $path                                                 # 支持同时复制多个, 最后一个参数是镜像内路径
+ADD http://proxy/tool /root/                                                   # 下载链接文件到镜像目录下
 
 WORKDIR $path                                                                  # 设定镜像中工作目录, 并转到改目录, 类似 cd 命令, 可以多次设置
 
@@ -231,7 +245,7 @@ RUN rpm -ivh /usr/local/epel-release-latest-7.noarch.rpm && \                  #
     make install && \
     echo "daemon off;" >> /etc/nginx.conf
 
-CMD /usr/sbin/nginx                                                            # build 时不执行, docker run 时执行, 必须前台执行
+CMD /usr/sbin/nginx                                                            # build 时不执行, 启动容器时执行, 必须前台执行, 命令结束则容器关闭
 ```
 
 后端项目镜像示例

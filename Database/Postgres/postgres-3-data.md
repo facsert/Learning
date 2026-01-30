@@ -163,3 +163,31 @@ SET
 WHERE id = 1;
 > UPDATE 1
 ```
+
+## 复杂操作
+
+多段查询, 提供多个筛选条件查询
+
+```sql
+-- 查询多个年龄区间的数据
+SELECT * FROM students WHERE age <@ ANY (ARRAY[
+  (0, 18, '[)'),
+  -- (18, 30, '[)'),
+  -- (30, 50, '[)'),
+  (50, 100, '[)')
+]);
+
+-- 添加索引后, 提升查询速度
+CREATE INDEX index_student_age ON students(age) WHERE locked = false;
+
+-- 查询多个时间段创建的数据
+SELECT * FROM students WHERE created_at <@ ANY (ARRAY[
+  tsrange('2026-01-01', '2026-01-02', '[)'),
+  tsrange('2026-01-03', '2026-01-04', '[)'),
+  tsrange('2026-01-06', '2026-01-07', '[)'),
+]);
+
+-- 添加索引后, 提升查询速度
+CREATE INDEX index_student_created ON students(created_at) WHERE locked = false;
+
+```
