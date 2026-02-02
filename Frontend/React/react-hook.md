@@ -24,7 +24,7 @@ description: "React hooks"
 - status 和 setStatus 可以传递给其他组件达到跨组件通信
 - set 函数是异步执行, 不会阻塞组件渲染, 但可能会延迟状态更新
 
-```ts
+```js
 import { useState } from "react";
 
 // 计数器
@@ -35,6 +35,11 @@ export default function Counter() {
   // set 函数可以添加参数获取上一次状态
   // const [count, setCount] = useState(0);
   // return <button onClick={() => setCount(pre => pre + 1)}></button>;
+
+  // 初始值可以设置为回调函数返回值
+  const [count, setCount] = useState(() => {
+    return sessionStorage.getItem('count') || 0
+  })
 }
 
 // 开关
@@ -48,7 +53,7 @@ export default function Switch() {
 
 通过传递状态变量和设置状态函数来传递状态
 
-```ts
+```js
 // Home Page
 function HomePage() {
   const [dark, setDark] = useState<boolean>(true);
@@ -91,13 +96,13 @@ function SideBar({ dark }: { dark: boolean }) {
 - useEffect 的第一个参数是一个函数, 该函数会在组件渲染后执行
 - useEffect 的第二个参数是一个数组, 该数组中的元素会作为依赖项, 当依赖项发生变化时, useEffect 会再次执行
 
-```ts
+```js
 import { useEffect } from 'react';
 export default function Counter() {
   useEffect(() => {
     console.log('组件渲染后执行');
     return () => {
-        console.log('组件销毁时执行');
+      console.log('组件销毁时执行');
     }
     // 依赖项发生变化时执行
 
