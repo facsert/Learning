@@ -191,3 +191,107 @@ $ curl -X POST localhost:2019/load_themes/
 # 重新加载所有配置
 $ curl -X POST localhost:2019/load_all/
 ```
+
+## 脚本
+
+```bash
+CURRENT_PATH=$(pwd)
+SCRIPT_DIR=$(cd $(dirname $0) && pwd)
+
+RELOAD="caddy reload"
+START="caddy start"
+STOP="caddy stop"
+CONFIG="caddy fmt"
+
+CHECK_VALID="caddy validate"
+FORMAT="caddy fmt --overwrite"
+
+function is_alive() {
+    pidof caddy && local pid=$(pidof caddy)
+    if [[ -z $pid ]]; then
+        echo -e "\033[31mCaddy is not running\033[0m"
+        return 1
+    fi
+
+    echo -e "\033[32mService $pid is alive\033[0m"
+    return 0
+}
+
+function reload_service() {
+    cd $SCRIPT_DIR
+    
+    $CHECK_VALID
+    if [[ $? -ne 0 ]];then
+        echo "\033[31mCaddy config error \033[0m"
+        return 1
+    fi
+    
+    $FORMAT
+    is_alive && $RELOAD || $START
+
+    check_service
+    
+    cd $CURRENT_PATH
+    return 0
+}
+
+function stop_service() {
+    is_alive || return 0
+
+    $STOP
+    if [[ $? -ne 0 ]]; then
+        echo -e "\033[31mStop Service failed\033[0m"
+        return 1
+    fi
+    
+    is_alive
+    if [[ $? -eq 0 ]]; then
+        echo -e "\033[31mService still alive\033[0m"
+        return 1
+    fi
+
+    echo -e "\033[32mService is killed\033[0m"
+    return 0
+}
+
+function check_service() {
+    is_alive || return 1
+    curl http://localhost:2019/config/ | jq | egrep '(":[0-9]|dial|root)'
+    is_alive && return 0 || return 1
+}
+
+
+usage=$(cat <<EOF
+    -h/--help      show help      \n
+    --reload       reload service \n
+    --check        check service alive \n
+    --stop         stop service
+EOF
+)
+
+declare -a params
+while [[ $# -gt 0 ]]; do
+    case $1 in
+      -h|--help)
+        echo -e $usage
+        exit 0
+        ;;
+      --reload)
+        reload_service
+        shift 1
+        ;;
+      --stop)
+        stop_service
+        shift 1
+        ;;
+      --check)
+        check_service
+        shift 1
+        ;;
+      *)
+        echo "error param $1"
+        shift
+        ;;
+    esac
+done
+```
