@@ -84,3 +84,79 @@ shutil.copytree('temp', 'folder', ignore=ignores)# 递归复制目录, 并忽略
 for root, dirs, files in os.walk(path)           # 遍历目录, 返回目录路径, 目录列表, 文件列表
     [print(join(root, f)) for f in files]
 ```
+
+## Pathlib
+
+`pathlib` 是 python新提供的高级文件系统路径对象, 语义使用于多种操作系统  
+
+- Path 自动适配 win 和 类 unix 系统
+- 任意实例化的 Path 对象都继承了 Path 方法
+- `str()` 即可将 Path 转为字符串路径
+
+```py
+from pathlib import Path
+
+# os.getcwd() 当前路径
+Path.cwd()
+
+# 用户根目录
+Path.home()
+
+# os.walk 遍历路径
+Path.walk()
+
+# 类似 find 搜索匹配的文件(忽略路径)
+Path.glob("*.txt")
+
+# 自动识别根目录拼接 /root/home/file.txt
+p = Path("lib","/root", "home", "file.txt")
+
+# os.dirname /root/home
+p.parent
+
+# join /root/home/file2.txt 路径拼接
+p.parent / "file2.txt"
+
+# os.basename file.txt
+p.name
+
+# 移除后缀的文件名 file
+p.stem
+
+# 文件名后缀 .txt
+p.suffix
+
+# 创建文件
+p.touch()
+
+# os.makedirs() 创建路径
+p.mkdir()
+
+# os.rename 重命名
+p.rename()
+
+# os.move 移动文件或路径
+p.move()
+
+# os.path.exists 判断文件/路径是否存在
+p.exists()
+
+# os.path.isfile() 判断是否存在且为文件
+p.is_file()
+
+# os.path.isdir() 判断是否存在且为路径
+p.is_dir()
+
+# open() 读取文件
+with p.open() as fs:
+  fs.read()
+
+# 文件读写, 本质为封装 p.open
+p.read_text()
+p.write_text("write content")
+
+# 'home/file.txt' 获取相对路径
+p.relative_to("/root")
+# 'file.txt' p 相对于 "/root/home" 路径
+p.relative_to("/root/home")
+```
