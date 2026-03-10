@@ -1,0 +1,6 @@
+.DS_store
+.obsidian
+.vscode
+build
+dist
+*.pyc
