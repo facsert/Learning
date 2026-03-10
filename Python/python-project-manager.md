@@ -243,6 +243,11 @@ test
  $ uv add pandas
  $ uv remove pandas
  $ uv update pandas
+ 
+ # 下载编译工具但不写入配置文件, 调用工具
+ $ uv add --dev pyinstaller
+ $ uv run pyinstaller --onefile --name combine main.py
+
 
  # 依赖导入/导出
  $ uv add -r requirements.txt
@@ -266,7 +271,7 @@ cpython-3.13.3+freethreaded-linux-x86_64-gnu      <download available>
  $ uv run main.py
 ```
 
-uv 下载源配置
+### UV pip源配置
 
 - 命令行 `uv sync --index-url https://pypi.org/simple`
 - 项目配置 `uv.toml` 或 `pyproject.toml`, 前者优先
@@ -275,7 +280,7 @@ uv 下载源配置
 
 优先级: 命令行 > 项目配置 > 全局用户 > 全局系统
 
-```toml
+```ini
 # 项目 pip 源, 优先级按配置顺序 pyproject.toml
 [[tool.uv.index]]
 name = "aliyun"
@@ -293,4 +298,22 @@ url = "https://mirrors.aliyun.com/pypi/simple/"
 [[index]]
 name = "tsinghua"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+```
+
+### UV 解析器镜像
+
+UV 默认从 [Github UV Python](https://github.com/astral-sh/python-build-standalone/releases) 下载 Python 版本包  
+支持替换为南京大学源 `https://mirror.nju.edu.cn/github-release/indygreg/python-build-standalone`  
+支持更换为本地离线代理服务
+
+```bash
+ $ uv python install 3.13 --mirror <mirror>
+
+ # UV 固定按官方源 python 包名称下载
+ # 使用链接下载包存放到代理路径 20250612/cpython-3.13.5+20250612-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+ $ uv python install 3.13
+ Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20250612/cpython-3.13.5%2B20250612-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+
+ # uv 会自行到 python/3.13/20250612 下载安装包
+ $ uv python install 3.13 --mirror http://192.168.1.100/python/3.13
 ```
