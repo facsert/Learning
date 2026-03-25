@@ -42,4 +42,7 @@ str.toLowerCase();
 str.includes("java"); // true 检查字符串包含
 str.startsWith("java"); // true 检查字符串开头
 str.endsWith("java"); // false 检查字符串结尾
+
+String.fromCharCode(65) // A 将数字转为 ASCII 字符
+"a".charCodeAt() // 97 将字符转为 ASCII 表序号
 ```

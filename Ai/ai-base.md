@@ -37,7 +37,36 @@ LLM: Large Language Model 大语言模型, 使用大量文本训练的深度学�
 Prompt: 提示词, 精确的提示词可以引导模型输出更加符合预期的内容
 Token: 模型处理文本的最小语义单位, 大模型输入和输出内容越多, token 消耗越多, 对应计算量越大. token 数量等效计算量, 常用于计费
 Context: 大模型会话上下文内容, 大模型在单一会话中能记忆的内容
-MCP: Model Context Protocol 模型上下文标准, 一个开放的标准, 旨在统一 AI 模型与外部数据源、工具之间的连接方式
+MCP: Model Context Protocol 模型上下文标准, 一个开放的标准, 旨在统一 AI 模型与外部数据源、工具之间的连接和调用方式
 Agent: 智能体, 具有自主完成目标的 Ai 系统. 自行感知环境, 由大模型规划和决策, 调用工具, 完成任务
 RAG: Retrieval-Augmented Generation 检索增强生成. 创建向量知识库, 提问前, 从知识库中取出语义相近的内容, 一同发给大模型, 提高回答质量
 Vector Database: 向量数据库, 将文本, 图片等数据转换为高维坐标
+
+## MCP
+
+MCP: Model Context Protocol 模型上下文标准, 一个开放的标准, 旨在统一 AI 模型与外部数据源、工具之间的连接和调用方式
+
+- LLM 大语言模型, 根据 MCP 客户端提供信息给出决策
+- MCP 客户端, 与大模型沟通, 调用服务端接口
+- MCP 服务端, 提供数据或功能
+
+1.用户提出任务
+2.MCP 客户端接到任务, 获取服务端工具描述及使用信息, 发送给大模型
+3.大模型按提供信息返回需要执行的工具及参数给 MCP 客户端
+4.MCP 客户端按大模型决策调用 MCP 服务端的工具, 生成结果
+5.MCP 客户端将结果展示给用户
+
+```mermaid
+---
+title: MCP 执行流程
+---
+flowchart TD
+    A(User) -- 1.task --> B(MCP Client)
+    B -- 2.get tools info --> C(MCP Client)
+    C -- 3.tools info --> B
+    B -- 4.task and tools info -->D(LLM)
+    D -- 5.tool and args --> B
+    B -- 6.request tool api--> C
+    C -- 7.tool response --> B
+    B -- 8.response --> A
+```

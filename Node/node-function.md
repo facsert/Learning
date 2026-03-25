@@ -63,6 +63,16 @@ const n4 = n1.reduce((acc, i) => acc + i); // n4 10
 // find 查找函数, 返回找到的第一个数据, 不存在返回 undefine
 const n = n1.find((i) => i === 5); // n undefine
 
+// 创建数组 [0, 1, 2, 3, 4]
+num = Array.from({length: 5}, (_, i) => i)
+
+// 创建数组 [2, 3, 4, 5]
+num = Array.from({length: 4}, (_, i) => i + 2)
+
+// 创建字符列表 A-Z
+lower = Array.from({length: 26}, (_, i) => String.fromCharCode(i+65))
+upper = Array.from({length: 26}, (_, i) => String.fromCharCode(i+97))
+
 const box = {
   name: "box",
   width: 10,

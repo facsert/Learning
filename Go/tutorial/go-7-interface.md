@@ -9,83 +9,192 @@ tags:
 description: "Go 接口"
 ---
 
-## Table of Contents
+## 介绍
 
-## 引申
+接口定义了一种具有特定方法的类型, 任意对象实现了接口定义的所有方法则该对象可以视为接口类型数据  
+定义具有充电和放电功能的设备为电器, 则任意同时支持充电和放电的设备均可被认为是电器
 
-接口是一种抽象类型, 接口定义了该类型必须实现的方法, 任何实现了这些方法的类型都可以作为该接口类型使用
-
-举办一个活动, 参加的人必须是能唱歌和玩游戏, 所以不管男女老幼, 只要能唱歌和玩游戏就应该都能参加  
-对于这个活动, 强调的是能唱歌能玩游戏这两种行为, 不关心其余特质和行为
-
-用 Go 实现的效果
+## 示例
 
 ```go
-type People struct { name string }               // 定义 People 结构体
-func (p people) sing() { ... }                   // 定义结构体方法 sing
-func (p people) play() { ... }                   // 定义结构体方法 play
-
-func actor(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
-    s.sing()
-    p.play()
+// 创建电器接口
+// Charge 充电一段时间返回电量百分比
+// DisCharge 放电一段时间返回电量百分比
+// Power 查看电量百分比
+type ElectMachine interface {
+    Charge(time.Duration) int
+    DisCharge(time.Duration) int
+    Power() int
 }
+
+// 定义 Phone 类型数据实现 ElectMachine 接口所有方法
+type Phone struct {
+    power int
+}
+
+func NewPhone() *Phone {
+    return &Phone{ power: 100 }
+}
+
+func (p *Phone)Power() int {
+    return p.power
+}
+
+func (p *Phone)Charge(t time.Duration) int {
+    if t >= 100 * time.Minute || p.power == 100 {
+        p.power = 100
+        return 100
+    }
+    p.power = min(int(t.Minutes())+p.power, 100)
+    return p.power
+}
+
+func (p *Phone)DisCharge(t time.Duration) int {
+    if t >= 100 * time.Minute || p.power == 0 {
+        p.power = 0
+        return 0
+    }
+    p.power = max(p.power-int(t.Minutes()), 0)
+    return p.power
+}
+
+// ElectMachine 不包含此方法
+// 当 Phone 作为 ElectMachine 类型时, 该方法不可用
+func (p *Phone)Chat(name string) {
+    fmt.Printf("chat with %s\n", name)
+}
+
+
+// 函数接受 ElectMachine 类型数据执行
+func Play(m ElectMachine) {
+    m.Charge(time.Minute * 60)
+    fmt.Printf("after charge power: %d\n", m.Power())
+    for m.Power() > 0 {
+        m.DisCharge(30 * time.Minute)
+        fmt.Printf("play 30 minute power: %d\n", m.Power())
+    }
+    fmt.Printf("power: %d\n", m.Power())
+}
+
+// Phone 实现了 ElectMachine 接口所有方法, 可视为 ElectMachine 类型
+// Phone 在作为 ElectMachine 类型期间只能使用 ElectMachine 接口方法
+p := NewPhone()
+Play(p)
+
+after charge power: 100
+play 30 minute power: 70
+play 30 minute power: 40
+play 30 minute power: 10
+play 30 minute power: 0
+power: 0
 ```
 
-然而实际上 People 类型不能作为 actor 的参数
-People 即使具有 singer 类型和 player 类型的行为, 但由于类型限制, 无法使用
+## 标准库接口
 
-为了解决以上问题产生了接口类型这一概念
+`fmt` 包
 
 ```go
-type singer interface { sing() }                 // 定义 singer 接口类型, 只要实现 sing() 即可作为 singer 类型使用
-type player interface { play() }                 // 定义 player 接口类型, 只要实现 play() 即可作为 player 类型使用
+// fmt 接口
+// fmt 将变量转换字符打印按以下接口优先级
 
-type People struct { name string }               // 定义 People 结构体
-func (p people) sing() { ... }                   // 定义结构体方法 sing
-func (p people) play() { ... }                   // 定义结构体方法 play
-
-func actor(singer s, player p) {              // 定义函数, 参数为 singer 和 player 类型
-    s.sing()
-    p.play()
+// 最高优先级
+type Formatter interface {
+    Format(f State, verb rune)
 }
 
-human := People{ name: "John" }                  // 实例化 People, People 实现了 sing() play()
-actor(human, human)                           // 第一个 human 作为 singer 类型，第二个 human 作为 player 类型
+// %#v 占位符打印
+type GoStringer interface {
+    GoString() string
+}
+
+// %v %s
+type error interface {
+    Error() string
+}
+
+// %v %s
+type Stringer interface {
+    String() string
+}
+
+// reflect 打印
 ```
 
-接口类型是一个自定义的抽象类型
-接口用于定义拥有同样行为的类型
-任意其它类型只要包含接口定义的方法，都可以作为接口类型使用
+```go
+type Words struct {}
+
+func (w Words) GoString() string {
+    return "GoString #%v"
+}
+
+func (w Words) Error() string {
+    return "Error"
+}
+
+func (w Words) String() string {
+    return "Stringer %v"
+}
+
+w := Words{}
+fmt.Printf("%s\n%v\n%#v\n", w, w, w)
+
+Error
+Error
+GoString #%v
+
+// 注释 Error()
+Stringer %v
+Stringer %v
+GoString #%v
+```
 
 ```go
-type <interface name> interface {
-    <function name>(<parameter name> <parameter type>) <return type>
+// sort 包定义 Interface 接口
+type Interface interface {
+    Len() int
+    Less(i, j int) bool
+    Swap(i, j int)
 }
 
-type app interface {                             // 定义一个 app 类型接口
-    open(click int) string                       // 定义 app 类型需要满足的条件
-    close(action string) string                  // 任意结构体实现了接口定义的方法就可以作为 app 类型使用
+// 排序函数
+func Sort(data Interface)
+```
+
+```go
+type Star struct {
+    Name string
+    Size int
 }
 
-type browser struct (                            // 定义 browser 类型结构体
-    name string                                  // 定义 browser 结构体属性
-)
+type Stars []Star
 
-func (b browser) open(click int) string {        // browser 类型结构体实现 open 方法
-    return Sprintf("click %d open %s", click, b.name)
+func (s Stars) Len() int {
+    return len(s)
 }
 
-func (b browser) close(action string) string {   // browser 类型结构体实现 close 方法
-    return Sprintf("use %s close %s", action, b.name)
+func (s Stars) Less(i, j int) bool {
+    return s[i].Size < s[j].Size
 }
 
-func relax(application app) {                    // 定义函数 relax, 函数参数为 app 接口类型
-    Println(application.open(2))                 // 执行 read 方法
-    Println(application.close("swipe up"))       // 执行 search 方法
+func (s Stars) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
 }
 
-chrome := browser{name: "chrome browser"}        // 实例化 chrome, chrome 包含 open close 方法
-relax(chrome)                                    // chrome 满足接口条件, chrome 可以当做 app 类型使用
-> click 2 open chrome browser
-> use swipe up close chrome browser
+
+stars := Stars{
+    {"4", 4},
+    {"1", 1},
+    {"3", 3},
+    {"2", 2},
+}
+
+sort.Sort(stars)
+for _, s := range stars {
+    fmt.Println(s)
+}
+
+{1 1}
+{2 2}
+{3 3}
+{4 4}
 ```
